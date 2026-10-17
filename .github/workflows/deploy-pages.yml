@@ -64,7 +64,7 @@ jobs:
           cp -r Editor/dist/. site/editor/
           cp -r Designer/dist/. site/designer/
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
