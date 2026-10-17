@@ -36,7 +36,7 @@
 //    different copy of this one file - nothing else needs to change.         //
 //                                                                            //
 //    This copy matches the original 13-button MIDI Toolbox hardware -        //
-//    button.h has a diagram of its layout. To build a different unit,        //
+//    Button.h has a diagram of its layout. To build a different unit,        //
 //    design it in the Designer app (../Designer/) and replace this file      //
 //    with the MidiToolboxDevice.h it generates for your design; see          //
 //    Designer/BUILD.md (downloaded alongside it) for the full process.       //

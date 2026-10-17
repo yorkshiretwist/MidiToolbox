@@ -5,7 +5,7 @@
 // runs that preset's actions at its own position in the list — so a button can
 // have a custom action, then a preset, then another custom action. The firmware
 // does exactly this expansion when it loads the config (see Button::addPresetActions
-// in MIDI-Toolbox/button.h); `flattenActions` below is the editor's copy of it.
+// in MIDI-Toolbox/Button.h); `flattenActions` below is the editor's copy of it.
 //
 // Buttons store only the preset's `id`, so editing a preset changes every button
 // that runs it, and deleting one removes it from all of them.

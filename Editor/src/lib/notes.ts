@@ -1,6 +1,6 @@
 // MIDI note-name helpers.
 //
-// The firmware (MIDI-Toolbox/note.h) uses the common convention where
+// The firmware (MIDI-Toolbox/Note.h) uses the common convention where
 // C4 = MIDI note 60, so MIDI 0 = C-1. A full-size piano keyboard has 88 keys
 // running from A0 (MIDI 21) to C8 (MIDI 108).
 

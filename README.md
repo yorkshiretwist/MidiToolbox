@@ -85,11 +85,15 @@ See these pages for more detail:
 6. [The desktop app guide](docs/desktop-app-guide.md): install it, set up a unit, build it
 7. [The USB serial protocol](docs/serial-protocol.md) the app uses
 
+And this is what the very first MIDI Toolbox actually looks like:
+
+![Photo of my first MIDI Toolbox](graphics/built-unit.jpg)
+
 ## Contributing
 
 Pull requests and support requests are welcome, and I will do my best with them. But MIDI Toolbox is a hobby, not my job, so **I cannot give any guarantee that I will respond, or when**. Please be patient, and don't rely on me for anything urgent.
 
-Issues and pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first (how to build and test each part, and how contributions are licensed) and the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SECURITY.md](SECURITY.md).
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) first (how to build and test each part, and how contributions are licensed) and the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SECURITY.md](SECURITY.md).
 
 ## Licence
 

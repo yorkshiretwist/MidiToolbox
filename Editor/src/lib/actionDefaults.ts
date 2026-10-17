@@ -4,7 +4,7 @@
 //
 // The control change defaults are what the firmware uses when a file leaves them out (see
 // ControlChangeAction.h). The velocity default is 100 here; a file that has no velocity at all is
-// played by the unit at its own default (99, see note.h) until the file is saved by the editor,
+// played by the unit at its own default (99, see Note.h) until the file is saved by the editor,
 // which spells 100 out.
 
 import type { Action, Button, DeviceConfig } from '../types/config'
