@@ -1,0 +1,58 @@
+[
+  {
+    "id": "teensy-4.1",
+    "name": "Teensy 4.1",
+    "pins": 55,
+    "sdBuiltIn": true,
+    "bomName": "Teensy 4.1 (with pin headers)",
+    "sourceUrl": "https://www.pjrc.com/store/teensy41.html",
+    "sdPins": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47
+    ],
+    "padPins": [
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54
+    ],
+    "spiBuses": [
+      {
+        "name": "SPI",
+        "sck": 13,
+        "mosi": 11,
+        "miso": 12
+      },
+      {
+        "name": "SPI1",
+        "sck": 27,
+        "mosi": 26,
+        "miso": 1
+      }
+    ],
+    "i2cBuses": [
+      {
+        "name": "Wire",
+        "sda": 18,
+        "scl": 19
+      },
+      {
+        "name": "Wire1",
+        "sda": 17,
+        "scl": 16
+      },
+      {
+        "name": "Wire2",
+        "sda": 25,
+        "scl": 24
+      }
+    ]
+  }
+]

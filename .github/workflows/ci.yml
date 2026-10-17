@@ -1,0 +1,83 @@
+name: CI
+
+# Runs the tests on every pull request, and on pushes to main so a broken main is noticed.
+# It never builds a release: see release.yml (version tags only).
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  editor:
+    name: Editor
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Editor
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: Editor/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run test:run
+      - run: npm run build
+
+  designer:
+    name: Designer
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Designer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: Designer/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run test:run
+      - run: npm run build
+
+  app:
+    name: Desktop app
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: App
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: App/package-lock.json
+      # --ignore-scripts: the tests do not need Electron's binary download
+      - run: npm ci --ignore-scripts
+      - run: npm test
+
+  firmware:
+    name: Firmware unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get ArduinoJson
+        run: git clone --depth 1 --branch v7.4.3 https://github.com/bblanchon/ArduinoJson.git "$RUNNER_TEMP/ArduinoJson"
+      - name: Run the tests
+        env:
+          ARDUINOJSON_DIR: ${{ runner.temp }}/ArduinoJson/src
+        run: bash MIDI-Toolbox/test/run_tests.sh

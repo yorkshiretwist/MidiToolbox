@@ -1,0 +1,10 @@
+# Normalise line endings so Windows, Linux and macOS (and CI) all see the same files.
+* text=auto
+*.sh text eol=lf
+*.yml text eol=lf
+
+# binary files
+*.jpg binary
+*.png binary
+*.pdf binary
+*.hex binary

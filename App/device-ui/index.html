@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:" />
+  <title>MIDI Toolbox - Device</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>MIDI Toolbox <span>Device</span></h1>
+    <nav>
+      <a href="app://local/editor/">Button Editor</a>
+      <a href="app://local/designer/">Device Designer</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="unit" class="card">
+      <h2>Unit</h2>
+      <div class="row">
+        <select id="ports" aria-label="Serial port"></select>
+        <button id="refresh" class="btn">Refresh</button>
+        <button id="connect" class="btn btn--blue">Connect</button>
+        <button id="disconnect" class="btn" hidden>Disconnect</button>
+      </div>
+      <p id="status" class="muted">Plug in the unit with a USB cable, then press Connect.</p>
+      <div id="safe-banner" class="banner banner--warn" hidden>
+        <strong>This unit is in safe mode.</strong>
+        It has no valid <code>device.json</code>, so it is not using its buttons, screen or LEDs. Upload a
+        <code>device.json</code> below, then restart the unit.
+      </div>
+      <dl id="details" class="details" hidden></dl>
+    </section>
+
+    <section id="files" class="card" hidden>
+      <h2>Files on the unit</h2>
+
+      <h3>Unit wiring (<code>device.json</code>)</h3>
+      <p class="muted">
+        Made by the Designer (Export step, <em>device.json</em>). It tells the unit how many buttons it has, which
+        pins they use, and how its screen and LEDs are wired.
+      </p>
+      <div class="row">
+        <span id="device-file" class="grow"></span>
+        <button id="upload-device" class="btn btn--blue">Upload device.json...</button>
+        <button id="download-device" class="btn" disabled>Download</button>
+      </div>
+
+      <h3>Configs (<code>/configs</code>)</h3>
+      <p class="muted">The patches and buttons you play, made in the Button Editor.</p>
+      <ul id="configs" class="files"></ul>
+      <div class="row">
+        <button id="upload-configs" class="btn btn--blue">Upload configs...</button>
+        <button id="reload-files" class="btn">Reload list</button>
+      </div>
+    </section>
+
+    <section id="actions" class="card" hidden>
+      <h2>Restart</h2>
+      <p class="muted">
+        A new <code>device.json</code> takes effect when the unit restarts. If buttons are on, the app asks before
+        turning them off.
+      </p>
+      <div class="row"><button id="restart" class="btn">Restart the unit</button></div>
+    </section>
+
+    <section id="firmware" class="card">
+      <h2>Firmware</h2>
+      <p id="firmware-status" class="muted"></p>
+      <div class="row">
+        <button id="flash-bundled" class="btn btn--blue">Install the firmware that came with this app</button>
+        <button id="flash-other" class="btn">Install a different .hex...</button>
+        <button id="cancel-flash" class="btn btn--red" hidden>Cancel</button>
+      </div>
+      <p id="flash-progress" class="banner" hidden></p>
+      <p class="muted">
+        Teensy loader: <span id="loader"></span>
+        <button id="choose-loader" class="link">Choose...</button>
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Log</h2>
+      <pre id="log" aria-live="polite"></pre>
+    </section>
+
+    <details class="card help">
+      <summary>Help with connecting</summary>
+      <div id="help-body"></div>
+    </details>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

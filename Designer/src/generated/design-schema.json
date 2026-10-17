@@ -1,0 +1,233 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MIDI Toolbox device profile",
+    "$comment": "Describes the physical hardware of one MIDI Toolbox unit: its footswitches, screen and microcontroller. Written by the Designer app. Performance configs (schema.json) have no reference to it; the Editor reads a device profile separately to constrain which buttons can be configured.",
+    "type": "object",
+    "properties": {
+        "schemaVersion": {
+            "type": "integer",
+            "const": 1
+        },
+        "name": {
+            "$comment": "Human-readable name of the unit",
+            "type": "string",
+            "minLength": 1
+        },
+        "purpose": {
+            "$comment": "How the unit is operated. 'foot' units use 16 mm buttons kept at least 50 mm apart (centre to centre); 'finger' units use 12 mm buttons at least 20 mm apart.",
+            "enum": [
+                "foot",
+                "finger"
+            ]
+        },
+        "unit": {
+            "type": "object",
+            "properties": {
+                "widthMm": {
+                    "type": "number",
+                    "minimum": 50,
+                    "maximum": 3000
+                },
+                "heightMm": {
+                    "type": "number",
+                    "minimum": 50,
+                    "maximum": 3000
+                },
+                "gridPitchMm": {
+                    "$comment": "Layout grid the drawing snaps to",
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "colourCode": {
+                    "$comment": "Colour of the unit's face as [r, g, b], each 0-255 (the same shape as a button's colourCode in schema.json). Optional: when absent the unit is very dark grey (38, 38, 38).",
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 255
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                }
+            },
+            "required": [
+                "widthMm",
+                "heightMm",
+                "gridPitchMm"
+            ],
+            "additionalProperties": false
+        },
+        "numbering": {
+            "$comment": "How button ids were assigned: automatically from position (bottom-left to top-right, or top-left to bottom-right) or by hand",
+            "enum": [
+                "bottom-left",
+                "top-left",
+                "manual"
+            ]
+        },
+        "buttons": {
+            "$comment": "Every footswitch, performance and navigation. 'id' is the physical button index that performance configs refer to.",
+            "type": "array",
+            "minItems": 6,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "xMm": {
+                        "$comment": "Centre, measured from the left edge of the unit",
+                        "type": "number"
+                    },
+                    "yMm": {
+                        "$comment": "Centre, measured from the top edge of the unit",
+                        "type": "number"
+                    },
+                    "led": {
+                        "$comment": "Which side of the button its indicator LED sits",
+                        "enum": [
+                            "above",
+                            "below"
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "xMm",
+                    "yMm",
+                    "led"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "navigation": {
+            "$comment": "Button ids that run the three built-in navigation roles. The count is fixed at three; only which buttons play them is configurable.",
+            "type": "object",
+            "properties": {
+                "select": {
+                    "$comment": "Cycles the parameter selector; 'Set?' to confirm; hold to revert",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "down": {
+                    "$comment": "Steps the selected parameter's value down",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "up": {
+                    "$comment": "Steps the selected parameter's value up",
+                    "type": "integer",
+                    "minimum": 0
+                }
+            },
+            "required": [
+                "select",
+                "down",
+                "up"
+            ],
+            "additionalProperties": false
+        },
+        "screen": {
+            "type": "object",
+            "properties": {
+                "catalogId": {
+                    "$comment": "Id of a screen in the Designer's catalogue",
+                    "type": "string"
+                },
+                "orientation": {
+                    "enum": [
+                        "landscape",
+                        "portrait"
+                    ]
+                },
+                "xMm": {
+                    "$comment": "Top-left of the screen module, from the left edge",
+                    "type": "number"
+                },
+                "yMm": {
+                    "$comment": "Top-left of the screen module, from the top edge",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "catalogId",
+                "orientation",
+                "xMm",
+                "yMm"
+            ],
+            "additionalProperties": false
+        },
+        "microcontroller": {
+            "$comment": "Id of a microcontroller in the Designer's catalogue",
+            "type": "string"
+        },
+        "pins": {
+            "$comment": "Optional. The Teensy pin every connection uses, written out in full so a saved file always describes the same wiring. Missing entries fall back to the Designer's defaults.",
+            "type": "object",
+            "properties": {
+                "buttons": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "pin": {
+                                "type": "integer",
+                                "minimum": 0
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "pin"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "screen": {
+                    "$comment": "Pin per screen signal, keyed by the signal's name in the catalogue (SCK, MOSI, MISO, CS, DC, RESET, T_CS, T_IRQ, SDA, SCL, T_INT, T_RST)",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "integer",
+                        "minimum": 0
+                    }
+                },
+                "ledChain": {
+                    "$comment": "The three control pins of the shift-register chain that drives the RGB LEDs",
+                    "type": "object",
+                    "properties": {
+                        "latch": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "data": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "clock": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "schemaVersion",
+        "name",
+        "purpose",
+        "unit",
+        "numbering",
+        "buttons",
+        "navigation",
+        "screen",
+        "microcontroller"
+    ],
+    "additionalProperties": false
+}

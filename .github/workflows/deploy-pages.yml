@@ -1,0 +1,79 @@
+name: Deploy Editor and Designer to GitHub Pages
+
+# Site layout (project site at https://<owner>.github.io/<repository>/):
+#   /            -> the home page and anything else in pages/
+#   /editor/     -> Editor
+#   /designer/   -> Designer
+#
+# The base paths come from the repository name, so renaming the repository needs no change here.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "pages/**"
+      - "Editor/**"
+      - "Designer/**"
+      - "config/**"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            Editor/package-lock.json
+            Designer/package-lock.json
+
+      - name: Build Editor
+        working-directory: Editor
+        run: |
+          npm ci
+          npm run build
+        env:
+          EDITOR_BASE: /${{ github.event.repository.name }}/editor/
+
+      - name: Build Designer
+        working-directory: Designer
+        run: |
+          npm ci
+          npm run build
+        env:
+          DESIGNER_BASE: /${{ github.event.repository.name }}/designer/
+
+      - name: Assemble site
+        run: |
+          mkdir -p site/editor site/designer
+          cp -r pages/. site/
+          cp -r Editor/dist/. site/editor/
+          cp -r Designer/dist/. site/designer/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

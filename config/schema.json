@@ -1,0 +1,415 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$defs": {
+        "buttons": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$comment": "Button index, refers to a physical button on the active device. The device's actual button count varies, so this is deliberately a loose structural bound only (255 is reserved); the Editor separately checks each id is actually wired on the active device profile.",
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 254
+                    },
+                    "name": {
+                        "$comment": "Button name, used for display purposes",
+                        "type": "string"
+                    },
+                    "buttonMode": {
+                        "$comment": "Button mode, can be 'Momentary', 'Latched', or 'Exclusive'",
+                        "type": "string",
+                        "enum": [
+                            "Momentary",
+                            "Latched",
+                            "Exclusive"
+                        ]
+                    },
+                    "buttonSet": {
+                        "$comment": "Optional. Only meaningful when buttonMode is 'Exclusive'. Lists the button ids (by convention including this button's own id) that make up one mutually-exclusive group. Pressing an Exclusive button that is off turns off every other currently-on button whose id appears in this set, then turns itself on; pressing one that is already on just turns it off, like a Latched button. Each Exclusive button in the group carries its own buttonSet and they normally all list the same ids. The set is only searched among sibling buttons at the same level (Patch, Bank, or Mode) that defined this button, and it is page-aware - siblings on other pages of a multi-page Patch are not affected. An Exclusive button with an empty or absent buttonSet cancels no siblings, so it behaves like a Latched button.",
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 254
+                        }
+                    },
+                    "page": {
+                        "$comment": "Optional (default 1). The page within the Patch this button belongs to. A Patch can spread its buttons across several pages so one Patch defines more buttons than the active device has; the player flips pages live via the 'Page' navigation parameter or the SetPage / CyclePage actions. 0 means the button shows on every page. Within a Patch (id, page) act as a composite key. Only Patch-level buttons are page-filtered - Bank / Mode / Config buttons always apply.",
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "defaultStatus": {
+                        "$comment": "Optional. The status the button starts in when the patch (or bank/mode/config) that defines it is loaded. 'Off' (the default) means the button does nothing until pressed. 'On' means the button's actions are executed immediately and the button is set on, as if it had been pressed, as soon as the patch is loaded.",
+                        "type": "string",
+                        "enum": [
+                            "Off",
+                            "On"
+                        ]
+                    },
+                    "colourCode": {
+                        "$comment": "Optional [r, g, b] background colour for this button on the on-screen button grid. Defaults to the selected bank's subheaderColourCode. Drawn at full opacity when the button is on, and at 20% opacity when it is off; the label is drawn black or white, whichever contrasts more.",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "actions": {
+                        "$comment": "Array of actions to perform when the button is pressed. They run strictly in the order listed; an ExecutePreset action runs that preset's actions at its position in the list.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/$defs/action"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "buttonMode",
+                    "actions"
+                ]
+            }
+        },
+        "parameters": {
+            "$comment": "The array of parameters, normally navigated by buttons 10-12. 'Page' is always available on the default list (it steps the page within a multi-page Patch and greys out when the Patch has one page); include it explicitly here only if a level declares its own restricted parameters list and still wants page stepping.",
+            "type": "array",
+            "items": {
+                "enum": [
+                    "Patch",
+                    "Bank",
+                    "Mode",
+                    "Config",
+                    "MidiChannel",
+                    "Page"
+                ]
+            }
+        },
+        "midiChannel": {
+            "$comment": "The MIDI channel to send messages on",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16
+        },
+        "action": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "$comment": "The action type to perform, each action type has 0 or more parameters, some of which may be required, which are defined in the actionParameters object. 'ExecutePreset' runs the actions of a preset (see the root 'presets' array) at this point in the list - actionParameters.presetId names the preset. A preset cannot itself contain an ExecutePreset action.",
+                    "enum": [
+                        "ExecutePreset",
+                        "PlayNotes",
+                        "ProgramChange",
+                        "ControlChange",
+                        "SetParameter",
+                        "CycleParameter",
+                        "CycleActivateParameter",
+                        "SetParameterValue",
+                        "CycleParameterValue",
+                        "SetPatch",
+                        "CyclePatch",
+                        "SetBank",
+                        "CycleBank",
+                        "SetMode",
+                        "CycleMode",
+                        "SetConfig",
+                        "CycleConfig",
+                        "SetPage",
+                        "CyclePage"
+                    ]
+                },
+                "actionParameters": {
+                    "type": "object",
+                    "properties": {
+                        "midiChannel": {
+                            "$comment": "MIDI channel for the action, e.g., 1-16",
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 16
+                        },
+                        "noteNames": {
+                            "$comment": "Array of note names to play for the PlayNotes action, e.g., ['C2', 'E2', 'G2']",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "velocity": {
+                            "$comment": "Velocity for notes played by the PlayNotes action, e.g., 100. A MIDI data byte: 0-127 (0 is how MIDI 1.0 spells 'note off', so a Note On at velocity 0 makes no sound). The editor always writes it, defaulting to 100; the unit plays at 99 if it is missing",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 127
+                        },
+                        "noteSpread": {
+                            "$comment": "The way to spread notes played by the PlayNotes action",
+                            "enum": [
+                                "NoSpread",
+                                "SpreadUp",
+                                "SpreadDown",
+                                "SpreadRandom"
+                            ]
+                        },
+                        "direction": {
+                            "$comment": "The direction for a Cycle* action, e.g., 'Up' or 'Down'",
+                            "enum": [
+                                "Up",
+                                "Down"
+                            ]
+                        },
+                        "programNumber": {
+                            "$comment": "Program number for the ProgramChange action, e.g., 12. A MIDI data byte: 0-127",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 127
+                        },
+                        "controllerNumber": {
+                            "$comment": "Controller number for the ControlChange action, e.g., 104. A MIDI data byte: 0-127",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 127
+                        },
+                        "controlValue": {
+                            "$comment": "Value sent when the button turns on, for the ControlChange action, e.g., 100. A MIDI data byte: 0-127. The editor always writes it; the unit uses 127 if it is missing",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 127
+                        },
+                        "releaseValue": {
+                            "$comment": "Value sent when the button turns off, for the ControlChange action, e.g., 20. A MIDI data byte: 0-127. The editor always writes it; the unit uses 0 if it is missing",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 127
+                        },
+                        "parameterName": {
+                            "$comment": "Parameter name for the SetParameter and CycleParameteractions, e.g., 'MidiChannel'",
+                            "type": "string"
+                        },
+                        "parameterValue": {
+                            "$comment": "Parameter value for the SetParameterValue action, e.g., 2 (a string, as parameters set ether the nam of a Mode, Bank, Patch, the number of a MidiChannel, or the same of a Config file)",
+                            "type": "string"
+                        },
+                        "patchIndex": {
+                            "$comment": "Patch index for the SetPatch actions, e.g., 0. With no bankIndex it is a patch of the CURRENT bank. Add bankIndex to pick a patch of another bank of the current mode, or bankIndex and modeIndex together for a patch of another mode.",
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "page": {
+                            "$comment": "Page number (1-based) for the SetPage action, e.g., 2",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "bankIndex": {
+                            "$comment": "Bank index for the SetBank actions, e.g., 0. With no modeIndex it is a bank of the CURRENT mode; add modeIndex for a bank of another mode. SetBank always lands on that bank's default patch. Also used with SetPatch to say which bank the patch is in.",
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "modeIndex": {
+                            "$comment": "Mode index for the SetMode actions, e.g., 0. SetMode always lands on that mode's first bank and its default patch. Also used with SetBank (a bank of another mode) and with SetPatch (together with bankIndex) to say which mode the target is in.",
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "configFilename": {
+                            "$comment": "Config filename for the SetConfig actions, e.g., 'config.json'",
+                            "type": "string"
+                        },
+                        "presetId": {
+                            "$comment": "The id of the preset to run for the ExecutePreset action, matching the 'id' of an entry in the root 'presets' array. A button runs its actions strictly top to bottom, so the preset's actions run at the point this action sits in the list. If no preset has this id the action is skipped.",
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                }
+            },
+            "required": [
+                "type"
+            ]
+        }
+    },
+    "title": "Generated schema for Root",
+    "type": "object",
+    "properties": {
+        "headerColourCode": {
+            "$comment": "The colour of the header bar on the screen, defaults to [22, 22, 22]",
+            "type": "array",
+            "items": {
+                "type": "integer"
+            }
+        },
+        "midiChannel": {
+            "$comment": "The MIDI channel for the configuration, defaults to 1",
+            "$ref": "#/$defs/midiChannel"
+        },
+        "parameters": {
+            "$comment": "The array of parameters for this config, normally navigated by buttons 10-12",
+            "$ref": "#/$defs/parameters"
+        },
+        "presets": {
+            "$comment": "Named, reusable lists of actions, defined once and run from any button with an ExecutePreset action. Editing a preset changes every button that executes it. Preset ids must be unique. A preset's actions cannot include ExecutePreset, and SetPatch/SetBank/SetMode actions inside a preset should use fully-qualified targets (modeIndex/bankIndex/patchIndex) because a preset has no single location.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$comment": "Unique id referenced by ExecutePreset actions' presetId",
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "name": {
+                        "$comment": "Display name, free text; not required to be unique",
+                        "type": "string"
+                    },
+                    "actions": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/$defs/action"
+                                },
+                                {
+                                    "properties": {
+                                        "type": {
+                                            "not": {
+                                                "const": "ExecutePreset"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "actions"
+                ]
+            }
+        },
+        "buttons": {
+            "type": "array",
+            "$ref": "#/$defs/buttons"
+        },
+        "modes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "$comment": "The name of the mode, displayed on the header bar on the screen",
+                        "type": "string"
+                    },
+                    "midiChannel": {
+                        "$comment": "The MIDI channel for the mode, defaults to the parent MIDI channel if not specified",
+                        "$ref": "#/$defs/midiChannel"
+                    },
+                    "parameters": {
+                        "$comment": "The array of parameters for this mode, defaults to the parent parameters array if not specified",
+                        "$ref": "#/$defs/parameters"
+                    },
+                    "buttons": {
+                        "type": "array",
+                        "$ref": "#/$defs/buttons"
+                    },
+                    "banks": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "$comment": "The name of the bank, displayed on the subheader bar on the screen",
+                                    "type": "string"
+                                },
+                                "midiChannel": {
+                                    "$comment": "The MIDI channel for the bank, defaults to the parent MIDI channel if not specified",
+                                    "$ref": "#/$defs/midiChannel"
+                                },
+                                "subheaderColourCode": {
+                                    "$comment": "The colour of the subheader bar on the screen, defaults to [44, 44, 44]",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "screenLayout": {
+                                    "$comment": "How the device screen is laid out while this bank is selected. 'Grid' (the default) shows the header, the navigation row and the on-screen button grid. 'Live' is a large, readable performance view: the Bank, Patch and Page (Page only when the patch has more than one) in a big font, with the navigation buttons and MIDI channel along the bottom and no button grid. In either layout, pressing a button that sends MIDI shows its name briefly as an overlay.",
+                                    "type": "string",
+                                    "enum": [
+                                        "Grid",
+                                        "Live"
+                                    ]
+                                },
+                                "bankType": {
+                                    "$comment": "How this bank governs the relationship between its patches' buttons. 'Default' (the default) resets button state on every patch change. 'PersistentButtons' is still accepted but currently has NO effect - the 'carry button state between sibling containers' idea now lives at the Patch level as pages (give buttons a 'page' property). The value is reserved for a possible future bank model.",
+                                    "type": "string",
+                                    "enum": [
+                                        "Default",
+                                        "PersistentButtons"
+                                    ]
+                                },
+                                "maintainActiveButtonOnPatchChange": {
+                                    "$comment": "If true, a button that is 'on' in the outgoing patch is turned off (firing its release actions), then turned back on in the incoming patch (firing that patch's press actions for the same button id) whenever the patch changes within this bank - so a held button (e.g. a chord) survives a sibling patch change that only swaps its voicing, instead of being cut. Defaults to false. Only applies to a patch change within this same bank, not a bank/mode/config change.",
+                                    "type": "boolean"
+                                },
+                                "defaultPatchIndex": {
+                                    "$comment": "Optional (default 0). The index into this bank's 'patches' array that becomes the active patch whenever this bank is freshly selected - by a SetBank/CycleBank action, by arriving at it via a Mode or Config change, or as the initial selection at boot. Clamped into range if it's negative or past the end of 'patches'.",
+                                    "type": "integer",
+                                    "minimum": 0
+                                },
+                                "parameters": {
+                                    "$comment": "The array of parameters for this mode, defaults to the parent parameters array if not specified",
+                                    "$ref": "#/$defs/parameters"
+                                },
+                                "buttons": {
+                                    "type": "array",
+                                    "$ref": "#/$defs/buttons"
+                                },
+                                "patches": {
+                                    "type": "array",
+                                    "minItems": 1,
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "$comment": "The name of the patch, displayed on the subheader bar on the screen",
+                                                "type": "string"
+                                            },
+                                            "midiChannel": {
+                                                "$comment": "The MIDI channel for the patch, defaults to the parent MIDI channel if not specified",
+                                                "$ref": "#/$defs/midiChannel"
+                                            },
+                                            "buttons": {
+                                                "type": "array",
+                                                "$ref": "#/$defs/buttons"
+                                            },
+                                            "parameters": {
+                                                "$comment": "The array of parameters for this patch, defaults to the parent parameters array if not specified",
+                                                "$ref": "#/$defs/parameters"
+                                            }
+                                        },
+                                        "required": [
+                                            "name",
+                                            "buttons"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "patches"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "banks"
+                ]
+            }
+        }
+    },
+    "required": [
+        "modes"
+    ]
+}

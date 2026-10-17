@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "name": "Hammond 500-0930",
+  "purpose": "foot",
+  "unit": {
+    "widthMm": 178,
+    "heightMm": 178,
+    "gridPitchMm": 10,
+    "colourCode": [
+      38,
+      38,
+      38
+    ]
+  },
+  "numbering": "bottom-left",
+  "buttons": [
+    {
+      "id": 0,
+      "xMm": 40,
+      "yMm": 150,
+      "led": "above"
+    },
+    {
+      "id": 1,
+      "xMm": 90,
+      "yMm": 150,
+      "led": "above"
+    },
+    {
+      "id": 2,
+      "xMm": 140,
+      "yMm": 150,
+      "led": "above"
+    },
+    {
+      "id": 3,
+      "xMm": 40,
+      "yMm": 100,
+      "led": "above"
+    },
+    {
+      "id": 4,
+      "xMm": 90,
+      "yMm": 100,
+      "led": "above"
+    },
+    {
+      "id": 5,
+      "xMm": 140,
+      "yMm": 100,
+      "led": "above"
+    }
+  ],
+  "navigation": {
+    "select": 3,
+    "down": 4,
+    "up": 5
+  },
+  "screen": {
+    "catalogId": "ili9341-28",
+    "orientation": "landscape",
+    "xMm": 10,
+    "yMm": 10
+  },
+  "microcontroller": "teensy-4.1",
+  "pins": {
+    "buttons": [
+      {
+        "id": 0,
+        "pin": 33
+      },
+      {
+        "id": 1,
+        "pin": 34
+      },
+      {
+        "id": 2,
+        "pin": 35
+      },
+      {
+        "id": 3,
+        "pin": 36
+      },
+      {
+        "id": 4,
+        "pin": 37
+      },
+      {
+        "id": 5,
+        "pin": 38
+      }
+    ],
+    "screen": {
+      "SCK": 13,
+      "MOSI": 11,
+      "MISO": 12,
+      "CS": 10,
+      "DC": 9,
+      "RESET": 6,
+      "T_CS": 8,
+      "T_IRQ": 2
+    },
+    "ledChain": {
+      "latch": 28,
+      "data": 29,
+      "clock": 30
+    }
+  }
+}

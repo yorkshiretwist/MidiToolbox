@@ -1,0 +1,202 @@
+name: Release
+
+# Builds the firmware and the desktop app for Windows, Linux and macOS, then publishes a GitHub release.
+#
+# It runs ONLY when you push a version tag, e.g.
+#
+#     git checkout main && git pull
+#     git tag v0.1.0
+#     git push origin v0.1.0
+#
+# Ordinary pushes to main (docs, code, anything) never build a release. The tag must be on a commit
+# that is on main, or the workflow stops. The release notes are the section of release.md whose
+# heading is "## <version>"; if there is none, GitHub's generated notes are used instead.
+# You can also run it by hand from the Actions tab to get the build artifacts without a release.
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read.outputs.version }}
+      publish: ${{ steps.read.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read the version and release notes
+        id: read
+        run: |
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            version="${GITHUB_REF_NAME#v}"
+            if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+              echo "::error::Tag ${GITHUB_REF_NAME} is not on main. Releases are only made from main."
+              exit 1
+            fi
+            publish=true
+          else
+            # a manual run: build only, no release
+            version=$(sed -nE 's/^## v?([0-9]+\.[0-9]+\.[0-9]+)([^0-9].*)?$/\1/p' release.md | head -n 1)
+            publish=false
+          fi
+          if [ -z "$version" ]; then
+            echo "::error::Could not work out the version"
+            exit 1
+          fi
+          # the notes: everything under the "## <version>" heading, up to the next heading
+          awk -v v="$version" '
+            /^## /{ if (found) exit; if ($2 == v || $2 == "v" v) found=1; next }
+            found
+          ' release.md > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "No section for $version in release.md; the release will use generated notes."
+            rm release-notes.md
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+          echo "Version $version, publish=$publish"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: release-notes.md
+          if-no-files-found: ignore
+
+  firmware:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: arduino/setup-arduino-cli@v2
+
+      - name: Install the Teensy core and the libraries
+        run: |
+          arduino-cli config init
+          arduino-cli config set board_manager.additional_urls https://www.pjrc.com/teensy/package_teensy_index.json
+          arduino-cli config set library.enable_unsafe_install true
+          arduino-cli core update-index
+          # the versions the firmware is built and tested with (see docs/hardware-build.md)
+          arduino-cli core install teensy:avr@1.62.0
+          arduino-cli lib install ArduinoJson@7.4.3 lvgl@9.6.0
+          arduino-cli lib install --git-url https://github.com/vindar/ILI9341_T4.git
+          # LVGL looks for its configuration next to the libraries folder
+          cp MIDI-Toolbox/lvgl/lv_conf.h "$HOME/Arduino/libraries/lv_conf.h"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Build the firmware
+        working-directory: App
+        run: ARDUINO_CLI="$(command -v arduino-cli)" node scripts/build-firmware.mjs
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: |
+            App/firmware/MIDI-Toolbox.ino.hex
+            App/firmware/firmware.json
+          if-no-files-found: error
+
+  build:
+    needs: [version, firmware]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: windows
+          - os: ubuntu-latest
+            name: linux
+          - os: macos-latest
+            name: macos
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install libusb (needed to build the Teensy loader)
+        if: matrix.name == 'linux'
+        run: sudo apt-get update && sudo apt-get install -y libusb-dev
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: App/firmware
+
+      - name: Install app dependencies
+        working-directory: App
+        run: npm ci
+
+      - name: Set the app version
+        working-directory: App
+        run: npm version "${{ needs.version.outputs.version }}" --no-git-tag-version --allow-same-version
+
+      - name: Build the Editor and Designer
+        working-directory: App
+        run: npm run build:web -- --install
+
+      - name: Build the Teensy loader
+        working-directory: App
+        run: npm run loader
+
+      - name: Test
+        working-directory: App
+        run: npm test
+
+      - name: Package
+        working-directory: App
+        run: npx electron-builder --publish never
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: midi-toolbox-${{ matrix.name }}
+          path: |
+            App/dist/*.exe
+            App/dist/*.AppImage
+            App/dist/*.zip
+          if-no-files-found: error
+
+  release:
+    needs: [version, build]
+    if: needs.version.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          v="v${{ needs.version.outputs.version }}"
+          mv artifacts/firmware/MIDI-Toolbox.ino.hex "artifacts/firmware/MIDI-Toolbox-${v#v}-firmware.hex"
+          if [ -f artifacts/release-notes/release-notes.md ]; then
+            notes=(--notes-file artifacts/release-notes/release-notes.md)
+          else
+            notes=(--generate-notes)
+          fi
+          gh release create "$v" \
+            --verify-tag \
+            --title "MIDI Toolbox $v" \
+            "${notes[@]}" \
+            artifacts/midi-toolbox-windows/* \
+            artifacts/midi-toolbox-linux/* \
+            artifacts/midi-toolbox-macos/* \
+            "artifacts/firmware/MIDI-Toolbox-${v#v}-firmware.hex"

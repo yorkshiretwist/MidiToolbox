@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security problem
+    url: https://github.com/yorkshiretwist/MidiToolbox/security/advisories/new
+    about: Please report security problems privately, not as a public issue.
+  - name: Documentation
+    url: https://github.com/yorkshiretwist/MidiToolbox#documentation
+    about: The build guide, Editor guide and desktop app guide may already answer your question.

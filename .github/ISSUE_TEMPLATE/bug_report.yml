@@ -1,0 +1,49 @@
+name: Bug report
+description: Something in the Editor, Designer, desktop app or firmware does not work
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please check the [docs](https://github.com/yorkshiretwist/MidiToolbox#documentation) first.
+        **For a security problem, do not use this form**: see the security policy.
+  - type: dropdown
+    id: part
+    attributes:
+      label: Which part?
+      options:
+        - Desktop app
+        - Editor (web)
+        - Designer (web)
+        - Firmware / the unit
+        - Documentation
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+      description: Steps to reproduce it, as exactly as you can.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version and firmware version
+      description: The firmware version is shown on the Device screen of the desktop app.
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and browser
+      placeholder: Windows 11, Chrome 130
+  - type: textarea
+    id: unit
+    attributes:
+      label: Your unit
+      description: Is it the original 13-button Live Rig or your own Designer layout? Attach the `device.json` or `-design.json` if it may matter.
+  - type: textarea
+    id: files
+    attributes:
+      label: Config files, logs or screenshots
+      description: Attach the config `.json` that triggers the problem, and any error text.

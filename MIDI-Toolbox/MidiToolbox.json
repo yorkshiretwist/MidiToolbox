@@ -1,0 +1,35 @@
+{
+	"headerColourCode": [183, 79, 244],
+	"modes": [
+		{
+			"name": "Pads",
+			"parameters": ["Bank", "MidiChannel"],
+			"banks": [
+				{
+					"name": "C",
+					"patches": [
+						{
+							"name": "Default",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "C",
+									"buttonMode": "Exclusive",
+									"buttonSet": [0, 1, 2, 3, 4],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": ["C2", "C3", "E3", "G3"]
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

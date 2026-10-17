@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "name": "Live Rig Unit",
+  "microcontroller": "Teensy 4.1",
+  "buttons": {
+    "pins": [33, 34, 35, 36, 37, 38, 39, 40, 41, 15, 21, 22, 23],
+    "navigation": { "select": 10, "down": 11, "up": 12 }
+  },
+  "screen": {
+    "driver": "ILI9341_T4",
+    "width": 320,
+    "height": 240,
+    "orientation": "landscape",
+    "touch": "XPT2046",
+    "pins": { "SCK": 13, "MOSI": 11, "MISO": 12, "CS": 10, "DC": 9, "RESET": 6, "T_CS": 8, "T_IRQ": 2 },
+    "grid": {
+      "rows": 2,
+      "halfCols": 10,
+      "cells": [
+        [5, 255, 6, 255, 7, 255, 8, 255, 9, 255],
+        [0, 255, 1, 255, 2, 255, 3, 255, 4, 255]
+      ]
+    }
+  },
+  "leds": { "registers": 5 }
+}

@@ -1,0 +1,395 @@
+{
+  "schemaVersion": 1,
+  "name": "Large Foot Unit",
+  "purpose": "foot",
+  "unit": {
+    "widthMm": 610,
+    "heightMm": 400,
+    "gridPitchMm": 10
+  },
+  "numbering": "bottom-left",
+  "buttons": [
+    {
+      "id": 0,
+      "xMm": 60,
+      "yMm": 340,
+      "led": "above"
+    },
+    {
+      "id": 1,
+      "xMm": 130,
+      "yMm": 340,
+      "led": "above"
+    },
+    {
+      "id": 2,
+      "xMm": 200,
+      "yMm": 340,
+      "led": "above"
+    },
+    {
+      "id": 3,
+      "xMm": 270,
+      "yMm": 340,
+      "led": "above"
+    },
+    {
+      "id": 4,
+      "xMm": 340,
+      "yMm": 340,
+      "led": "above"
+    },
+    {
+      "id": 5,
+      "xMm": 410,
+      "yMm": 340,
+      "led": "above"
+    },
+    {
+      "id": 6,
+      "xMm": 480,
+      "yMm": 340,
+      "led": "above"
+    },
+    {
+      "id": 7,
+      "xMm": 550,
+      "yMm": 340,
+      "led": "above"
+    },
+    {
+      "id": 8,
+      "xMm": 60,
+      "yMm": 270,
+      "led": "above"
+    },
+    {
+      "id": 9,
+      "xMm": 130,
+      "yMm": 270,
+      "led": "above"
+    },
+    {
+      "id": 10,
+      "xMm": 200,
+      "yMm": 270,
+      "led": "above"
+    },
+    {
+      "id": 11,
+      "xMm": 270,
+      "yMm": 270,
+      "led": "above"
+    },
+    {
+      "id": 12,
+      "xMm": 340,
+      "yMm": 270,
+      "led": "above"
+    },
+    {
+      "id": 13,
+      "xMm": 410,
+      "yMm": 270,
+      "led": "above"
+    },
+    {
+      "id": 14,
+      "xMm": 480,
+      "yMm": 270,
+      "led": "above"
+    },
+    {
+      "id": 15,
+      "xMm": 550,
+      "yMm": 270,
+      "led": "above"
+    },
+    {
+      "id": 16,
+      "xMm": 60,
+      "yMm": 200,
+      "led": "above"
+    },
+    {
+      "id": 17,
+      "xMm": 130,
+      "yMm": 200,
+      "led": "above"
+    },
+    {
+      "id": 18,
+      "xMm": 200,
+      "yMm": 200,
+      "led": "above"
+    },
+    {
+      "id": 19,
+      "xMm": 270,
+      "yMm": 200,
+      "led": "above"
+    },
+    {
+      "id": 20,
+      "xMm": 340,
+      "yMm": 200,
+      "led": "above"
+    },
+    {
+      "id": 21,
+      "xMm": 410,
+      "yMm": 200,
+      "led": "above"
+    },
+    {
+      "id": 22,
+      "xMm": 480,
+      "yMm": 200,
+      "led": "above"
+    },
+    {
+      "id": 23,
+      "xMm": 550,
+      "yMm": 200,
+      "led": "above"
+    },
+    {
+      "id": 24,
+      "xMm": 60,
+      "yMm": 130,
+      "led": "above"
+    },
+    {
+      "id": 25,
+      "xMm": 130,
+      "yMm": 130,
+      "led": "above"
+    },
+    {
+      "id": 26,
+      "xMm": 200,
+      "yMm": 130,
+      "led": "above"
+    },
+    {
+      "id": 27,
+      "xMm": 270,
+      "yMm": 130,
+      "led": "above"
+    },
+    {
+      "id": 28,
+      "xMm": 340,
+      "yMm": 130,
+      "led": "above"
+    },
+    {
+      "id": 29,
+      "xMm": 410,
+      "yMm": 130,
+      "led": "above"
+    },
+    {
+      "id": 30,
+      "xMm": 480,
+      "yMm": 130,
+      "led": "above"
+    },
+    {
+      "id": 31,
+      "xMm": 550,
+      "yMm": 130,
+      "led": "above"
+    },
+    {
+      "id": 32,
+      "xMm": 410,
+      "yMm": 50,
+      "led": "above"
+    },
+    {
+      "id": 33,
+      "xMm": 480,
+      "yMm": 50,
+      "led": "above"
+    },
+    {
+      "id": 34,
+      "xMm": 550,
+      "yMm": 50,
+      "led": "above"
+    }
+  ],
+  "navigation": {
+    "select": 32,
+    "down": 33,
+    "up": 34
+  },
+  "screen": {
+    "catalogId": "st7796-35",
+    "orientation": "landscape",
+    "xMm": 20,
+    "yMm": 20
+  },
+  "microcontroller": "teensy-4.1",
+  "pins": {
+    "buttons": [
+      {
+        "id": 0,
+        "pin": 33
+      },
+      {
+        "id": 1,
+        "pin": 34
+      },
+      {
+        "id": 2,
+        "pin": 35
+      },
+      {
+        "id": 3,
+        "pin": 36
+      },
+      {
+        "id": 4,
+        "pin": 37
+      },
+      {
+        "id": 5,
+        "pin": 38
+      },
+      {
+        "id": 6,
+        "pin": 39
+      },
+      {
+        "id": 7,
+        "pin": 40
+      },
+      {
+        "id": 8,
+        "pin": 41
+      },
+      {
+        "id": 9,
+        "pin": 15
+      },
+      {
+        "id": 10,
+        "pin": 21
+      },
+      {
+        "id": 11,
+        "pin": 22
+      },
+      {
+        "id": 12,
+        "pin": 23
+      },
+      {
+        "id": 13,
+        "pin": 0
+      },
+      {
+        "id": 14,
+        "pin": 1
+      },
+      {
+        "id": 15,
+        "pin": 4
+      },
+      {
+        "id": 16,
+        "pin": 5
+      },
+      {
+        "id": 17,
+        "pin": 7
+      },
+      {
+        "id": 18,
+        "pin": 8
+      },
+      {
+        "id": 19,
+        "pin": 12
+      },
+      {
+        "id": 20,
+        "pin": 14
+      },
+      {
+        "id": 21,
+        "pin": 16
+      },
+      {
+        "id": 22,
+        "pin": 17
+      },
+      {
+        "id": 23,
+        "pin": 20
+      },
+      {
+        "id": 24,
+        "pin": 24
+      },
+      {
+        "id": 25,
+        "pin": 25
+      },
+      {
+        "id": 26,
+        "pin": 26
+      },
+      {
+        "id": 27,
+        "pin": 27
+      },
+      {
+        "id": 28,
+        "pin": 31
+      },
+      {
+        "id": 29,
+        "pin": 32
+      },
+      {
+        "id": 30,
+        "pin": 48
+      },
+      {
+        "id": 31,
+        "pin": 49
+      },
+      {
+        "id": 32,
+        "pin": 50
+      },
+      {
+        "id": 33,
+        "pin": 51
+      },
+      {
+        "id": 34,
+        "pin": 52
+      }
+    ],
+    "screen": {
+      "SCK": 13,
+      "MOSI": 11,
+      "CS": 10,
+      "DC": 9,
+      "RESET": 6,
+      "SDA": 18,
+      "SCL": 19,
+      "T_INT": 2,
+      "T_RST": 3
+    },
+    "ledChain": {
+      "latch": 28,
+      "data": 29,
+      "clock": 30
+    }
+  }
+}

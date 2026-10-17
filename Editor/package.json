@@ -1,0 +1,43 @@
+{
+  "name": "midi-toolbox-editor",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "author": "Chris Taylor <chris@stillbreathing.co.uk>",
+  "repository": "github:yorkshiretwist/MidiToolbox",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "sync-schema": "node scripts/sync-schema.mjs",
+    "predev": "npm run sync-schema",
+    "dev": "vite",
+    "prebuild": "npm run sync-schema",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "pretest": "npm run sync-schema",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "typecheck": "vue-tsc -b --noEmit"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "pinia": "^4.0.3",
+    "sortablejs": "^1.15.7",
+    "vue": "^3.5.41",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/sortablejs": "^1.15.9",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vitest/ui": "^5.0.0",
+    "@vue/test-utils": "^2.5.0",
+    "@vue/tsconfig": "^0.9.1",
+    "jsdom": "^30.0.1",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^5.0.0",
+    "vue-tsc": "^3.3.11"
+  }
+}

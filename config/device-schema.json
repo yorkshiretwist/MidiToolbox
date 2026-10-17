@@ -1,0 +1,134 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MIDI Toolbox firmware device profile",
+    "$comment": "What the firmware reads from /device.json on the SD card at boot: the resolved wiring of one unit (which Teensy pin each button uses, the screen, the on-screen grid, the LED chain length). Written by the Designer next to the design file (design-schema.json), which describes the same unit for editing and drawing. The firmware refuses a file that fails these rules and any further checks it makes itself (see docs/runtime-device-plan.md).",
+    "type": "object",
+    "properties": {
+        "schemaVersion": {
+            "type": "integer",
+            "const": 1
+        },
+        "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+        },
+        "microcontroller": {
+            "$comment": "Display name of the board. Only the Teensy 4.1 is supported.",
+            "type": "string",
+            "const": "Teensy 4.1"
+        },
+        "buttons": {
+            "type": "object",
+            "properties": {
+                "pins": {
+                    "$comment": "pins[id] is the Teensy pin button `id` is wired to, the same id performance configs refer to",
+                    "type": "array",
+                    "minItems": 6,
+                    "maxItems": 32,
+                    "items": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 54
+                    }
+                },
+                "navigation": {
+                    "$comment": "Button ids that run the three built-in navigation roles",
+                    "type": "object",
+                    "properties": {
+                        "select": { "type": "integer", "minimum": 0 },
+                        "down": { "type": "integer", "minimum": 0 },
+                        "up": { "type": "integer", "minimum": 0 }
+                    },
+                    "required": ["select", "down", "up"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["pins", "navigation"],
+            "additionalProperties": false
+        },
+        "screen": {
+            "type": "object",
+            "properties": {
+                "driver": {
+                    "$comment": "Firmware driver family. Only ILI9341_T4 is implemented.",
+                    "type": "string",
+                    "const": "ILI9341_T4"
+                },
+                "width": {
+                    "$comment": "Pixels, already swapped for the orientation",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 320
+                },
+                "height": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 320
+                },
+                "orientation": {
+                    "enum": ["landscape", "portrait"]
+                },
+                "touch": {
+                    "$comment": "Touch controller, or null for none",
+                    "enum": ["XPT2046", null]
+                },
+                "pins": {
+                    "$comment": "Teensy pin per screen signal. SCK, MOSI, MISO, CS, DC and RESET are always needed; T_CS and T_IRQ when there is touch.",
+                    "type": "object",
+                    "properties": {
+                        "SCK": { "type": "integer", "minimum": 0, "maximum": 54 },
+                        "MOSI": { "type": "integer", "minimum": 0, "maximum": 54 },
+                        "MISO": { "type": "integer", "minimum": 0, "maximum": 54 },
+                        "CS": { "type": "integer", "minimum": 0, "maximum": 54 },
+                        "DC": { "type": "integer", "minimum": 0, "maximum": 54 },
+                        "RESET": { "type": "integer", "minimum": 0, "maximum": 54 },
+                        "T_CS": { "type": "integer", "minimum": 0, "maximum": 54 },
+                        "T_IRQ": { "type": "integer", "minimum": 0, "maximum": 54 }
+                    },
+                    "required": ["SCK", "MOSI", "MISO", "CS", "DC", "RESET"],
+                    "additionalProperties": false
+                },
+                "grid": {
+                    "$comment": "The on-screen button grid. Columns are half a cell wide: cells[row][halfCol] is the id of the button whose cell starts in that half-column, or 255 where no cell starts. Row 0 is the top.",
+                    "type": "object",
+                    "properties": {
+                        "rows": { "type": "integer", "minimum": 1, "maximum": 8 },
+                        "halfCols": { "type": "integer", "minimum": 1, "maximum": 32 },
+                        "cells": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 8,
+                            "items": {
+                                "type": "array",
+                                "minItems": 1,
+                                "maxItems": 32,
+                                "items": { "type": "integer", "minimum": 0, "maximum": 255 }
+                            }
+                        }
+                    },
+                    "required": ["rows", "halfCols", "cells"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["driver", "width", "height", "orientation", "touch", "pins", "grid"],
+            "additionalProperties": false
+        },
+        "leds": {
+            "$comment": "The RGB LED chain. Its latch, data and clock pins are fixed in the firmware (28, 29, 30), so only its length is described here.",
+            "type": "object",
+            "properties": {
+                "registers": {
+                    "$comment": "74HC595 shift registers in the chain: 3 channels per RGB LED, 8 outputs per register",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 12
+                }
+            },
+            "required": ["registers"],
+            "additionalProperties": false
+        }
+    },
+    "required": ["schemaVersion", "name", "microcontroller", "buttons", "screen", "leds"],
+    "additionalProperties": false
+}

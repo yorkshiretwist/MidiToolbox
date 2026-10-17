@@ -1,0 +1,190 @@
+{
+	"headerColourCode": [
+		22,
+		22,
+		22
+	],
+	"midiChannel": 1,
+	"parameters": [
+		"Patch",
+		"Bank",
+		"Mode",
+		"MidiChannel",
+		"Config"
+	],
+	"presets": [
+		{
+			"id": 0,
+			"name": "Clean + reverb",
+			"actions": [
+				{
+					"type": "ProgramChange",
+					"actionParameters": {
+						"programNumber": 4
+					}
+				},
+				{
+					"type": "ControlChange",
+					"actionParameters": {
+						"controllerNumber": 91,
+						"controlValue": 64,
+						"releaseValue": 0
+					}
+				}
+			]
+		}
+	],
+	"modes": [
+		{
+			"name": "Pads",
+			"midiChannel": 2,
+			"banks": [
+				{
+					"name": "C",
+					"midiChannel": 16,
+					"subheaderColourCode": [
+						66,
+						66,
+						66
+					],
+					"patches": [
+						{
+							"name": "Set - Notes",
+							"midiChannel": 4,
+							"buttons": [
+								{
+									"id": 0,
+									"midiChannel": 5,
+									"name": "C",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C2",
+													"C3",
+													"E3",
+													"G3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "ProgramChange",
+									"colourCode": [
+										24,
+										54,
+										250
+									],
+									"buttonMode": "Momentary",
+									"actions": [
+										{
+											"type": "ProgramChange",
+											"actionParameters": {
+												"programNumber": 12,
+												"midiChannel": 9
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "ControlChange",
+									"buttonMode": "Momentary",
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 104,
+												"controlValue": 100,
+												"releaseValue": 20
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Button",
+									"buttonMode": "Latched",
+									"actions": [
+										{
+											"type": "CycleParameter",
+											"actionParameters": {
+												"parameterName": "MidiChannel"
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Button",
+									"colourCode": [
+										180,
+										4,
+										186
+									],
+									"buttonMode": "Momentary",
+									"actions": [
+										{
+											"type": "CycleParameter",
+											"actionParameters": {
+												"direction": "Up"
+											}
+										}
+									]
+								},
+								{
+									"id": 5,
+									"name": "Boost",
+									"buttonMode": "Latched",
+									"defaultStatus": "On",
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 85,
+												"controlValue": 127,
+												"releaseValue": 0
+											}
+										}
+									]
+								},
+								{
+									"id": 6,
+									"name": "Clean sound",
+									"buttonMode": "Momentary",
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C3"
+												]
+											}
+										},
+										{
+											"type": "ExecutePreset",
+											"actionParameters": {
+												"presetId": 0
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

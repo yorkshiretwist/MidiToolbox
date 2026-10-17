@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "name": "New Unit",
+  "purpose": "foot",
+  "unit": {
+    "widthMm": 360,
+    "heightMm": 220,
+    "gridPitchMm": 10
+  },
+  "numbering": "bottom-left",
+  "buttons": [
+    {
+      "id": 0,
+      "xMm": 60,
+      "yMm": 170,
+      "led": "above"
+    },
+    {
+      "id": 1,
+      "xMm": 180,
+      "yMm": 170,
+      "led": "above"
+    },
+    {
+      "id": 2,
+      "xMm": 300,
+      "yMm": 170,
+      "led": "above"
+    },
+    {
+      "id": 3,
+      "xMm": 170,
+      "yMm": 50,
+      "led": "above"
+    },
+    {
+      "id": 4,
+      "xMm": 240,
+      "yMm": 50,
+      "led": "above"
+    },
+    {
+      "id": 5,
+      "xMm": 310,
+      "yMm": 50,
+      "led": "above"
+    }
+  ],
+  "navigation": {
+    "select": 3,
+    "down": 4,
+    "up": 5
+  },
+  "screen": {
+    "catalogId": "ili9341-28",
+    "orientation": "landscape",
+    "xMm": 20,
+    "yMm": 20
+  },
+  "microcontroller": "teensy-4.1",
+  "pins": {
+    "buttons": [
+      {
+        "id": 0,
+        "pin": 33
+      },
+      {
+        "id": 1,
+        "pin": 34
+      },
+      {
+        "id": 2,
+        "pin": 35
+      },
+      {
+        "id": 3,
+        "pin": 36
+      },
+      {
+        "id": 4,
+        "pin": 37
+      },
+      {
+        "id": 5,
+        "pin": 38
+      }
+    ],
+    "screen": {
+      "SCK": 13,
+      "MOSI": 11,
+      "MISO": 12,
+      "CS": 10,
+      "DC": 9,
+      "RESET": 6,
+      "T_CS": 8,
+      "T_IRQ": 2
+    },
+    "ledChain": {
+      "latch": 28,
+      "data": 29,
+      "clock": 30
+    }
+  }
+}

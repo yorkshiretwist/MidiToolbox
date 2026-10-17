@@ -1,0 +1,303 @@
+/* =============================================================================
+   MIDI Toolbox Editor — design tokens
+   -----------------------------------------------------------------------------
+   Extracted from:
+     the original "Button edit - notes" mockup PNG (no longer in the repo)
+     (cross-checked against the -controlchange, -notes-keyboard and -confirm shots)
+
+   Every value here is a best-guess read from the PNG — treat it as a starting
+   point and change whatever you like. This is your file.
+
+   Convention:
+     - "PALETTE" holds raw colours. Don't use these directly in component CSS.
+     - "SEMANTIC ..." tokens below reference the palette and are what components
+       should consume, so a palette tweak propagates everywhere.
+   ============================================================================= */
+
+:root {
+  /* ==========================================================================
+     PALETTE — raw colours
+     ========================================================================== */
+
+  /* Greys, darkest -> lightest */
+  --grey-950: #141414; /* device screen background            */
+  --grey-900: #1a1a1a; /* title text, panel border, OPEN btn  */
+  --grey-850: #202020;
+  --grey-800: #262626; /* main device panel background        */
+  --grey-750: #2b2b2b;
+  --grey-700: #333333; /* device screen nav row               */
+  --grey-650: #3a3a3a; /* sidebar background                  */
+  --grey-600: #4d4d4d; /* breadcrumb row separators           */
+  --grey-550: #555555; /* sidebar section dividers            */
+  --grey-450: #6f6f6f;
+  --grey-350: #8c8c8c; /* workspace (left side) background     */
+  --grey-200: #c8c8c8; /* LED dome outer edge                 */
+  --grey-100: #e6e6e6; /* light UI text                       */
+  --white: #ffffff;
+  --black: #000000;
+
+  /* Accents */
+  --green-500: #2ea62e; /* Save / Yes / "add action"          */
+  --green-400: #35c635; /* active-button LED + colour swatch  */
+  --green-glow: #3ad43a; /* glow around a lit footswitch      */
+  --blue-500: #1e82e0; /* Revert / Button set / No / keys btn */
+  --blue-600: #1a56c7; /* device screen title bar             */
+  --red-500: #bd2f2f; /* delete (round X)                     */
+
+  /* Device-preview sample button colours.
+     These are EXAMPLE patch data shown on the mini screen, not app chrome.
+     Kept here only so the static template has something to render. */
+  --sample-brown: #6b4632;
+  --sample-indigo: #26305c;
+  --sample-crimson: #7c1f2d;
+  --sample-purple: #432a63;
+  --sample-teal: #1c5a4a;
+  --sample-navy: #1a2340;
+  --sample-cyan: #25c6e6;
+  --sample-green: #22c522;
+  --sample-plum: #3a1f4a;
+  --sample-forest: #143a20;
+
+  /* ==========================================================================
+     SEMANTIC COLOUR TOKENS  — use these in component CSS
+     ========================================================================== */
+
+  /* Surfaces */
+  --color-workspace-bg: var(--grey-350);
+  --color-panel-bg: var(--grey-800);
+  --color-panel-border: var(--grey-900);
+  --color-sidebar-bg: var(--grey-650);
+  --color-sidebar-divider: var(--grey-550);
+  --color-dialog-bg: var(--white);
+  --color-dialog-titlebar-bg: var(--grey-450);
+
+  /* Accordion pane stack (File > Mode > Bank > Patch > Button)
+     Each level has its own background, collapsed or active — a dark scale
+     getting deeper as you drill in. */
+  --color-pane-file: #808080;
+  --color-pane-mode: #666666;
+  --color-pane-bank: #4d4d4d;
+  --color-pane-patch: #333333;
+  --color-pane-button: #1a1a1a;
+
+  /* Crumb text tracks the level: dark on the light File/Mode panes,
+     light on the darker Bank/Patch/Button panes. */
+  --color-pane-file-fg: #1a1a1a;
+  --color-pane-file-fg-muted: #2b2b2b;
+  --color-pane-mode-fg: #141414;
+  --color-pane-mode-fg-muted: #1f1f1f;
+  --color-pane-bank-fg: #f0f0f0;
+  --color-pane-bank-fg-muted: #c8c8c8;
+  --color-pane-patch-fg: #f0f0f0;
+  --color-pane-patch-fg-muted: #bdbdbd;
+  --color-pane-button-fg: #e6e6e6;
+  --color-pane-button-fg-muted: #c8c8c8;
+
+  --color-pane-crumb-bg: var(--grey-650); /* fallback if level is unknown   */
+  --color-pane-crumb-border: var(--grey-600); /* rule between crumb rows    */
+  --color-pane-active-bg: var(--grey-650); /* fallback if level is unknown  */
+  --color-pane-divider: var(--grey-550); /* rule under the active fields   */
+  --color-child-marker: var(--blue-500); /* icon dot beside a child pane   */
+
+  /* Text */
+  --color-text: var(--grey-100); /* default text on dark sidebar   */
+  --color-text-strong: var(--white);
+  --color-text-muted: var(--grey-200);
+  --color-text-on-light: var(--grey-900); /* text inside white inputs */
+  --color-title: var(--grey-900); /* big "MIDI Toolbox Editor"      */
+
+  /* Form controls.
+     Defaults here are the light "white field" look; inside the accordion each
+     pane re-points --color-input-bg / -text / -border / --color-select-chevron
+     at its own level (see the [data-level] blocks in layout.css) so a control
+     sits on the pane's own colour with just a darker outline to show its edge. */
+  --color-input-bg: var(--white);
+  --color-input-text: var(--grey-900);
+  --color-input-border: #d0d0d0;
+  --color-input-placeholder: #8a8a8a;
+  --color-select-chevron: var(--black);
+  /* A translucent black, so it reads as "darker" over the lighter pane shades. */
+  --color-control-border: rgba(0, 0, 0, 0.5);
+  /* On the near-black Button pane a dark outline vanishes, so that level uses a
+     translucent white instead. */
+  --color-control-border-light: rgba(255, 255, 255, 0.4);
+
+  /* Action colours */
+  --color-accent-save: var(--green-500);
+  --color-accent-confirm: var(--green-500);
+  --color-accent-info: var(--blue-500);
+  --color-accent-danger: var(--red-500);
+  --color-open-button-bg: #161616;
+  --color-button-text: var(--white);
+
+  /* Footswitch / LED */
+  --color-led-off: #0a0a0a;
+  --color-led-active: var(--green-400);
+  --color-led-glow: var(--green-glow);
+  --color-led-dome-center: var(--white);
+  --color-led-dome-edge: var(--grey-200);
+
+  /* Device screen preview */
+  --color-screen-bg: var(--grey-950);
+  --color-screen-text: #d0d0d0;
+  --color-screen-titlebar-bg: var(--blue-600);
+  --color-screen-titlebar-text: var(--white);
+  --color-screen-navrow-bg: var(--grey-700);
+
+  /* Overlays */
+  --color-overlay-scrim: rgba(0, 0, 0, 0.6);
+
+  /* ==========================================================================
+     TYPOGRAPHY
+     --------------------------------------------------------------------------
+     Real fonts are undecided — using Arial for UI / title and Georgia for the
+     italic "Editor" accent for now. Change these when the type is chosen.
+     ========================================================================== */
+  --font-ui: Arial, Helvetica, sans-serif;
+  --font-title-name: Arial, Helvetica, sans-serif; /* the "MIDI Toolbox" part */
+  --font-title-accent: Georgia, "Times New Roman", serif; /* the italic "Editor" */
+  --font-screen: Arial, Helvetica, sans-serif; /* mini device screen */
+  --font-mono: "Courier New", monospace; /* any monospaced bits (note lists…) */
+
+  /* Type scale (root = 16px) */
+  --font-size-title: 1.75rem; /* ~28px  app title — kept small so the device
+                                 panel (which flex-grows) gets the height     */
+  --font-size-xl: 1.375rem; /* ~22px  section headings        */
+  --font-size-lg: 1.1875rem; /* ~19px  breadcrumbs, field labels */
+  --font-size-md: 1.0625rem; /* ~17px  input text              */
+  --font-size-sm: 0.9375rem; /* ~15px  button text             */
+  --font-size-xs: 0.75rem; /* ~12px  device screen text      */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+
+  --letter-spacing-button: 0.04em; /* SAVE / REVERT / OPEN are tracked + caps */
+
+  /* ==========================================================================
+     SPACING  — 4px base scale
+     ========================================================================== */
+  --space-1: 0.25rem; /*  4px */
+  --space-2: 0.5rem; /*  8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.5rem; /* 24px */
+  --space-6: 2rem; /* 32px */
+  --space-7: 3rem; /* 48px */
+
+  /* Semantic spacing */
+  --workspace-padding: var(--space-6);
+  --panel-padding: calc(var(--space-5) * 2);
+  --sidebar-padding-x: var(--space-5);
+  --sidebar-padding-y: var(--space-4);
+  --field-gap: var(--space-4); /* vertical gap between form rows */
+  --inline-gap: var(--space-3); /* gap between label and control */
+  --pane-crumb-padding-y: 1.125rem; /* ~18px  collapsed ancestor header */
+  --pane-child-padding-y: var(--space-3); /* child pane rows in the list */
+
+  /* ==========================================================================
+     RADII
+     ========================================================================== */
+  --radius-sm: 2px; /* text inputs, selects, small buttons */
+  --radius-md: 4px; /* accent buttons (Save/Revert/…)      */
+  --radius-lg: 6px; /* the main device panel               */
+  --radius-pill: 999px; /* round icon buttons, LED dots     */
+
+  /* ==========================================================================
+     BORDERS
+     ========================================================================== */
+  --border-width: 1px;
+  --border-panel: var(--border-width) solid var(--color-panel-border);
+  --border-divider: var(--border-width) solid var(--color-sidebar-divider);
+  --border-pane-crumb: var(--border-width) solid var(--color-pane-crumb-border);
+  --border-input: var(--border-width) solid var(--color-input-border);
+
+  /* ==========================================================================
+     SIZING / LAYOUT
+     ========================================================================== */
+  --sidebar-width: 452px; /* right column fixed width          */
+  --workspace-min-width: 640px;
+  --control-height: 2.5rem; /* 40px  inputs & selects           */
+  --button-height: 2.75rem; /* 44px  Save / Revert / Open       */
+  --icon-button-size: 2.125rem; /* 34px  round X / + buttons    */
+  --led-indicator-size: 1.375rem; /* 22px  on/off dot           */
+  --led-dome-size: 3rem; /* 48px  glossy footswitch dome (lower floor) */
+  --device-preview-width: max(12rem, 36%); /* mini screen inset: a fixed
+      proportion of the device panel (no upper limit) so it scales with the
+      unit at any size; 12rem is just a lower floor. The screen is width-driven
+      (its internals are cqw), so this is the knob for how big it renders. */
+  --device-preview-top: var(--space-6); /* gap from the panel's top edge to the
+      screen — tighter than --panel-padding (which still sets the left inset)
+      so the taller screen, with its square button cells, still clears the
+      footswitch rows */
+  --config-name-max-width: 44rem;
+  --dialog-width: 30rem;
+
+  /* Footswitch board + screen grid: sized to the active device profile
+     (deviceBoardLayout()/deviceScreenLayout() in lib/deviceLayout.ts set
+     --board-columns/--board-rows/--screen-columns/--screen-rows inline per
+     device); these are just the fallback before a device profile is active. */
+  --board-columns: 5;
+  --board-rows: 3;
+  --board-row-gap: var(--space-6);
+  --board-column-gap: var(--space-5);
+  --screen-columns: 10; /* half-columns: each cell spans two */
+  --screen-rows: 2;
+
+  /* ==========================================================================
+     EFFECTS
+     ========================================================================== */
+  --shadow-dialog: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-panel-inset: inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+  --glow-led-active: 0 0 24px 6px var(--color-led-glow);
+  --gradient-led-dome: radial-gradient(
+    circle at 38% 32%,
+    var(--color-led-dome-center) 0%,
+    #f0f0f0 35%,
+    var(--color-led-dome-edge) 78%,
+    #9a9a9a 100%
+  );
+  --transition-fast: 120ms ease;
+  --transition-medium: 200ms ease;
+
+  /* ==========================================================================
+     Z-INDEX
+     ========================================================================== */
+  --z-sidebar: 10;
+  --z-overlay: 100;
+  --z-dialog: 110;
+}
+
+/* =============================================================================
+   Optional minimal base
+   -----------------------------------------------------------------------------
+   Deliberately tiny: just the box model plus the page background and default
+   typography, so layout.html is workable while you build the component styles.
+   Delete this block if you'd rather own every rule yourself.
+   ============================================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--color-workspace-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+[hidden] {
+  display: none !important;
+}

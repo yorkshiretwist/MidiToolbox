@@ -1,0 +1,449 @@
+[
+  {
+    "id": "ili9341-24",
+    "name": "ILI9341 2.4″",
+    "controller": "ILI9341",
+    "resolution": [
+      320,
+      240
+    ],
+    "moduleMm": [
+      71,
+      52
+    ],
+    "activeMm": [
+      49,
+      36.7
+    ],
+    "touch": {
+      "type": "resistive",
+      "controller": "XPT2046"
+    },
+    "driver": "ILI9341_T4",
+    "status": "verified",
+    "pins": [
+      {
+        "role": "SCK",
+        "pin": 13,
+        "kind": "spi-sck"
+      },
+      {
+        "role": "MOSI",
+        "pin": 11,
+        "kind": "spi-mosi"
+      },
+      {
+        "role": "MISO",
+        "pin": 12,
+        "kind": "spi-miso"
+      },
+      {
+        "role": "CS",
+        "pin": 10,
+        "kind": "gpio"
+      },
+      {
+        "role": "DC",
+        "pin": 9,
+        "kind": "gpio"
+      },
+      {
+        "role": "RESET",
+        "pin": 6,
+        "kind": "gpio"
+      },
+      {
+        "role": "T_CS",
+        "pin": 8,
+        "kind": "gpio"
+      },
+      {
+        "role": "T_IRQ",
+        "pin": 2,
+        "kind": "gpio"
+      }
+    ],
+    "bomName": "2.4\" ILI9341 SPI TFT, 320x240, resistive touch (XPT2046)",
+    "sourceUrl": "https://github.com/vindar/ILI9341_T4"
+  },
+  {
+    "id": "ili9341-28",
+    "name": "ILI9341 2.8″",
+    "controller": "ILI9341",
+    "resolution": [
+      320,
+      240
+    ],
+    "moduleMm": [
+      64,
+      47
+    ],
+    "activeMm": [
+      57.5,
+      43
+    ],
+    "touch": {
+      "type": "resistive",
+      "controller": "XPT2046"
+    },
+    "driver": "ILI9341_T4",
+    "status": "verified",
+    "pins": [
+      {
+        "role": "SCK",
+        "pin": 13,
+        "kind": "spi-sck"
+      },
+      {
+        "role": "MOSI",
+        "pin": 11,
+        "kind": "spi-mosi"
+      },
+      {
+        "role": "MISO",
+        "pin": 12,
+        "kind": "spi-miso"
+      },
+      {
+        "role": "CS",
+        "pin": 10,
+        "kind": "gpio"
+      },
+      {
+        "role": "DC",
+        "pin": 9,
+        "kind": "gpio"
+      },
+      {
+        "role": "RESET",
+        "pin": 6,
+        "kind": "gpio"
+      },
+      {
+        "role": "T_CS",
+        "pin": 8,
+        "kind": "gpio"
+      },
+      {
+        "role": "T_IRQ",
+        "pin": 2,
+        "kind": "gpio"
+      }
+    ],
+    "bomName": "2.8\" ILI9341 SPI TFT, 320x240, resistive touch (XPT2046)",
+    "sourceUrl": "https://github.com/vindar/ILI9341_T4"
+  },
+  {
+    "id": "ili9341-32",
+    "name": "ILI9341 3.2″",
+    "controller": "ILI9341",
+    "resolution": [
+      320,
+      240
+    ],
+    "moduleMm": [
+      93,
+      56
+    ],
+    "activeMm": [
+      64.8,
+      48.6
+    ],
+    "touch": {
+      "type": "resistive",
+      "controller": "XPT2046"
+    },
+    "driver": "ILI9341_T4",
+    "status": "verified",
+    "pins": [
+      {
+        "role": "SCK",
+        "pin": 13,
+        "kind": "spi-sck"
+      },
+      {
+        "role": "MOSI",
+        "pin": 11,
+        "kind": "spi-mosi"
+      },
+      {
+        "role": "MISO",
+        "pin": 12,
+        "kind": "spi-miso"
+      },
+      {
+        "role": "CS",
+        "pin": 10,
+        "kind": "gpio"
+      },
+      {
+        "role": "DC",
+        "pin": 9,
+        "kind": "gpio"
+      },
+      {
+        "role": "RESET",
+        "pin": 6,
+        "kind": "gpio"
+      },
+      {
+        "role": "T_CS",
+        "pin": 8,
+        "kind": "gpio"
+      },
+      {
+        "role": "T_IRQ",
+        "pin": 2,
+        "kind": "gpio"
+      }
+    ],
+    "bomName": "3.2\" ILI9341 SPI TFT, 320x240, resistive touch (XPT2046)",
+    "sourceUrl": "https://github.com/vindar/ILI9341_T4"
+  },
+  {
+    "id": "st7789-20",
+    "name": "ST7789 2.0″",
+    "controller": "ST7789",
+    "resolution": [
+      320,
+      240
+    ],
+    "moduleMm": [
+      52,
+      38
+    ],
+    "activeMm": [
+      40.8,
+      30.6
+    ],
+    "touch": {
+      "type": "none"
+    },
+    "driver": "ST7789",
+    "status": "untested",
+    "pins": [
+      {
+        "role": "SCK",
+        "pin": 13,
+        "kind": "spi-sck"
+      },
+      {
+        "role": "MOSI",
+        "pin": 11,
+        "kind": "spi-mosi"
+      },
+      {
+        "role": "CS",
+        "pin": 10,
+        "kind": "gpio"
+      },
+      {
+        "role": "DC",
+        "pin": 9,
+        "kind": "gpio"
+      },
+      {
+        "role": "RESET",
+        "pin": 6,
+        "kind": "gpio"
+      }
+    ],
+    "bomName": "2.0\" ST7789 SPI IPS TFT, 320x240, no touch",
+    "sourceUrl": "https://github.com/PaulStoffregen/ST7735_t3"
+  },
+  {
+    "id": "st7789-13",
+    "name": "ST7789 1.3″",
+    "controller": "ST7789",
+    "resolution": [
+      240,
+      240
+    ],
+    "moduleMm": [
+      35,
+      35
+    ],
+    "activeMm": [
+      23.4,
+      23.4
+    ],
+    "touch": {
+      "type": "none"
+    },
+    "driver": "ST7789",
+    "status": "untested",
+    "pins": [
+      {
+        "role": "SCK",
+        "pin": 13,
+        "kind": "spi-sck"
+      },
+      {
+        "role": "MOSI",
+        "pin": 11,
+        "kind": "spi-mosi"
+      },
+      {
+        "role": "CS",
+        "pin": 10,
+        "kind": "gpio"
+      },
+      {
+        "role": "DC",
+        "pin": 9,
+        "kind": "gpio"
+      },
+      {
+        "role": "RESET",
+        "pin": 6,
+        "kind": "gpio"
+      }
+    ],
+    "bomName": "1.3\" ST7789 SPI IPS TFT, 240x240, no touch",
+    "sourceUrl": "https://github.com/PaulStoffregen/ST7735_t3"
+  },
+  {
+    "id": "st7796-35",
+    "name": "ST7796 3.5″",
+    "controller": "ST7796",
+    "resolution": [
+      480,
+      320
+    ],
+    "moduleMm": [
+      98,
+      56
+    ],
+    "activeMm": [
+      73.4,
+      49
+    ],
+    "touch": {
+      "type": "capacitive",
+      "controller": "FT6336"
+    },
+    "driver": "ST7796",
+    "status": "untested",
+    "pins": [
+      {
+        "role": "SCK",
+        "pin": 13,
+        "kind": "spi-sck"
+      },
+      {
+        "role": "MOSI",
+        "pin": 11,
+        "kind": "spi-mosi"
+      },
+      {
+        "role": "CS",
+        "pin": 10,
+        "kind": "gpio"
+      },
+      {
+        "role": "DC",
+        "pin": 9,
+        "kind": "gpio"
+      },
+      {
+        "role": "RESET",
+        "pin": 6,
+        "kind": "gpio"
+      },
+      {
+        "role": "SDA",
+        "pin": 18,
+        "kind": "i2c-sda"
+      },
+      {
+        "role": "SCL",
+        "pin": 19,
+        "kind": "i2c-scl"
+      },
+      {
+        "role": "T_INT",
+        "pin": 2,
+        "kind": "gpio"
+      },
+      {
+        "role": "T_RST",
+        "pin": 3,
+        "kind": "gpio"
+      }
+    ],
+    "bomName": "3.5\" ST7796 SPI IPS TFT, 480x320, capacitive touch (FT6336)",
+    "sourceUrl": "https://protosupplies.com/product/ips-35-st7796/"
+  },
+  {
+    "id": "st7796-40",
+    "name": "ST7796 4.0″",
+    "controller": "ST7796",
+    "resolution": [
+      480,
+      320
+    ],
+    "moduleMm": [
+      108,
+      65
+    ],
+    "activeMm": [
+      86.4,
+      57.6
+    ],
+    "touch": {
+      "type": "capacitive",
+      "controller": "FT6336"
+    },
+    "driver": "ST7796",
+    "status": "untested",
+    "pins": [
+      {
+        "role": "SCK",
+        "pin": 13,
+        "kind": "spi-sck"
+      },
+      {
+        "role": "MOSI",
+        "pin": 11,
+        "kind": "spi-mosi"
+      },
+      {
+        "role": "CS",
+        "pin": 10,
+        "kind": "gpio"
+      },
+      {
+        "role": "DC",
+        "pin": 9,
+        "kind": "gpio"
+      },
+      {
+        "role": "RESET",
+        "pin": 6,
+        "kind": "gpio"
+      },
+      {
+        "role": "SDA",
+        "pin": 18,
+        "kind": "i2c-sda"
+      },
+      {
+        "role": "SCL",
+        "pin": 19,
+        "kind": "i2c-scl"
+      },
+      {
+        "role": "T_INT",
+        "pin": 2,
+        "kind": "gpio"
+      },
+      {
+        "role": "T_RST",
+        "pin": 3,
+        "kind": "gpio"
+      }
+    ],
+    "bomName": "4.0\" ST7796 SPI TFT, 480x320, capacitive touch (FT6336)",
+    "sourceUrl": "https://www.elecrow.com/4-spi-lcd-capacitive-touch-module-st7796-driver-320-480-resolution.html"
+  }
+]

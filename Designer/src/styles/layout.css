@@ -1,0 +1,900 @@
+/* =============================================================================
+   MIDI Toolbox Editor — layout scaffold
+   -----------------------------------------------------------------------------
+   A first pass at the original layout mockups, built on the
+   tokens in theme.css. Meant to be tweaked freely — spacing, sizes and the
+   fiddlier bits (device screen, piano) are approximate.
+
+   Sections:
+     1. App shell / grid
+     2. Workspace — title, device panel, footswitch board, file actions
+     3. Device-screen preview
+     4. Sidebar — accordion pane stack
+     5. Fields & form controls
+     6. Buttons & icon buttons
+     7. Child lists (banks / buttons under a pane)
+     8. Action cards
+     9. Overlays — confirm dialog, on-screen keyboard
+   ============================================================================= */
+
+/* =============================================================================
+   1. APP SHELL
+   ============================================================================= */
+.app {
+  display: grid;
+  grid-template-columns: minmax(var(--workspace-min-width), 1fr) var(--sidebar-width);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =============================================================================
+   2. WORKSPACE (left column)
+   ============================================================================= */
+.workspace {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--workspace-padding);
+  background: var(--color-workspace-bg);
+  overflow: auto;
+}
+
+.workspace__header {
+  flex: none;
+}
+
+.app-title {
+  margin: 0;
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-title);
+  letter-spacing: 0.01em;
+}
+
+.app-title__name {
+  font-family: var(--font-title-name);
+}
+
+.app-title__accent {
+  font-family: var(--font-title-accent);
+  font-style: italic;
+  font-weight: var(--font-weight-normal);
+  margin-left: 0.25em;
+}
+
+/* ----- Device panel: dark rounded box holding the preview + board -----------
+   Query container: the screen preview, footswitch domes and LEDs are all sized
+   in `cqw` (1% of this panel's width) so the whole "unit" scales together with
+   no upper limit. */
+.device-panel {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 420px;
+  padding: var(--panel-padding);
+  background: var(--color-panel-bg);
+  border: var(--border-panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-panel-inset);
+  container-type: inline-size;
+}
+
+/* ----- Footswitch board: 5-col grid, rows a / b / c ------------------------ */
+.button-board {
+  position: absolute;
+  inset: var(--panel-padding);
+  display: grid;
+  grid-template-columns: repeat(var(--board-columns), 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  column-gap: var(--board-column-gap);
+  row-gap: var(--board-row-gap);
+  place-items: center;
+}
+
+.footswitch[data-row='a'] { grid-row: 1; }
+.footswitch[data-row='b'] { grid-row: 2; }
+.footswitch[data-row='c'] { grid-row: 3; }
+.footswitch[data-col='1'] { grid-column: 1; }
+.footswitch[data-col='2'] { grid-column: 2; }
+.footswitch[data-col='3'] { grid-column: 3; }
+.footswitch[data-col='4'] { grid-column: 4; }
+.footswitch[data-col='5'] { grid-column: 5; }
+
+.footswitch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: max(0.25rem, 1.1cqw);
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font: inherit;
+}
+
+/* the glossy LED dome — scales with the panel (--led-dome-size is the floor).
+   6cqw base reduced by 25% -> 4.5cqw; the floor drops the same in theme.css. */
+.footswitch__dome {
+  width: max(var(--led-dome-size), 4.5cqw);
+  height: max(var(--led-dome-size), 4.5cqw);
+  border-radius: var(--radius-pill);
+  background: var(--gradient-led-dome);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* the small on/off indicator — scales with the panel */
+.footswitch__led {
+  width: max(var(--led-indicator-size), 2.1cqw);
+  height: max(var(--led-indicator-size), 2.1cqw);
+  border-radius: var(--radius-pill);
+  background: var(--color-led-off);
+}
+
+.footswitch__label {
+  font-size: max(var(--font-size-xs), 1.6cqw);
+  max-width: 8ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Active button: the LED lights in that button's own colour (each .footswitch
+   carries --button-color in the app; --color-led-active is just a fallback). */
+.footswitch--active .footswitch__led {
+  background: var(--button-color, var(--color-led-active));
+}
+.footswitch--active .footswitch__label {
+  color: var(--color-text-strong);
+}
+
+/* member of the button set currently being edited */
+.footswitch--in-set .footswitch__dome {
+  outline: max(2px, 0.25cqw) solid var(--color-accent-info);
+  outline-offset: max(3px, 0.35cqw);
+}
+
+/* board in "pick set members" mode (Button set toggle pressed) */
+.button-board[data-mode='button-set'] {
+  cursor: copy;
+}
+
+/* ----- File actions --------------------------------------------------------
+   Was a row below the device; will be rebuilt inside the File pane. Kept here
+   because those elements reuse this styling. */
+.config-name {
+  flex: 1 1 auto;
+  max-width: var(--config-name-max-width);
+  height: var(--button-height);
+  padding: 0 var(--space-3);
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: var(--border-input);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+}
+
+.file-actions {
+  display: flex;
+  flex: none;
+  gap: var(--space-4);
+}
+
+.file-actions .btn {
+  flex: 1 1 0;
+  padding: 0 var(--space-2);
+}
+
+/* =============================================================================
+   3. DEVICE-SCREEN PREVIEW (inset, top-left of the panel)
+   -----------------------------------------------------------------------------
+   The preview scales as one unit with the device panel: its width is a
+   percentage of the panel (--device-preview-width in theme.css), it's a query
+   container, and everything inside is sized in `cqw` / `em` so text and spacing
+   track the width. Change the one clamp in theme.css to retune the size.
+   ============================================================================= */
+.device-preview {
+  position: absolute;
+  top: var(--panel-padding);
+  left: var(--panel-padding);
+  width: var(--device-preview-width);
+  container-type: inline-size;
+  z-index: 1;
+}
+
+.device-screen {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-screen-bg);
+  border: 1px solid #000;
+  font-family: var(--font-screen);
+  font-size: 4.4cqw; /* root size for the whole mini screen */
+  color: var(--color-screen-text);
+  line-height: 1.3;
+}
+
+.device-screen__statusbar,
+.device-screen__titlebar,
+.device-screen__navrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35em 0.7em;
+}
+
+.device-screen__statusbar {
+  font-weight: var(--font-weight-bold);
+}
+
+.device-screen__titlebar {
+  background: var(--color-screen-titlebar-bg);
+  color: var(--color-screen-titlebar-text);
+  font-weight: var(--font-weight-bold);
+  font-size: 1.15em;
+}
+
+.device-screen__navrow {
+  background: var(--color-screen-navrow-bg);
+  gap: 0.5em;
+}
+
+.device-screen__navlabel {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.device-screen__navbtn {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  padding: 0 0.25em;
+}
+
+.device-screen__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.15em;
+  padding: 0.15em;
+}
+
+.device-screen__cell {
+  padding: 0.55em 0.3em;
+  border: 0;
+  border-radius: 0.15em;
+  background: var(--cell-color, #333);
+  color: #fff;
+  font-size: 1em;
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The active patch button is shown fully lit in its own colour (the base rule
+   above). Every other cell is dimmed — no rule targets the active cell. */
+.device-screen__cell:not(.device-screen__cell--active) {
+  filter: brightness(0.45);
+}
+
+/* =============================================================================
+   4. SIDEBAR — accordion pane stack
+   ============================================================================= */
+.sidebar {
+  background: var(--color-sidebar-bg);
+  border-left: var(--border-panel);
+  overflow: hidden;
+
+  /* The sidebar runs a step smaller than the global type scale — the editor
+     is denser than the workspace. Redefining the tokens here shrinks every
+     descendant rule that uses them; the workspace keeps the global sizes. */
+  --font-size-lg: 1rem; /* ~16px  crumbs, field labels */
+  --font-size-md: 0.875rem; /* ~14px  inputs, selects     */
+  --font-size-sm: 0.8125rem; /* ~13px  buttons             */
+}
+
+.pane-stack {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* ----- Collapsed ancestor header -------------------------------------------- */
+.pane-crumb {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: var(--inline-gap);
+  width: 100%;
+  padding: var(--pane-crumb-padding-y) var(--sidebar-padding-x);
+  background: var(--color-pane-crumb-bg);
+  border: 0;
+  border-bottom: var(--border-pane-crumb);
+  color: var(--pane-fg, var(--color-text));
+  font-size: var(--font-size-lg);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pane-crumb:hover {
+  filter: brightness(1.15);
+}
+
+.pane-crumb__label {
+  color: var(--pane-fg-muted, var(--color-text-muted));
+}
+
+.pane-crumb__value {
+  font-weight: var(--font-weight-medium);
+  color: var(--pane-fg, var(--color-text-strong));
+}
+
+/* ----- Active pane -------------------------------------------------------- */
+.pane--active {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sidebar-padding-y) var(--sidebar-padding-x) var(--space-5);
+  background: var(--color-pane-active-bg);
+  overflow-y: auto;
+}
+
+/* ----- Per-level pane backgrounds + foreground (collapsed crumb OR active) --
+   File is lightest, Button darkest — a dark scale that deepens as you drill in;
+   --pane-fg / --pane-fg-muted carry the matching text colour. */
+.pane-crumb[data-level='file'],
+.pane[data-level='file'] {
+  background: var(--color-pane-file);
+  --pane-fg: var(--color-pane-file-fg);
+  --pane-fg-muted: var(--color-pane-file-fg-muted);
+}
+.pane-crumb[data-level='mode'],
+.pane[data-level='mode'] {
+  background: var(--color-pane-mode);
+  --pane-fg: var(--color-pane-mode-fg);
+  --pane-fg-muted: var(--color-pane-mode-fg-muted);
+}
+.pane-crumb[data-level='bank'],
+.pane[data-level='bank'] {
+  background: var(--color-pane-bank);
+  --pane-fg: var(--color-pane-bank-fg);
+  --pane-fg-muted: var(--color-pane-bank-fg-muted);
+}
+.pane-crumb[data-level='patch'],
+.pane[data-level='patch'] {
+  background: var(--color-pane-patch);
+  --pane-fg: var(--color-pane-patch-fg);
+  --pane-fg-muted: var(--color-pane-patch-fg-muted);
+}
+.pane-crumb[data-level='button'],
+.pane[data-level='button'] {
+  background: var(--color-pane-button);
+  --pane-fg: var(--color-pane-button-fg);
+  --pane-fg-muted: var(--color-pane-button-fg-muted);
+}
+
+.pane__header {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-gap);
+  margin-bottom: var(--field-gap);
+}
+
+.pane__label {
+  font-size: var(--font-size-lg);
+  white-space: nowrap;
+}
+
+.pane__name {
+  flex: 1 1 auto;
+}
+
+.pane__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-gap);
+}
+
+.pane__divider {
+  width: 100%;
+  height: 0;
+  margin: var(--space-5) 0;
+  border: 0;
+  border-top: 1px solid var(--color-pane-divider);
+}
+
+.pane__children {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pane__add {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--inline-gap);
+  margin-top: var(--space-5);
+  font-size: var(--font-size-lg);
+}
+
+/* =============================================================================
+   5. FIELDS & FORM CONTROLS
+   ============================================================================= */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--inline-gap);
+}
+
+.field--pair {
+  flex-wrap: wrap;
+}
+
+.field__label {
+  font-size: var(--font-size-lg);
+  white-space: nowrap;
+}
+
+.field--inline .field__label {
+  min-width: 6.5rem; /* aligns the controls in the Play-notes / CC forms */
+}
+
+/* text + number inputs */
+.text-input {
+  flex: 1 1 auto;
+  height: var(--control-height);
+  min-width: 0;
+  padding: 0 var(--space-3);
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: var(--border-input);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+}
+
+.text-input--num {
+  flex: 0 0 6rem;
+  text-align: left;
+}
+
+.text-input::placeholder {
+  color: var(--color-input-placeholder);
+}
+
+/* select: native element in a wrapper that draws the chevron */
+.select {
+  position: relative;
+  display: inline-flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.select__native {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: var(--control-height);
+  padding: 0 calc(var(--space-6)) 0 var(--space-3);
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: var(--border-input);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  cursor: pointer;
+}
+
+.select::after {
+  content: '';
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: translateY(-25%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--color-select-chevron);
+  pointer-events: none;
+}
+
+/* colour swatch (button active colour) */
+.swatch-field {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--inline-gap);
+}
+
+.color-swatch {
+  width: var(--led-indicator-size);
+  height: var(--led-indicator-size);
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-pill);
+  background: var(--swatch-color, var(--color-led-active));
+  cursor: pointer;
+}
+
+.swatch-field__label {
+  font-size: var(--font-size-lg);
+}
+
+/* "Activate on patch load" — checkbox rendered as a dot */
+.toggle-field {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--inline-gap);
+}
+
+.toggle-dot {
+  appearance: none;
+  -webkit-appearance: none;
+  width: var(--led-indicator-size);
+  height: var(--led-indicator-size);
+  margin: 0;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+.toggle-dot:checked {
+  background: var(--color-led-active);
+}
+
+.toggle-field__label {
+  font-size: var(--font-size-lg);
+}
+
+/* Params list (reorderable later with vuedraggable) */
+.param-list {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: var(--space-2);
+  list-style: none;
+  min-height: calc(var(--control-height) * 2);
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: var(--border-input);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+}
+
+.param-list__item {
+  padding: var(--space-1) 0;
+  cursor: grab;
+}
+
+/* =============================================================================
+   6. BUTTONS & ICON BUTTONS
+   ============================================================================= */
+.btn {
+  height: var(--button-height);
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-info);
+  color: var(--color-button-text);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-button);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn--save,
+.btn--yes {
+  background: var(--color-accent-confirm);
+}
+
+.btn--revert,
+.btn--no,
+.btn--blue {
+  background: var(--color-accent-info);
+}
+
+.btn--open {
+  background: var(--color-open-button-bg);
+}
+
+/* toggle button (Button set) — pressed state */
+.btn--toggle[aria-pressed='true'] {
+  box-shadow: inset 0 0 0 2px var(--white);
+  filter: brightness(1.15);
+}
+
+/* "Button set" only applies to Exclusive mode — hidden for Momentary / Latched.
+   In Vue this is a v-if on buttonMode === 'Exclusive'; the :has() rule keeps the
+   static template behaving the same when the select changes. */
+.field--inline:has(select[aria-label='Button mode']):not(
+    :has(option[value='Exclusive']:checked)
+  )
+  .btn--toggle {
+  display: none;
+}
+
+/* small round icon buttons */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-info);
+  color: var(--color-button-text);
+  font-size: var(--font-size-md);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.icon-btn--delete {
+  background: var(--color-accent-danger);
+}
+
+.icon-btn--add {
+  background: var(--color-accent-confirm);
+  font-size: var(--font-size-xl);
+}
+
+.icon-btn--keyboard {
+  background: var(--color-accent-info);
+  font-size: var(--font-size-sm);
+  letter-spacing: -0.15em; /* tighten the ▍▍▍ placeholder glyphs */
+}
+
+/* =============================================================================
+   7. CHILD LISTS (collapsed child panes under an active pane)
+   ============================================================================= */
+.child-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.pane-child {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-gap);
+  width: 100%;
+  padding: var(--pane-child-padding-y) var(--space-2);
+  background: none;
+  border: 0;
+  color: var(--color-text-strong);
+  font-size: var(--font-size-lg);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pane-child:hover {
+  background: var(--color-pane-crumb-hover-bg);
+}
+
+.pane-child__marker--icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-child-marker);
+  flex: none;
+}
+
+.pane-child__index {
+  min-width: 2.25rem;
+  color: var(--color-text-muted);
+}
+
+.pane-child__dot {
+  width: var(--led-indicator-size);
+  height: var(--led-indicator-size);
+  border-radius: var(--radius-pill);
+  background: var(--dot-color, var(--color-led-active));
+  flex: none;
+}
+
+/* =============================================================================
+   8. ACTION CARDS (inside the Button pane)
+   ============================================================================= */
+.action-list {
+  gap: var(--space-5);
+}
+
+.action-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-gap);
+}
+
+.action-card__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-gap);
+}
+
+/* =============================================================================
+   9. OVERLAYS
+   ============================================================================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-overlay);
+}
+
+.overlay__scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay-scrim);
+}
+
+/* ----- Confirm dialog ---------------------------------------------------- */
+.dialog {
+  position: relative;
+  z-index: var(--z-dialog);
+  width: var(--dialog-width);
+  max-width: calc(100vw - var(--space-6));
+  background: var(--color-dialog-bg);
+  color: var(--color-text-on-light);
+  box-shadow: var(--shadow-dialog);
+}
+
+.dialog__titlebar {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-dialog-titlebar-bg);
+  color: var(--color-text-strong);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.dialog__body {
+  padding: var(--space-5) var(--space-4);
+}
+
+.dialog__message {
+  margin: 0 0 var(--space-5);
+  font-size: var(--font-size-lg);
+}
+
+.dialog__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+/* ----- On-screen keyboard --------------------------------------------------
+   Scoped to the workspace (left of the sidebar) in the mockup. This offsets
+   the overlay so it doesn't cover the sidebar; refine once it's a component. */
+.overlay--keyboard {
+  right: var(--sidebar-width);
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.keyboard-panel {
+  position: relative;
+  z-index: var(--z-dialog);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  margin: auto var(--workspace-padding);
+  padding: var(--space-4);
+  background: var(--color-panel-bg);
+  border: var(--border-panel);
+  border-radius: var(--radius-lg);
+}
+
+.keyboard-panel__actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* piano: white keys in a row, black keys absolutely positioned over them */
+.piano {
+  --white-key-width: 2.25rem;
+  --white-key-height: 12rem;
+  --black-key-width: 1.4rem;
+  --black-key-height: 7.5rem;
+  display: flex;
+  overflow-x: auto;
+}
+
+.piano__octave {
+  position: relative;
+  display: flex;
+  flex: none;
+}
+
+.piano__key {
+  border: 1px solid #000;
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  padding-bottom: var(--space-1);
+}
+
+.piano__key--white {
+  width: var(--white-key-width);
+  height: var(--white-key-height);
+  background: #f4f4f4;
+  color: #333;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.piano__key--black {
+  position: absolute;
+  top: 0;
+  width: var(--black-key-width);
+  height: var(--black-key-height);
+  background: #111;
+  color: #ccc;
+  z-index: 1;
+  /* --key-index = which white slot this black key follows (0 = after C) */
+  left: calc(
+    (var(--key-index) + 1) * var(--white-key-width) - (var(--black-key-width) / 2)
+  );
+}
+
+.piano__key--selected {
+  background: var(--color-accent-info);
+  color: #fff;
+}
+
+/* Subtle button: low-prominence navigation/utility action (switch app, change device). */
+.app-switch-link {
+  display: inline-block;
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-3);
+  background: transparent;
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  cursor: pointer;
+}
+.app-switch-link:hover {
+  color: var(--color-text-strong);
+  border-color: var(--color-text-strong);
+}
+
+/* Colour swatch: a round chip that opens the native colour picker (same look as the Editor's LED colour). */
+.color-swatch {
+  display: inline-flex;
+  overflow: hidden;
+  position: relative;
+  flex: none;
+  width: var(--led-indicator-size);
+  height: var(--led-indicator-size);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-pill);
+  background: var(--swatch-color);
+  cursor: pointer;
+}
+.color-swatch__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}

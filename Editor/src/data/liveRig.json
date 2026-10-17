@@ -1,0 +1,3956 @@
+{
+	"headerColourCode": [
+		183,
+		79,
+		244
+	],
+	"modes": [
+		{
+			"name": "Pads",
+			"banks": [
+				{
+					"name": "Key: F",
+					"subheaderColourCode": [
+						189,
+						51,
+						186
+					],
+					"defaultPatchIndex": 1,
+					"maintainActiveButtonOnPatchChange": true,
+					"buttons": [
+						{
+							"id": 5,
+							"name": "Low",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 0
+									}
+								}
+							]
+						},
+						{
+							"id": 6,
+							"name": "Middle",
+							"buttonMode": "Exclusive",
+							"defaultStatus": "On",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 1
+									}
+								}
+							]
+						},
+						{
+							"id": 7,
+							"name": "Wide",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 2
+									}
+								}
+							]
+						},
+						{
+							"id": 8,
+							"name": "High",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 3
+									}
+								}
+							]
+						}
+					],
+					"patches": [
+						{
+							"name": "Low",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Lo F",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F1",
+													"F2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Lo G",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G1",
+													"G2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Lo Bb",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"Bb1",
+													"Bb2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Lo C",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C1",
+													"C2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Lo D",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D1",
+													"D2"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Middle",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "F",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F2",
+													"F3",
+													"A3",
+													"C3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Gm7",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G2",
+													"G3",
+													"Bb3",
+													"D3",
+													"F4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Bb",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"Bb2",
+													"F3",
+													"Bb3",
+													"D3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "C",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C2",
+													"C3",
+													"E3",
+													"G4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Dm",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D2",
+													"D3",
+													"F3",
+													"A3"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Wide",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "F2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F2",
+													"F3",
+													"C3",
+													"G4",
+													"A4",
+													"C4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Gm9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G2",
+													"G3",
+													"D3",
+													"F4",
+													"A4",
+													"Bb4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Bb2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"Bb1",
+													"Bb3",
+													"F3",
+													"C3",
+													"D3",
+													"F4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "C2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C2",
+													"C3",
+													"G3",
+													"C4",
+													"D4",
+													"E4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Dm9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D1",
+													"D2",
+													"A3",
+													"C3",
+													"E4",
+													"F4"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "High",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Hi F5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F5",
+													"C5",
+													"F6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Hi Gm5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G5",
+													"D5",
+													"G6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Hi Bb5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"Bb5",
+													"Bb5",
+													"F6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Hi C5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G5",
+													"C5",
+													"G6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Hi Dm5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A5",
+													"D5",
+													"F6"
+												]
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Key: C",
+					"subheaderColourCode": [
+						189,
+						51,
+						186
+					],
+					"defaultPatchIndex": 1,
+					"maintainActiveButtonOnPatchChange": true,
+					"buttons": [
+						{
+							"id": 5,
+							"name": "Low",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 0
+									}
+								}
+							]
+						},
+						{
+							"id": 6,
+							"name": "Middle",
+							"buttonMode": "Exclusive",
+							"defaultStatus": "On",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 1
+									}
+								}
+							]
+						},
+						{
+							"id": 7,
+							"name": "Wide",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 2
+									}
+								}
+							]
+						},
+						{
+							"id": 8,
+							"name": "High",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 3
+									}
+								}
+							]
+						}
+					],
+					"patches": [
+						{
+							"name": "Low",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Lo C",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C1",
+													"C2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Lo D",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D1",
+													"D2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Lo F",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F1",
+													"F2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Lo G",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G1",
+													"G2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Lo A",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A1",
+													"A2"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Middle",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "C",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C2",
+													"C3",
+													"E3",
+													"G3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Dm7",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D2",
+													"D3",
+													"F3",
+													"A3",
+													"C4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "F",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F2",
+													"C3",
+													"F3",
+													"A3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "G",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G2",
+													"G3",
+													"B3",
+													"D4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Am",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A2",
+													"A3",
+													"E4",
+													"C4",
+													"E4"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Wide",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "C2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C2",
+													"C3",
+													"G3",
+													"D4",
+													"E4",
+													"G4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Dm9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D2",
+													"D3",
+													"A3",
+													"C4",
+													"E4",
+													"F4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "F2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F2",
+													"F3",
+													"C3",
+													"G3",
+													"A3",
+													"C4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "G2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G1",
+													"G2",
+													"D3",
+													"G3",
+													"A3",
+													"G3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Am9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A1",
+													"A2",
+													"E3",
+													"G3",
+													"B3",
+													"C4"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "High",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Hi C5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C5",
+													"G5",
+													"C6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Hi Dm5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D5",
+													"A5",
+													"D6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Hi F5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C5",
+													"F5",
+													"C6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Hi G5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D5",
+													"G5",
+													"D6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Hi A5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E5",
+													"A5",
+													"C6"
+												]
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Key: G",
+					"subheaderColourCode": [
+						189,
+						51,
+						186
+					],
+					"defaultPatchIndex": 1,
+					"maintainActiveButtonOnPatchChange": true,
+					"buttons": [
+						{
+							"id": 5,
+							"name": "Low",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 0
+									}
+								}
+							]
+						},
+						{
+							"id": 6,
+							"name": "Middle",
+							"buttonMode": "Exclusive",
+							"defaultStatus": "On",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 1
+									}
+								}
+							]
+						},
+						{
+							"id": 7,
+							"name": "Wide",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 2
+									}
+								}
+							]
+						},
+						{
+							"id": 8,
+							"name": "High",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 3
+									}
+								}
+							]
+						}
+					],
+					"patches": [
+						{
+							"name": "Low",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Lo G",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G1",
+													"G2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Lo A",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A1",
+													"A2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Lo C",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C1",
+													"C2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Lo D",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D1",
+													"D2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Lo E",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E1",
+													"E2"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Middle",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "G",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G2",
+													"G3",
+													"B3",
+													"D4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Am",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A2",
+													"E3",
+													"A3",
+													"C4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "C",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C2",
+													"C3",
+													"E3",
+													"G3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "D",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D2",
+													"D3",
+													"F#3",
+													"A3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Em",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E2",
+													"E3",
+													"G3",
+													"B3"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Wide",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "G2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G1",
+													"B2",
+													"A3",
+													"D4",
+													"G4",
+													"D5"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Am9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A1",
+													"C3",
+													"B4",
+													"E4",
+													"G4",
+													"A4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "C2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C2",
+													"C3",
+													"G3",
+													"D4",
+													"E4",
+													"G4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "D2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D2",
+													"D3",
+													"E4",
+													"F#4",
+													"A4",
+													"D5"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Em9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E2",
+													"E3",
+													"D4",
+													"F#4",
+													"G4",
+													"B4"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "High",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Hi G5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D5",
+													"G5",
+													"D6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Hi Am5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E5",
+													"A5",
+													"E6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Hi C5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C5",
+													"G5",
+													"C6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Hi D5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D5",
+													"D6",
+													"A6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Hi Em5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E5",
+													"B5",
+													"E6"
+												]
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Key: D",
+					"subheaderColourCode": [
+						189,
+						51,
+						186
+					],
+					"defaultPatchIndex": 1,
+					"maintainActiveButtonOnPatchChange": true,
+					"buttons": [
+						{
+							"id": 5,
+							"name": "Low",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 0
+									}
+								}
+							]
+						},
+						{
+							"id": 6,
+							"name": "Middle",
+							"buttonMode": "Exclusive",
+							"defaultStatus": "On",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 1
+									}
+								}
+							]
+						},
+						{
+							"id": 7,
+							"name": "Wide",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 2
+									}
+								}
+							]
+						},
+						{
+							"id": 8,
+							"name": "High",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 3
+									}
+								}
+							]
+						}
+					],
+					"patches": [
+						{
+							"name": "Low",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Lo D",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D1",
+													"D2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Lo E",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E1",
+													"E2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Lo G",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G1",
+													"G2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Lo A",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A1",
+													"A2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Lo B",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"B1",
+													"B2"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Middle",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "D",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D2",
+													"D3",
+													"F#3",
+													"A3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Em7",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E2",
+													"E3",
+													"G3",
+													"B3",
+													"D4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "G",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G2",
+													"D3",
+													"G3",
+													"B3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "A",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A2",
+													"A3",
+													"C#3",
+													"E4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Bm",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"B2",
+													"B3",
+													"F#4",
+													"D4",
+													"F#4"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Wide",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "D2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D2",
+													"D3",
+													"A3",
+													"E4",
+													"F#4",
+													"A4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Em9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E2",
+													"E3",
+													"B3",
+													"D4",
+													"F#4",
+													"G4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "G2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G2",
+													"G3",
+													"D3",
+													"A3",
+													"B3",
+													"D4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "A2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A1",
+													"A2",
+													"E3",
+													"A3",
+													"B3",
+													"A3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Bm9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"B1",
+													"B2",
+													"F#3",
+													"A3",
+													"C#4",
+													"D4"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "High",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Hi D5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D5",
+													"A5",
+													"D6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Hi Em5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E5",
+													"B5",
+													"E6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Hi G5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G5",
+													"G5",
+													"D6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Hi A5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E5",
+													"A5",
+													"E6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Hi B5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#5",
+													"B5",
+													"D6"
+												]
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Key: A",
+					"subheaderColourCode": [
+						189,
+						51,
+						186
+					],
+					"defaultPatchIndex": 1,
+					"maintainActiveButtonOnPatchChange": true,
+					"buttons": [
+						{
+							"id": 5,
+							"name": "Low",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 0
+									}
+								}
+							]
+						},
+						{
+							"id": 6,
+							"name": "Middle",
+							"buttonMode": "Exclusive",
+							"defaultStatus": "On",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 1
+									}
+								}
+							]
+						},
+						{
+							"id": 7,
+							"name": "Wide",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 2
+									}
+								}
+							]
+						},
+						{
+							"id": 8,
+							"name": "High",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 3
+									}
+								}
+							]
+						}
+					],
+					"patches": [
+						{
+							"name": "Low",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Lo A",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A1",
+													"A2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Lo B",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"B1",
+													"B2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Lo D",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D1",
+													"D2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Lo E",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E1",
+													"E2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Lo F#",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#1",
+													"F#2"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Middle",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "A",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A2",
+													"A3",
+													"C#3",
+													"E4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Bm",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"B2",
+													"F#3",
+													"B3",
+													"D4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "D",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D2",
+													"D3",
+													"F#3",
+													"A3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "E",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E2",
+													"E3",
+													"G#3",
+													"B3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "F#m",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#2",
+													"F#3",
+													"A3",
+													"C#3"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Wide",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "A2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A1",
+													"C#3",
+													"B3",
+													"E4",
+													"A4",
+													"E5"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Bm9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"B1",
+													"D3",
+													"C#4",
+													"F#4",
+													"A4",
+													"B4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "D2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D2",
+													"D3",
+													"A3",
+													"E4",
+													"F#4",
+													"A4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "E2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E2",
+													"E3",
+													"F#4",
+													"G#4",
+													"B4",
+													"E5"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "F#m9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#2",
+													"F#3",
+													"E4",
+													"G#4",
+													"A4",
+													"C#4"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "High",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Hi A5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E5",
+													"A5",
+													"E6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Hi Bm5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#5",
+													"B5",
+													"F#6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Hi D5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"D5",
+													"A5",
+													"D6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Hi E5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E5",
+													"E6",
+													"B6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Hi F#m5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#5",
+													"C#5",
+													"F#6"
+												]
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Key: E",
+					"subheaderColourCode": [
+						189,
+						51,
+						186
+					],
+					"defaultPatchIndex": 1,
+					"maintainActiveButtonOnPatchChange": true,
+					"buttons": [
+						{
+							"id": 5,
+							"name": "Low",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 0
+									}
+								}
+							]
+						},
+						{
+							"id": 6,
+							"name": "Middle",
+							"buttonMode": "Exclusive",
+							"defaultStatus": "On",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 1
+									}
+								}
+							]
+						},
+						{
+							"id": 7,
+							"name": "Wide",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 2
+									}
+								}
+							]
+						},
+						{
+							"id": 8,
+							"name": "High",
+							"buttonMode": "Exclusive",
+							"buttonSet": [
+								5,
+								6,
+								7,
+								8
+							],
+							"actions": [
+								{
+									"type": "SetPatch",
+									"actionParameters": {
+										"patchIndex": 3
+									}
+								}
+							]
+						}
+					],
+					"patches": [
+						{
+							"name": "Low",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Lo E",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E1",
+													"E2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Lo F#",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#1",
+													"F#2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Lo A",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A1",
+													"A2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Lo B",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"B1",
+													"B2"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Lo C#",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C#1",
+													"C#2"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Middle",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "E",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E2",
+													"E3",
+													"G#3",
+													"B3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "F#m7",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#2",
+													"F#3",
+													"A3",
+													"C#3",
+													"E4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "A",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A2",
+													"E3",
+													"A3",
+													"C#3"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "B",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"B2",
+													"B3",
+													"D#3",
+													"F#4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "C#m",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C#2",
+													"C#3",
+													"E3",
+													"G#3"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Wide",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "E2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E2",
+													"E3",
+													"B3",
+													"F#4",
+													"G#4",
+													"B4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "F#m9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#2",
+													"F#3",
+													"C#3",
+													"E4",
+													"G#4",
+													"A4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "A2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A2",
+													"A3",
+													"E3",
+													"B3",
+													"C#3",
+													"E4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "B2",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"B2",
+													"B3",
+													"F#3",
+													"B3",
+													"C#4",
+													"F#4"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "C#m9",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"C#1",
+													"C#2",
+													"G#3",
+													"B3",
+													"D#4",
+													"E4"
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "High",
+							"buttons": [
+								{
+									"id": 0,
+									"name": "Hi E5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"E5",
+													"B5",
+													"E6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"name": "Hi F#m5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#5",
+													"C#5",
+													"F#6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"name": "Hi A5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"A5",
+													"A5",
+													"E6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"name": "Hi B5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"F#5",
+													"B5",
+													"F#6"
+												]
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"name": "Hi C#5",
+									"buttonMode": "Exclusive",
+									"buttonSet": [
+										0,
+										1,
+										2,
+										3,
+										4
+									],
+									"actions": [
+										{
+											"type": "PlayNotes",
+											"actionParameters": {
+												"noteNames": [
+													"G#5",
+													"C#5",
+													"E6"
+												]
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "FX",
+			"banks": [
+				{
+					"name": "Stompboxes",
+					"patches": [
+						{
+							"name": "Pedalboard",
+							"buttons": [
+								{
+									"id": 0,
+									"page": 1,
+									"name": "Overdrive",
+									"buttonMode": "Latched",
+									"colourCode": [
+										24,
+										250,
+										24
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 102
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"page": 1,
+									"name": "Delay",
+									"buttonMode": "Latched",
+									"colourCode": [
+										24,
+										54,
+										250
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 103
+											}
+										}
+									]
+								},
+								{
+									"id": 2,
+									"page": 1,
+									"name": "Hall",
+									"buttonMode": "Latched",
+									"colourCode": [
+										11,
+										197,
+										243
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 104
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"page": 1,
+									"name": "Tremolo",
+									"buttonMode": "Latched",
+									"colourCode": [
+										180,
+										4,
+										186
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 105
+											}
+										}
+									]
+								},
+								{
+									"id": 4,
+									"page": 1,
+									"name": "Tap",
+									"buttonMode": "Momentary",
+									"colourCode": [
+										36,
+										153,
+										32
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 106
+											}
+										}
+									]
+								},
+								{
+									"id": 5,
+									"page": 1,
+									"name": "Distortion",
+									"buttonMode": "Latched",
+									"colourCode": [
+										250,
+										152,
+										24
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 107
+											}
+										}
+									]
+								},
+								{
+									"id": 6,
+									"page": 1,
+									"name": "Echo",
+									"buttonMode": "Latched",
+									"colourCode": [
+										24,
+										54,
+										250
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 108
+											}
+										}
+									]
+								},
+								{
+									"id": 7,
+									"page": 1,
+									"name": "Shimmer",
+									"buttonMode": "Latched",
+									"colourCode": [
+										250,
+										24,
+										31
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 109
+											}
+										}
+									]
+								},
+								{
+									"id": 8,
+									"page": 1,
+									"name": "Chorus",
+									"buttonMode": "Latched",
+									"colourCode": [
+										180,
+										4,
+										186
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 110
+											}
+										}
+									]
+								},
+								{
+									"id": 9,
+									"page": 1,
+									"name": "Compressor",
+									"buttonMode": "Latched",
+									"colourCode": [
+										250,
+										24,
+										31
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 111
+											}
+										}
+									]
+								},
+								{
+									"id": 0,
+									"page": 2,
+									"name": "Fuzz",
+									"buttonMode": "Latched",
+									"colourCode": [
+										24,
+										250,
+										24
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 20
+											}
+										}
+									]
+								},
+								{
+									"id": 1,
+									"page": 2,
+									"name": "SpaceDelay",
+									"buttonMode": "Latched",
+									"colourCode": [
+										24,
+										54,
+										250
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 21
+											}
+										}
+									]
+								},
+								{
+									"id": 3,
+									"page": 2,
+									"name": "Vibrato",
+									"buttonMode": "Latched",
+									"colourCode": [
+										180,
+										4,
+										186
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 23
+											}
+										}
+									]
+								},
+								{
+									"id": 6,
+									"page": 2,
+									"name": "Slapback",
+									"buttonMode": "Latched",
+									"colourCode": [
+										24,
+										54,
+										250
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 26
+											}
+										}
+									]
+								},
+								{
+									"id": 8,
+									"page": 2,
+									"name": "Wow",
+									"buttonMode": "Latched",
+									"colourCode": [
+										180,
+										4,
+										186
+									],
+									"actions": [
+										{
+											"type": "ControlChange",
+											"actionParameters": {
+												"controllerNumber": 28
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

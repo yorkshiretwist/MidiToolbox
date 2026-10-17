@@ -1,0 +1,2789 @@
+{
+  "headerColourCode": [
+    22,
+    22,
+    22
+  ],
+  "midiChannel": 1,
+  "parameters": [
+    "Patch",
+    "Bank",
+    "Mode",
+    "MidiChannel",
+    "Config"
+  ],
+  "modes": [
+    {
+      "name": "Mode 1",
+      "midiChannel": 1,
+      "parameters": [
+        "Patch",
+        "Bank",
+        "Mode",
+        "MidiChannel",
+        "Config"
+      ],
+      "buttons": [
+        {
+          "id": 5,
+          "name": "Bank -",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CycleBank",
+              "actionParameters": {
+                "direction": "Down"
+              }
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Bank +",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CycleBank",
+              "actionParameters": {
+                "direction": "Up"
+              }
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Patch -",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CyclePatch",
+              "actionParameters": {
+                "direction": "Down"
+              }
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "Patch +",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CyclePatch",
+              "actionParameters": {
+                "direction": "Up"
+              }
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "Mode +",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CycleMode",
+              "actionParameters": {
+                "direction": "Up"
+              }
+            }
+          ]
+        }
+      ],
+      "banks": [
+        {
+          "name": "Bank A",
+          "midiChannel": 10,
+          "subheaderColourCode": [
+            44,
+            44,
+            44
+          ],
+          "patches": [
+            {
+              "name": "Sounds",
+              "midiChannel": 10,
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Chord",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "PlayNotes",
+                      "actionParameters": {
+                        "noteNames": [
+                          "C2",
+                          "E2",
+                          "G2",
+                          "C3"
+                        ],
+                        "velocity": 100,
+                        "noteSpread": "SpreadUp",
+                        "midiChannel": 5
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Program",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "ProgramChange",
+                      "actionParameters": {
+                        "programNumber": 12,
+                        "midiChannel": 9
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Boost",
+                  "buttonMode": "Latched",
+                  "defaultStatus": "On",
+                  "actions": [
+                    {
+                      "type": "ControlChange",
+                      "actionParameters": {
+                        "controllerNumber": 85,
+                        "controlValue": 127,
+                        "releaseValue": 0,
+                        "midiChannel": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Select Patch Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Patch"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Next Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameter",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "System Params",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Jump To Bank B",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Bank"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "Bank B"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Param Value Down",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Param Value Up",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "MIDI Channel 4",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "MidiChannel"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "4"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nav Actions",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Patch +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Patch -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Bank A",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetBank",
+                      "actionParameters": {
+                        "bankIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Bank +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleBank",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Mode 1",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetMode",
+                      "actionParameters": {
+                        "modeIndex": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Patch Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Go To Patch 1",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Go To Patch 2",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 1
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Go To Patch 4",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 5",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 4
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Bank & Mode Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Mode +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Mode -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Load Live Rig",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetConfig",
+                      "actionParameters": {
+                        "configFilename": "Live Rig.json"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Config Next",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Config Prev",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Bank B",
+          "midiChannel": 11,
+          "subheaderColourCode": [
+            66,
+            66,
+            66
+          ],
+          "patches": [
+            {
+              "name": "Sounds",
+              "midiChannel": 11,
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Chord",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "PlayNotes",
+                      "actionParameters": {
+                        "noteNames": [
+                          "C2",
+                          "E2",
+                          "G2",
+                          "C3"
+                        ],
+                        "velocity": 100,
+                        "noteSpread": "SpreadUp",
+                        "midiChannel": 5
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Program",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "ProgramChange",
+                      "actionParameters": {
+                        "programNumber": 12,
+                        "midiChannel": 9
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Boost",
+                  "buttonMode": "Latched",
+                  "defaultStatus": "On",
+                  "actions": [
+                    {
+                      "type": "ControlChange",
+                      "actionParameters": {
+                        "controllerNumber": 85,
+                        "controlValue": 127,
+                        "releaseValue": 0,
+                        "midiChannel": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Select Patch Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Patch"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Next Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameter",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "System Params",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Jump To Bank B",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Bank"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "Bank B"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Param Value Down",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Param Value Up",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "MIDI Channel 4",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "MidiChannel"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "4"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nav Actions",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Patch +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Patch -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Bank A",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetBank",
+                      "actionParameters": {
+                        "bankIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Bank +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleBank",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Mode 1",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetMode",
+                      "actionParameters": {
+                        "modeIndex": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Patch Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Go To Patch 1",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Go To Patch 2",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 1
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Go To Patch 4",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 5",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 4
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Bank & Mode Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Mode +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Mode -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Load Live Rig",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetConfig",
+                      "actionParameters": {
+                        "configFilename": "Live Rig.json"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Config Next",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Config Prev",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mode 2",
+      "midiChannel": 2,
+      "parameters": [
+        "Patch",
+        "Bank",
+        "Mode",
+        "MidiChannel",
+        "Config"
+      ],
+      "buttons": [
+        {
+          "id": 5,
+          "name": "Bank -",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CycleBank",
+              "actionParameters": {
+                "direction": "Down"
+              }
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Bank +",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CycleBank",
+              "actionParameters": {
+                "direction": "Up"
+              }
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Patch -",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CyclePatch",
+              "actionParameters": {
+                "direction": "Down"
+              }
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "Patch +",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CyclePatch",
+              "actionParameters": {
+                "direction": "Up"
+              }
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "Mode +",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CycleMode",
+              "actionParameters": {
+                "direction": "Up"
+              }
+            }
+          ]
+        }
+      ],
+      "banks": [
+        {
+          "name": "Bank A",
+          "midiChannel": 10,
+          "subheaderColourCode": [
+            44,
+            44,
+            44
+          ],
+          "patches": [
+            {
+              "name": "Sounds",
+              "midiChannel": 10,
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Chord",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "PlayNotes",
+                      "actionParameters": {
+                        "noteNames": [
+                          "C2",
+                          "E2",
+                          "G2",
+                          "C3"
+                        ],
+                        "velocity": 100,
+                        "noteSpread": "SpreadUp",
+                        "midiChannel": 5
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Program",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "ProgramChange",
+                      "actionParameters": {
+                        "programNumber": 12,
+                        "midiChannel": 9
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Boost",
+                  "buttonMode": "Latched",
+                  "defaultStatus": "On",
+                  "actions": [
+                    {
+                      "type": "ControlChange",
+                      "actionParameters": {
+                        "controllerNumber": 85,
+                        "controlValue": 127,
+                        "releaseValue": 0,
+                        "midiChannel": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Select Patch Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Patch"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Next Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameter",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "System Params",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Jump To Bank B",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Bank"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "Bank B"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Param Value Down",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Param Value Up",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "MIDI Channel 4",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "MidiChannel"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "4"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nav Actions",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Patch +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Patch -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Bank A",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetBank",
+                      "actionParameters": {
+                        "bankIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Bank +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleBank",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Mode 1",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetMode",
+                      "actionParameters": {
+                        "modeIndex": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Patch Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Go To Patch 1",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Go To Patch 2",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 1
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Go To Patch 4",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 5",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 4
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Bank & Mode Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Mode +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Mode -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Load Live Rig",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetConfig",
+                      "actionParameters": {
+                        "configFilename": "Live Rig.json"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Config Next",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Config Prev",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Bank B",
+          "midiChannel": 11,
+          "subheaderColourCode": [
+            66,
+            66,
+            66
+          ],
+          "patches": [
+            {
+              "name": "Sounds",
+              "midiChannel": 11,
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Chord",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "PlayNotes",
+                      "actionParameters": {
+                        "noteNames": [
+                          "C2",
+                          "E2",
+                          "G2",
+                          "C3"
+                        ],
+                        "velocity": 100,
+                        "noteSpread": "SpreadUp",
+                        "midiChannel": 5
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Program",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "ProgramChange",
+                      "actionParameters": {
+                        "programNumber": 12,
+                        "midiChannel": 9
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Boost",
+                  "buttonMode": "Latched",
+                  "defaultStatus": "On",
+                  "actions": [
+                    {
+                      "type": "ControlChange",
+                      "actionParameters": {
+                        "controllerNumber": 85,
+                        "controlValue": 127,
+                        "releaseValue": 0,
+                        "midiChannel": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Select Patch Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Patch"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Next Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameter",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "System Params",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Jump To Bank B",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Bank"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "Bank B"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Param Value Down",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Param Value Up",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "MIDI Channel 4",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "MidiChannel"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "4"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nav Actions",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Patch +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Patch -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Bank A",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetBank",
+                      "actionParameters": {
+                        "bankIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Bank +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleBank",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Mode 1",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetMode",
+                      "actionParameters": {
+                        "modeIndex": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Patch Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Go To Patch 1",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Go To Patch 2",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 1
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Go To Patch 4",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 5",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 4
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Bank & Mode Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Mode +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Mode -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Load Live Rig",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetConfig",
+                      "actionParameters": {
+                        "configFilename": "Live Rig.json"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Config Next",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Config Prev",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mode 3",
+      "midiChannel": 3,
+      "parameters": [
+        "Patch",
+        "Bank",
+        "Mode",
+        "MidiChannel",
+        "Config"
+      ],
+      "buttons": [
+        {
+          "id": 5,
+          "name": "Bank -",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CycleBank",
+              "actionParameters": {
+                "direction": "Down"
+              }
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Bank +",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CycleBank",
+              "actionParameters": {
+                "direction": "Up"
+              }
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Patch -",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CyclePatch",
+              "actionParameters": {
+                "direction": "Down"
+              }
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "Patch +",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CyclePatch",
+              "actionParameters": {
+                "direction": "Up"
+              }
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "Mode +",
+          "buttonMode": "Momentary",
+          "actions": [
+            {
+              "type": "CycleMode",
+              "actionParameters": {
+                "direction": "Up"
+              }
+            }
+          ]
+        }
+      ],
+      "banks": [
+        {
+          "name": "Bank A",
+          "midiChannel": 10,
+          "subheaderColourCode": [
+            44,
+            44,
+            44
+          ],
+          "patches": [
+            {
+              "name": "Sounds",
+              "midiChannel": 10,
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Chord",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "PlayNotes",
+                      "actionParameters": {
+                        "noteNames": [
+                          "C2",
+                          "E2",
+                          "G2",
+                          "C3"
+                        ],
+                        "velocity": 100,
+                        "noteSpread": "SpreadUp",
+                        "midiChannel": 5
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Program",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "ProgramChange",
+                      "actionParameters": {
+                        "programNumber": 12,
+                        "midiChannel": 9
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Boost",
+                  "buttonMode": "Latched",
+                  "defaultStatus": "On",
+                  "actions": [
+                    {
+                      "type": "ControlChange",
+                      "actionParameters": {
+                        "controllerNumber": 85,
+                        "controlValue": 127,
+                        "releaseValue": 0,
+                        "midiChannel": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Select Patch Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Patch"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Next Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameter",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "System Params",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Jump To Bank B",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Bank"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "Bank B"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Param Value Down",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Param Value Up",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "MIDI Channel 4",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "MidiChannel"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "4"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nav Actions",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Patch +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Patch -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Bank A",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetBank",
+                      "actionParameters": {
+                        "bankIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Bank +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleBank",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Mode 1",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetMode",
+                      "actionParameters": {
+                        "modeIndex": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Patch Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Go To Patch 1",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Go To Patch 2",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 1
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Go To Patch 4",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 5",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 4
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Bank & Mode Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Mode +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Mode -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Load Live Rig",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetConfig",
+                      "actionParameters": {
+                        "configFilename": "Live Rig.json"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Config Next",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Config Prev",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Bank B",
+          "midiChannel": 11,
+          "subheaderColourCode": [
+            66,
+            66,
+            66
+          ],
+          "patches": [
+            {
+              "name": "Sounds",
+              "midiChannel": 11,
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Chord",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "PlayNotes",
+                      "actionParameters": {
+                        "noteNames": [
+                          "C2",
+                          "E2",
+                          "G2",
+                          "C3"
+                        ],
+                        "velocity": 100,
+                        "noteSpread": "SpreadUp",
+                        "midiChannel": 5
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Program",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "ProgramChange",
+                      "actionParameters": {
+                        "programNumber": 12,
+                        "midiChannel": 9
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Boost",
+                  "buttonMode": "Latched",
+                  "defaultStatus": "On",
+                  "actions": [
+                    {
+                      "type": "ControlChange",
+                      "actionParameters": {
+                        "controllerNumber": 85,
+                        "controlValue": 127,
+                        "releaseValue": 0,
+                        "midiChannel": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Select Patch Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Patch"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Next Param",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameter",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "System Params",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Jump To Bank B",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "Bank"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "Bank B"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Param Value Down",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Param Value Up",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleParameterValue",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "MIDI Channel 4",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetParameter",
+                      "actionParameters": {
+                        "parameterName": "MidiChannel"
+                      }
+                    },
+                    {
+                      "type": "SetParameterValue",
+                      "actionParameters": {
+                        "parameterValue": "4"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nav Actions",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Patch +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Patch -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CyclePatch",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Bank A",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetBank",
+                      "actionParameters": {
+                        "bankIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Bank +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleBank",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Mode 1",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetMode",
+                      "actionParameters": {
+                        "modeIndex": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Patch Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Go To Patch 1",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Go To Patch 2",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 1
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Go To Patch 3",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 2
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Go To Patch 4",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 3
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Go To Patch 5",
+                  "buttonMode": "Exclusive",
+                  "buttonSet": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "actions": [
+                    {
+                      "type": "SetPatch",
+                      "actionParameters": {
+                        "patchIndex": 4
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Bank & Mode Nav",
+              "buttons": [
+                {
+                  "id": 0,
+                  "name": "Mode +",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "name": "Mode -",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleMode",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "Load Live Rig",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "SetConfig",
+                      "actionParameters": {
+                        "configFilename": "Live Rig.json"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 3,
+                  "name": "Config Next",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Up"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 4,
+                  "name": "Config Prev",
+                  "buttonMode": "Momentary",
+                  "actions": [
+                    {
+                      "type": "CycleConfig",
+                      "actionParameters": {
+                        "direction": "Down"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

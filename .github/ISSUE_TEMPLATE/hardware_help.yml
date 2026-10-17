@@ -1,0 +1,30 @@
+name: Hardware build help
+description: Ask for help building or wiring a unit
+labels: [question, hardware]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Safety first.** Disconnect power before you touch the wiring, and do not apply power until you have checked the
+        connections with a multimeter. Nobody here can inspect your build, so you build at your own risk.
+  - type: textarea
+    id: goal
+    attributes:
+      label: What are you building, and what is going wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: parts
+    attributes:
+      label: Your parts
+      description: Teensy, screen, LEDs, shift registers, regulator and supply (with part numbers or links).
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you checked?
+      description: For example continuity and voltages measured, what the serial monitor shows, and which stage of the build works.
+  - type: textarea
+    id: files
+    attributes:
+      label: Your design
+      description: Attach your `device.json` and `-design.json`, and photos of the wiring if you can.

@@ -1,0 +1,13 @@
+/* App-level base. Design tokens and the layout skin are ported verbatim from
+   the original design mockups (styles/theme.css + styles/layout.css); this file only owns
+   the bits those don't: full-height root and a couple of app-shell tweaks. */
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+#app {
+  overflow: hidden;
+}

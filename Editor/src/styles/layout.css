@@ -1,0 +1,1419 @@
+/* =============================================================================
+   MIDI Toolbox Editor — layout scaffold
+   -----------------------------------------------------------------------------
+   A first pass at the original layout mockups, built on the
+   tokens in theme.css. Meant to be tweaked freely — spacing, sizes and the
+   fiddlier bits (device screen, piano) are approximate.
+
+   Sections:
+     1. App shell / grid
+     2. Workspace — title, device panel, footswitch board, file actions
+     3. Device-screen preview
+     4. Sidebar — accordion pane stack
+     5. Fields & form controls
+     6. Buttons & icon buttons
+     7. Child lists (banks / buttons under a pane)
+     8. Action cards
+     9. Overlays — confirm dialog, on-screen keyboard
+   ============================================================================= */
+
+/* =============================================================================
+   1. APP SHELL
+   ============================================================================= */
+.app {
+  display: grid;
+  grid-template-columns: minmax(var(--workspace-min-width), 1fr) var(--sidebar-width);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =============================================================================
+   2. WORKSPACE (left column)
+   ============================================================================= */
+.workspace {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--workspace-padding);
+  background: var(--color-workspace-bg);
+  overflow: auto;
+}
+
+.workspace__header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.app-title {
+  margin: 0;
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-title);
+  letter-spacing: 0.01em;
+}
+
+.app-title__name {
+  font-family: var(--font-title-name);
+}
+
+.app-title__accent {
+  font-family: var(--font-title-accent);
+  font-style: italic;
+  font-weight: var(--font-weight-normal);
+  margin-left: 0.25em;
+}
+
+/* ----- Device panel: dark rounded box holding the preview + board -----------
+   Query container: the screen preview, footswitch domes and LEDs are all sized
+   in `cqw` (1% of this panel's width) so the whole "unit" scales together with
+   no upper limit. */
+.device-panel {
+  position: relative;
+  flex: none;
+  width: 100%;
+  background: var(--color-panel-bg);
+  border: var(--border-panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-panel-inset);
+  container-type: inline-size;
+}
+
+/* ----- Change device: deliberately low-prominence, below the device panel —
+   switching device is a rare action (most users only ever have one), and
+   it's destructive (see ChangeDeviceLink.vue), so it's a subtle button,
+   right-aligned in the workspace footer. ------------------------------------------------- */
+.device-bar-bottom {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  flex: none;
+  margin-left: auto;
+  justify-content: flex-end;
+}
+
+.workspace__footer {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  flex: none;
+}
+
+.device-bar-bottom__name {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.change-device-error {
+  color: var(--color-accent-danger);
+  font-size: var(--font-size-sm);
+}
+
+/* ----- Footswitch board: grid sized to the active device profile -----------
+   --board-columns/--board-rows are set inline per device (FootswitchBoard.vue/
+   PlayFootswitchBoard.vue, from deviceBoardLayout() in lib/deviceLayout.ts);
+   each footswitch's own grid-column/grid-row is set inline too, since an
+   arbitrary device's buttons aren't reliably dense or a fixed 5-wide shape. */
+.button-board {
+  position: absolute;
+  inset: 0;
+}
+
+.footswitch {
+  /* Centred on the button's real position; --btn-d is its diameter to scale.
+     The LED and label hang off the dome rather than sitting in the flow. */
+  position: absolute;
+  width: var(--btn-d);
+  height: var(--btn-d);
+  transform: translate(-50%, -50%);
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font: inherit;
+}
+
+/* the glossy LED dome — scales with the panel (--led-dome-size is the floor).
+   6cqw base reduced by 25% -> 4.5cqw; the floor drops the same in theme.css. */
+.footswitch__dome {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-led-dome);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* the small on/off indicator — scales with the panel */
+.footswitch__led {
+  /* 5 mm LED, 13 mm from the centre of a 16 mm button (as in the Designer). */
+  position: absolute;
+  left: 50%;
+  width: calc(var(--btn-d) * 5 / 16);
+  height: calc(var(--btn-d) * 5 / 16);
+  transform: translate(-50%, -50%);
+  top: calc(50% - var(--btn-d) * 13 / 16);
+  border-radius: var(--radius-pill);
+  background: var(--color-led-off);
+}
+
+.footswitch[data-led='below'] .footswitch__led {
+  top: calc(50% + var(--btn-d) * 13 / 16);
+}
+
+.footswitch__label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(100% + 0.4cqw);
+  font-size: max(var(--font-size-xs), 1.6cqw);
+  max-width: 8ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* LED below the dome: the label goes above it instead, clear of the LED. */
+.footswitch[data-led='below'] .footswitch__label {
+  top: auto;
+  bottom: calc(100% + 0.4cqw);
+}
+
+/* Active button: the LED lights in that button's own colour (each .footswitch
+   carries --button-color in the app; --color-led-active is just a fallback). */
+.footswitch--active .footswitch__led {
+  background: var(--button-color, var(--color-led-active));
+}
+.footswitch--active .footswitch__label {
+  color: var(--color-text-strong);
+}
+
+/* Member of the button set currently being edited — a blue ring + glow around
+   the dome, deliberately not the LED, so it reads as a distinct "in the set"
+   state rather than "on". */
+.footswitch--in-set .footswitch__dome {
+  outline: max(5px, 0.7cqw) solid var(--color-accent-info);
+  outline-offset: max(5px, 0.6cqw);
+  box-shadow:
+    0 0 0 max(1px, 0.15cqw) rgba(0, 0, 0, 0.55),
+    0 0 max(12px, 1.3cqw) var(--color-accent-info);
+}
+
+/* Board in "pick set members" mode (the Button-set toggle is engaged). */
+.button-board[data-mode='button-set'] {
+  cursor: copy;
+}
+
+/* ----- File actions --------------------------------------------------------
+   Was a row below the device; will be rebuilt inside the File pane. Kept here
+   because those elements reuse this styling. */
+.config-name {
+  flex: 1 1 auto;
+  max-width: var(--config-name-max-width);
+  height: var(--button-height);
+  padding: 0 var(--space-3);
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: var(--border-width) solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+}
+
+.file-actions {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.file-actions .btn {
+  flex: 1 1 0;
+  padding: 0 var(--space-2);
+}
+
+.file-alert {
+  margin-top: var(--field-gap);
+  padding: var(--space-3);
+  background: rgba(189, 47, 47, 0.15);
+  border: 1px solid var(--color-accent-danger);
+  border-radius: var(--radius-sm);
+}
+
+.file-alert__title {
+  margin: 0 0 var(--space-1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-strong);
+}
+
+.file-alert__message {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  word-break: break-word;
+}
+
+.file-alert__issues {
+  margin: var(--space-1) 0 0;
+  padding-left: var(--space-5);
+  max-height: 12rem;
+  overflow-y: auto;
+}
+
+.file-alert__issue {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-1);
+}
+
+.file-alert__issue-path {
+  display: block;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+}
+
+/* =============================================================================
+   3. DEVICE-SCREEN PREVIEW (inset, top-left of the panel)
+   -----------------------------------------------------------------------------
+   The preview scales as one unit with the device panel: its width is a
+   percentage of the panel (--device-preview-width in theme.css), it's a query
+   container, and everything inside is sized in `cqw` / `em` so text and spacing
+   track the width. Change the one clamp in theme.css to retune the size.
+   ============================================================================= */
+.device-preview {
+  /* The screen as visible through the panel cut-out (size and position set
+     inline): a black bezel with the lit display centred in it. */
+  position: absolute;
+  background: #000;
+  container-type: inline-size;
+  z-index: 1;
+}
+
+.device-screen {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--active-frac) * 100%);
+  aspect-ratio: var(--active-aspect);
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-screen-bg);
+  /* No border or padding: like the hardware, the drawing fills the whole
+     screen. --u is one screen pixel as a length, so every size below is the
+     firmware's own pixel measurement (Screen.h), as in the Designer. */
+  --u: calc(100cqw * var(--active-frac) / var(--lx));
+  font-family: var(--font-screen);
+  font-size: calc(var(--u) * 14); /* root size for the whole mini screen */
+  color: var(--color-screen-text);
+  line-height: 1.3;
+}
+
+.device-screen__statusbar,
+.device-screen__titlebar,
+.device-screen__navrow {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(var(--u) * 8);
+}
+
+.device-screen__statusbar {
+  height: calc(var(--u) * 28); /* SCREEN_HEADER_H */
+  font-weight: var(--font-weight-bold);
+}
+
+/* The File/Mode/Bank/Patch texts are buttons that jump the accordion to that
+   level's pane - reset to plain text with a pointer, not default UA-button
+   chrome, so they still read as the hardware's screen labels. */
+.device-screen__linkbtn {
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.device-screen__linkbtn:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.device-screen__linkbtn:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.device-screen__titlebar {
+  background: var(--titlebar-bg, var(--color-screen-titlebar-bg));
+  color: var(--titlebar-text, var(--color-screen-titlebar-text));
+  height: calc(var(--u) * 40); /* SCREEN_SUBHEADER_H */
+  font-weight: var(--font-weight-bold);
+  font-size: calc(var(--u) * 16);
+}
+
+.device-screen__navrow {
+  background: var(--color-screen-navrow-bg);
+  /* The channel readout is pinned to the right edge independently, so it
+     doesn't need to share the row's flex layout with the centred group. */
+  position: relative;
+  justify-content: center;
+  height: calc(var(--u) * 34); /* SCREEN_PARAMROW_H */
+  margin-top: calc(var(--u) * 4); /* SCREEN_SUBHEADER_GAP */
+  padding: 0;
+}
+
+.device-screen__navgroup {
+  display: flex;
+  align-items: stretch;
+  align-self: stretch;
+}
+
+.device-screen__navlabel {
+  /* Fixed width sized to fit the longest parameter name ("MIDI Channel"),
+     not just whatever's currently displayed - matches the hardware's
+     SCREEN_PARAMBTN_NAME_W (112px of a 320px-wide screen, see Screen.h). */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--u) * 112); /* SCREEN_PARAMBTN_NAME_W */
+  background: rgb(39, 39, 39);
+}
+
+.device-screen__navbtn {
+  font: inherit;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  width: calc(var(--u) * 40); /* SCREEN_PARAMBTN_ARROW_W */
+  padding: 0;
+  background: rgb(39, 39, 39);
+}
+
+.device-screen__channel {
+  position: absolute;
+  right: calc(var(--u) * 8);
+}
+
+/* --screen-columns/--screen-rows are set inline per device (DeviceScreen.vue/
+   PlayDeviceScreen.vue, from deviceScreenLayout() in lib/deviceLayout.ts);
+   each cell's own grid-column/grid-row is set inline too. */
+.device-screen__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--screen-columns), 1fr);
+  grid-template-rows: repeat(var(--screen-rows), minmax(0, 1fr));
+  /* The grid takes whatever the header rows leave, so the cells fill the
+     screen down to its bottom edge. */
+  flex: 1 1 0;
+  min-height: 0;
+  margin-top: calc(var(--u) * 4); /* SCREEN_BTNGRID_GAP */
+  gap: calc(var(--u) * 4);
+  padding: 0 calc(var(--u) * 4) calc(var(--u) * 4);
+}
+
+.device-screen__cell {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--cell-color, #333);
+  /* Black or white per-cell, chosen for contrast against --cell-color the same
+     way the hardware picks it (see contrastingTextColour in lib/colour.ts). */
+  color: var(--cell-text-color, #fff);
+  font-size: calc(var(--u) * 16);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  /* Centre the label in the now-taller cell. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.device-screen__cell-label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The active patch button is shown fully lit in its own colour (the base rule
+   above). Every other cell is dimmed. */
+.device-screen__cell:not(.device-screen__cell--active) {
+  filter: brightness(0.45);
+}
+
+/* A solid ring on top of the "not dimmed" treatment above — undimming alone is
+   too subtle to notice for a brand-new button that has no colour yet (its
+   fallback #333 background barely differs from that same colour dimmed), so
+   the active cell always gets an unmistakable highlight regardless of colour. */
+.device-screen__cell--active {
+  outline: 0.12em solid var(--color-accent-info);
+  outline-offset: -0.12em;
+}
+
+/* Inherited from a less-specific level (Bank/Mode/Config), not yet overridden
+   here — a dashed inset ring reads as "borrowed", matching the footswitch
+   board's treatment for the same state. */
+.device-screen__cell--inherited {
+  outline: 0.1em dashed rgba(255, 255, 255, 0.6);
+  outline-offset: -0.1em;
+}
+
+/* =============================================================================
+   3b. LIVE SCREEN LAYOUT + BUTTON-NAME OVERLAY
+   -----------------------------------------------------------------------------
+   Mirrors Screen.h's Live layout (ModeBank "screenLayout": "Live"): big Bank /
+   Patch / Page boxes under the Header, the navigation row moved to the bottom.
+   Sizes are the firmware's pixel measurements via --u, as everywhere above.
+   ============================================================================= */
+.device-screen--live .device-screen__navrow {
+  /* SCREEN_LIVE_NAV_H, with SCREEN_LIVE_GAP above and below it. */
+  height: calc(var(--u) * 44);
+  margin: calc(var(--u) * 4) 0;
+  justify-content: flex-start;
+  padding-left: calc(var(--u) * 4);
+  font-size: calc(var(--u) * 24);
+}
+
+.device-screen--live .device-screen__navlabel {
+  width: calc(var(--u) * 104);
+}
+
+.device-screen--live .device-screen__navbtn {
+  width: calc(var(--u) * 56);
+}
+
+.live-body {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 4);
+  margin-top: calc(var(--u) * 4);
+}
+
+/* Bank takes 2/5 of the area, the Patch row the rest (SCREEN_LIVE_BANK_H). */
+.live-box--bank {
+  flex: 2 1 0;
+}
+
+.live-row {
+  flex: 3 1 0;
+  display: flex;
+  gap: calc(var(--u) * 4);
+  min-height: 0;
+}
+
+.live-box {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 calc(var(--u) * 4);
+  border: calc(var(--u) * 3) solid transparent; /* SCREEN_LIVE_BORDER */
+  box-sizing: border-box;
+  background: var(--box-bg, var(--titlebar-bg));
+  color: var(--box-text, var(--titlebar-text));
+  font-weight: var(--font-weight-bold);
+  overflow: hidden;
+}
+
+.live-box--patch {
+  flex: 1 1 0;
+}
+
+.live-box--page {
+  flex: none;
+  width: calc(var(--u) * 96); /* SCREEN_LIVE_PAGE_W */
+}
+
+/* The box the step arrows currently steer. */
+.live-box--steered {
+  border-color: #fff;
+}
+
+.live-box__caption {
+  position: absolute;
+  left: calc(var(--u) * 4);
+  top: 0;
+  font-size: calc(var(--u) * 14);
+  opacity: 0.7;
+}
+
+.live-box__value {
+  flex: 1 1 0;
+  min-width: 0;
+  margin-top: calc(var(--u) * 8);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The pressed button's name, over the middle of the screen in either layout
+   (SCREEN_TOAST_H / SCREEN_TOAST_INSET in Screen.h). It never takes clicks, so
+   the buttons under it stay usable. --ly is the screen height in pixels. */
+.device-screen {
+  --ly: calc(var(--lx) / var(--active-aspect));
+}
+
+.device-screen__toast {
+  position: absolute;
+  left: calc(var(--u) * 20);
+  right: calc(var(--u) * 20);
+  /* centred in the area between the Header and the bottom row */
+  top: calc(var(--u) * (32 + (var(--ly) - 156) / 2));
+  height: calc(var(--u) * 72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 calc(var(--u) * 8);
+  background: var(--toast-bg);
+  color: var(--toast-text);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* =============================================================================
+   4. SIDEBAR — accordion pane stack
+   ============================================================================= */
+.sidebar {
+  background: var(--color-sidebar-bg);
+  border-left: var(--border-panel);
+  overflow: hidden;
+
+  /* The sidebar runs a step smaller than the global type scale — the editor
+     is denser than the workspace. Redefining the tokens here shrinks every
+     descendant rule that uses them; the workspace keeps the global sizes. */
+  --font-size-lg: 1rem; /* ~16px  crumbs, field labels */
+  --font-size-md: 0.875rem; /* ~14px  inputs, selects     */
+  --font-size-sm: 0.8125rem; /* ~13px  buttons             */
+}
+
+.pane-stack {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* ----- Collapsed ancestor header -------------------------------------------- */
+.pane-crumb {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: var(--inline-gap);
+  width: 100%;
+  padding: var(--pane-crumb-padding-y) var(--sidebar-padding-x);
+  background: var(--color-pane-crumb-bg);
+  border: 0;
+  border-bottom: var(--border-pane-crumb);
+  color: var(--pane-fg, var(--color-text));
+  font-size: var(--font-size-lg);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pane-crumb:hover {
+  filter: brightness(1.15);
+}
+
+.pane-crumb__label {
+  color: var(--pane-fg-muted, var(--color-text-muted));
+}
+
+.pane-crumb__value {
+  font-weight: var(--font-weight-medium);
+  color: var(--pane-fg, var(--color-text-strong));
+}
+
+/* ----- Active pane -------------------------------------------------------- */
+.pane--active {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sidebar-padding-y) var(--sidebar-padding-x) var(--space-5);
+  background: var(--color-pane-active-bg);
+  overflow-y: auto;
+}
+
+/* ----- Per-level pane backgrounds + foreground (collapsed crumb OR active) --
+   File is lightest, Button darkest — a dark scale that deepens as you drill in;
+   --pane-fg / --pane-fg-muted carry the matching text colour. */
+.pane-crumb[data-level='file'],
+.pane[data-level='file'] {
+  --pane-bg: var(--color-pane-file);
+  background: var(--pane-bg);
+  --pane-fg: var(--color-pane-file-fg);
+  --pane-fg-muted: var(--color-pane-file-fg-muted);
+}
+.pane-crumb[data-level='mode'],
+.pane[data-level='mode'] {
+  --pane-bg: var(--color-pane-mode);
+  background: var(--pane-bg);
+  --pane-fg: var(--color-pane-mode-fg);
+  --pane-fg-muted: var(--color-pane-mode-fg-muted);
+}
+.pane-crumb[data-level='bank'],
+.pane[data-level='bank'] {
+  --pane-bg: var(--color-pane-bank);
+  background: var(--pane-bg);
+  --pane-fg: var(--color-pane-bank-fg);
+  --pane-fg-muted: var(--color-pane-bank-fg-muted);
+}
+.pane-crumb[data-level='patch'],
+.pane[data-level='patch'] {
+  --pane-bg: var(--color-pane-patch);
+  background: var(--pane-bg);
+  --pane-fg: var(--color-pane-patch-fg);
+  --pane-fg-muted: var(--color-pane-patch-fg-muted);
+}
+.pane-crumb[data-level='button'],
+.pane[data-level='button'],
+.pane-crumb[data-level='preset'],
+.pane[data-level='preset'] {
+  --pane-bg: var(--color-pane-button);
+  background: var(--pane-bg);
+  --pane-fg: var(--color-pane-button-fg);
+  --pane-fg-muted: var(--color-pane-button-fg-muted);
+}
+
+/* Form controls inside a pane sit on that pane's own colour, keeping only a
+   darker outline so the edge of each control stays easy to see. Text and the
+   select chevron follow the pane's foreground so they stay legible. */
+.pane[data-level] {
+  --color-input-bg: var(--pane-bg);
+  --color-input-text: var(--pane-fg);
+  --color-input-border: var(--color-control-border);
+  --color-select-chevron: var(--pane-fg);
+}
+
+/* The Button pane is nearly black; a dark control outline disappears there, so
+   flip it to a light one. */
+.pane[data-level='button'],
+.pane[data-level='preset'] {
+  --color-input-border: var(--color-control-border-light);
+}
+
+.pane__header {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-gap);
+  margin-bottom: var(--field-gap);
+}
+
+.pane__label {
+  font-size: var(--font-size-lg);
+  white-space: nowrap;
+}
+
+.pane__name {
+  flex: 1 1 auto;
+}
+
+.pane__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-gap);
+}
+
+.pane__divider {
+  width: 100%;
+  height: 0;
+  margin: var(--space-5) 0;
+  border: 0;
+  border-top: 1px solid var(--color-pane-divider);
+}
+
+.pane__children {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pane__add {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--inline-gap);
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-pane-divider);
+  font-size: var(--font-size-lg);
+}
+
+/* an extra button in the add row, pushed to the left while "Add new ..." stays on the right */
+.pane__add-start {
+  margin-right: auto;
+}
+
+/* "Add new ..." rows: the words and the round "+" are ONE button, so the whole of it is the click
+   target. The padding makes the target bigger than the words and icon; the negative margins cancel
+   it out again so they sit exactly where they would without it. */
+.add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--inline-gap);
+  padding: var(--space-2) var(--space-3);
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-3));
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.add-btn:hover,
+.add-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.add-btn:hover .icon-btn,
+.add-btn:focus-visible .icon-btn {
+  filter: brightness(1.15);
+}
+
+/* A quiet text button with an icon on its left: it takes the text size and colour of the label
+   around it (like "Add new action"), with the same generous click target as .add-btn, and
+   underlines on hover or keyboard focus. */
+.text-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  /* cancel the padding above and below and on the left; the right margin is left to the row */
+  margin-block: calc(-1 * var(--space-2));
+  margin-left: calc(-1 * var(--space-3));
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.text-btn:hover:not(:disabled),
+.text-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  text-decoration: underline;
+}
+
+.text-btn__icon {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* =============================================================================
+   5. FIELDS & FORM CONTROLS
+   ============================================================================= */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--inline-gap);
+}
+
+.field--pair {
+  flex-wrap: wrap;
+}
+
+.field__label {
+  font-size: var(--font-size-lg);
+  white-space: nowrap;
+}
+
+.field--inline .field__label {
+  min-width: 6.5rem; /* aligns the controls in the Play-notes / CC forms */
+}
+
+/* text + number inputs */
+.text-input {
+  flex: 1 1 auto;
+  height: var(--control-height);
+  min-width: 0;
+  padding: 0 var(--space-3);
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: var(--border-width) solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+}
+
+.text-input--num {
+  flex: 0 0 6rem;
+  text-align: left;
+}
+
+.text-input::placeholder {
+  color: var(--color-input-placeholder);
+}
+
+/* select: native element in a wrapper that draws the chevron */
+.select {
+  position: relative;
+  display: inline-flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.select__native {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: var(--control-height);
+  padding: 0 calc(var(--space-6)) 0 var(--space-3);
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: var(--border-width) solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  cursor: pointer;
+}
+
+.select::after {
+  content: '';
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: translateY(-25%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--color-select-chevron);
+  pointer-events: none;
+}
+
+/* colour swatch (button active colour) */
+.swatch-field {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--inline-gap);
+}
+
+.color-swatch {
+  display: inline-flex;
+  overflow: hidden;
+  position: relative;
+  width: var(--led-indicator-size);
+  height: var(--led-indicator-size);
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-pill);
+  background: var(--swatch-color, var(--color-led-active));
+  cursor: pointer;
+}
+
+.color-swatch__input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.swatch-field__label {
+  font-size: var(--font-size-lg);
+}
+
+/* "Activate on patch load" — checkbox rendered as a dot */
+.toggle-field {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--inline-gap);
+}
+
+.toggle-dot {
+  appearance: none;
+  -webkit-appearance: none;
+  width: var(--led-indicator-size);
+  height: var(--led-indicator-size);
+  margin: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  cursor: pointer;
+}
+
+.toggle-dot:checked {
+  background: var(--color-led-active);
+  border-color: var(--color-led-active);
+}
+
+.toggle-field__label {
+  font-size: var(--font-size-lg);
+}
+
+/* Params list (reorderable later with vuedraggable) */
+.param-list {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: var(--space-2);
+  list-style: none;
+  min-height: calc(var(--control-height) * 2);
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: var(--border-width) solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+}
+
+.param-list__item {
+  padding: var(--space-1) 0;
+  cursor: grab;
+}
+
+/* =============================================================================
+   6. BUTTONS & ICON BUTTONS
+   ============================================================================= */
+.btn {
+  height: var(--button-height);
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-info);
+  color: var(--color-button-text);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-button);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn--save,
+.btn--yes {
+  background: var(--color-accent-confirm);
+}
+
+.btn--revert,
+.btn--no,
+.btn--blue {
+  background: var(--color-accent-info);
+}
+
+.btn--open {
+  background: var(--color-open-button-bg);
+}
+
+/* toggle button (Button set) — pressed state */
+.btn--toggle[aria-pressed='true'] {
+  box-shadow: inset 0 0 0 2px var(--white);
+  filter: brightness(1.15);
+}
+
+/* "Button set" only applies to Exclusive mode — hidden for Momentary / Latched.
+   In Vue this is a v-if on buttonMode === 'Exclusive'; the :has() rule keeps the
+   static template behaving the same when the select changes. */
+.field--inline:has(select[aria-label='Button mode']):not(
+    :has(option[value='Exclusive']:checked)
+  )
+  .btn--toggle {
+  display: none;
+}
+
+/* small round icon buttons */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-info);
+  color: var(--color-button-text);
+  font-size: var(--font-size-md);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.icon-btn--delete {
+  background: var(--color-accent-danger);
+}
+
+.icon-btn--add {
+  background: var(--color-accent-confirm);
+  font-size: var(--font-size-xl);
+}
+
+/* a child row: the pane-child button plus its move-up/move-down arrows */
+.icon-btn--keyboard {
+  background: var(--color-accent-info);
+  font-size: var(--font-size-sm);
+  letter-spacing: -0.15em; /* tighten the ▍▍▍ placeholder glyphs */
+}
+
+/* A disabled control must read as disabled: drained of colour, dimmed, and
+   showing the not-allowed cursor. Applies to every button variant above. */
+.btn:disabled,
+.icon-btn:disabled,
+button:disabled {
+  filter: grayscale(1);
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* =============================================================================
+   7. CHILD LISTS (collapsed child panes under an active pane)
+   ============================================================================= */
+.child-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.pane-child--draggable {
+  cursor: grab;
+}
+
+.pane-child__grip {
+  flex: none;
+  color: var(--color-text-muted);
+  cursor: grab;
+  user-select: none;
+}
+
+/* The row being dragged fades; its live drop target gets an accent ring. */
+.pane-child--dragging {
+  opacity: 0.4;
+}
+
+.pane-child--drop-target {
+  background: var(--color-pane-crumb-hover-bg);
+  outline: 2px solid var(--color-accent-info);
+  outline-offset: -2px;
+}
+
+.pane-child--drop-after {
+  box-shadow: inset 0 -3px 0 var(--color-accent-info);
+}
+
+.pane-child--drop-before {
+  box-shadow: inset 0 3px 0 var(--color-accent-info);
+}
+
+.pane-child {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-gap);
+  width: 100%;
+  padding: var(--pane-child-padding-y) var(--space-2);
+  background: none;
+  border: 0;
+  color: var(--color-text-strong);
+  font-size: var(--font-size-lg);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pane-child:hover {
+  background: var(--color-pane-crumb-hover-bg);
+}
+
+.pane-child__marker--icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-child-marker);
+  flex: none;
+}
+
+.pane-child__index {
+  min-width: 2.25rem;
+  color: var(--color-text-muted);
+}
+
+.pane-child__dot {
+  width: var(--led-indicator-size);
+  height: var(--led-indicator-size);
+  border-radius: var(--radius-pill);
+  background: var(--dot-color, var(--color-led-active));
+  flex: none;
+}
+
+/* ----- Button section (Mode/Bank/Patch/File panes' own "Buttons" list) ----- */
+.button-section__heading {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-button);
+  color: var(--color-text-muted);
+}
+
+.button-section__note {
+  margin: 0 0 var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.button-section__subheading {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+}
+
+/* A button shown here is inherited from a less-specific level and not yet
+   overridden — dashed border (echoes the device board/screen's dashed-ring
+   treatment for the same state) plus a small level badge naming the source. */
+.pane-child--inherited {
+  border: 1px dashed var(--color-pane-divider);
+  border-radius: var(--radius-sm);
+}
+
+.pane-child__badge {
+  flex: none;
+  margin-left: auto;
+  padding: 0.1em 0.5em;
+  border-radius: var(--radius-pill);
+  background: var(--color-pane-crumb-hover-bg);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-button);
+}
+
+/* =============================================================================
+   8. ACTION CARDS (inside the Button pane)
+   ============================================================================= */
+.action-list {
+  gap: var(--space-5);
+}
+
+.action-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-gap);
+}
+
+.action-card__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-gap);
+}
+
+/* =============================================================================
+   9. OVERLAYS
+   ============================================================================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-overlay);
+}
+
+.overlay__scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay-scrim);
+}
+
+/* ----- Confirm dialog ---------------------------------------------------- */
+.dialog {
+  position: relative;
+  z-index: var(--z-dialog);
+  width: var(--dialog-width);
+  max-width: calc(100vw - var(--space-6));
+  background: var(--color-dialog-bg);
+  color: var(--color-text-on-light);
+  box-shadow: var(--shadow-dialog);
+}
+
+.dialog__titlebar {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-dialog-titlebar-bg);
+  color: var(--color-text-strong);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.dialog__body {
+  padding: var(--space-5) var(--space-4);
+}
+
+.dialog__message {
+  margin: 0 0 var(--space-5);
+  font-size: var(--font-size-lg);
+}
+
+.dialog__details {
+  margin: 0 0 var(--space-5);
+  padding-left: var(--space-5);
+  max-height: 40vh;
+  overflow-y: auto;
+  font-size: var(--font-size-md);
+}
+
+.dialog__details li + li {
+  margin-top: var(--space-1);
+}
+
+.dialog__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+/* the "type a name" dialog (PromptDialog.vue) */
+.dialog__input {
+  display: block;
+  width: 100%;
+  margin: 0 0 var(--space-3);
+}
+
+.dialog__problem {
+  margin: 0 0 var(--space-4);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-accent-danger);
+}
+
+.dialog__input + .dialog__actions {
+  margin-top: var(--space-5);
+}
+
+/* ----- Note-selector keyboard --------------------------------------------
+   A modal that covers the whole UI: a dark-grey semi-translucent scrim with
+   an 88-key piano centred over it. Selected notes light up blue; Revert /
+   Save sit under the keys. Teleported to <body> (see NoteKeyboard.vue). */
+.note-keyboard {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.note-keyboard__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 30, 30, 0.82);
+}
+
+.note-keyboard__panel {
+  position: relative;
+  z-index: var(--z-dialog);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: 100%;
+  margin: 0 var(--workspace-padding);
+  padding: var(--space-5);
+  background: var(--color-panel-bg);
+  border: var(--border-panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-dialog);
+}
+
+.note-keyboard__actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* piano: white keys in a flex row, each black key absolutely positioned so it
+   straddles the gap to the white key on its right. */
+.note-keyboard__keys {
+  --white-key-height: 13rem;
+  --black-key-width: 1.5rem;
+  --black-key-height: 8rem;
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: var(--space-1);
+}
+
+.pkey {
+  cursor: pointer;
+}
+
+.pkey--white {
+  position: relative;
+  flex: 1 0 1.9rem;
+  height: var(--white-key-height);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: var(--space-2);
+  background: #f4f4f4;
+  border: 1px solid #000;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  color: #555;
+  font-size: var(--font-size-xs);
+}
+
+.pkey--black {
+  position: absolute;
+  top: 0;
+  right: calc(var(--black-key-width) / -2 - 1px);
+  width: var(--black-key-width);
+  height: var(--black-key-height);
+  background: #111;
+  border: 1px solid #000;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  z-index: 2;
+}
+
+.pkey--white.pkey--on {
+  background: var(--color-accent-info);
+  color: #fff;
+}
+
+.pkey--black.pkey--on {
+  background: var(--color-accent-info);
+}
+
+/* Subtle button: low-prominence navigation/utility action (switch app, change device). */
+.app-switch-link,
+.change-device-link {
+  display: inline-block;
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-3);
+  background: transparent;
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  cursor: pointer;
+}
+.app-switch-link:hover,
+.change-device-link:hover {
+  color: var(--color-text-strong);
+  border-color: var(--color-text-strong);
+}
+.change-device-link:disabled {
+  cursor: default;
+  opacity: 0.6;
+}

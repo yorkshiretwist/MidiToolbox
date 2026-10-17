@@ -1,0 +1,75 @@
+{
+  "name": "midi-toolbox-app",
+  "version": "0.1.0",
+  "description": "MIDI Toolbox desktop app: the Editor, the Designer, and a Device tab for managing the unit over USB",
+  "private": true,
+  "author": "Chris Taylor <chris@stillbreathing.co.uk>",
+  "license": "GPL-3.0-or-later",
+  "repository": "github:yorkshiretwist/MidiToolbox",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test \"test/*.test.js\"",
+    "sync-schemas": "node scripts/sync-schemas.mjs",
+    "build:web": "node scripts/build-web.mjs",
+    "firmware": "node scripts/build-firmware.mjs",
+    "loader": "node scripts/build-loader.mjs",
+    "cli": "node scripts/cli.js",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "serialport": "^13.0.0"
+  },
+  "devDependencies": {
+    "electron": "^39.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "uk.co.stillbreathing.miditoolbox",
+    "productName": "MIDI Toolbox",
+    "files": [
+      "electron/**",
+      "device-ui/**",
+      "schemas/**",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "web",
+        "to": "web"
+      },
+      {
+        "from": "firmware",
+        "to": "firmware"
+      },
+      {
+        "from": "resources/loader",
+        "to": "loader"
+      },
+      {
+        "from": "resources/linux",
+        "to": "linux"
+      }
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "portable",
+      "signAndEditExecutable": false,
+      "artifactName": "MIDI-Toolbox-${version}-windows-portable.exe"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Audio",
+      "artifactName": "MIDI-Toolbox-${version}-linux.AppImage"
+    },
+    "mac": {
+      "target": "zip",
+      "category": "public.app-category.music",
+      "artifactName": "MIDI-Toolbox-${version}-macos.zip"
+    },
+    "npmRebuild": false
+  }
+}

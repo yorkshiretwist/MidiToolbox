@@ -1,0 +1,31 @@
+# dependencies and build output
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Claude Code
+.claude/
+
+# compiled binaries (the firmware unit tests build into here)
+MIDI-Toolbox/test/build/
+# compiled firmware exported from the Arduino IDE (Sketch > Export Compiled Binary)
+MIDI-Toolbox/build/
+*.o
+*.obj
+*.exe
+*.hex
+*.elf
+
+# logs
+logs/
+*.log
+npm-debug.log*
+
+# editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.sw?

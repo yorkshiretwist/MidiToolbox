@@ -1,0 +1,388 @@
+/* =============================================================================
+   UNIT STAGE
+   -----------------------------------------------------------------------------
+   The stage is a to-scale plan view of the device. Everything inside .unit is
+   positioned in millimetres: --x/--y are a centre (buttons) or top-left
+   (screen), and the unit's own size is --w x --h. `--mm` is one millimetre of
+   the drawing as a length, so domes, LEDs and type scale with the unit however
+   large or small it is.
+   ============================================================================= */
+.workspace {
+  min-height: 0;
+}
+
+.device-panel--stage {
+  /* size container: the stage below fits itself to the panel's width AND height */
+  container-type: size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.stage {
+  --mm: calc(100cqw / var(--w));
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  grid-template-rows: 1.5rem auto;
+  width: min(100cqw, calc((100cqh - 1.5rem) * var(--aspect) + 2.5rem));
+}
+
+.ruler-x,
+.ruler-y {
+  position: relative;
+  color: var(--grey-350);
+  font-size: 0.6875rem;
+  user-select: none;
+  pointer-events: none;
+}
+.ruler-x { grid-column: 2; grid-row: 1; }
+.ruler-y { grid-column: 1; grid-row: 2; }
+.ruler__tick { position: absolute; white-space: nowrap; }
+.ruler-x .ruler__tick {
+  left: calc(var(--at) / var(--w) * 100%);
+  bottom: 0.2rem;
+  transform: translateX(-50%);
+}
+.ruler-y .ruler__tick {
+  top: calc(var(--at) / var(--h) * 100%);
+  right: 0.3rem;
+  transform: translateY(-50%);
+}
+
+.dim {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--grey-200);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-medium);
+}
+.dim--x { grid-column: 2; grid-row: 1; padding-bottom: 0.2rem; }
+.dim--y {
+  grid-column: 1;
+  grid-row: 2;
+  flex-direction: column;
+  justify-self: center;
+}
+.dim--y b { writing-mode: vertical-rl; transform: rotate(180deg); }
+.dim__line {
+  flex: 1 1 auto;
+  position: relative;
+  border-top: 1px solid var(--grey-350);
+}
+.dim--y .dim__line { border-top: 0; border-left: 1px solid var(--grey-350); }
+.dim__line::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 4px solid transparent;
+}
+.dim--x .dim__line:first-child::before { left: 0; top: -4.5px; border-left: 0; border-right: 7px solid var(--grey-350); }
+.dim--x .dim__line:last-child::before { right: 0; top: -4.5px; border-right: 0; border-left: 7px solid var(--grey-350); }
+.dim--y .dim__line:first-child::before { top: 0; left: -4.5px; border-top: 0; border-bottom: 7px solid var(--grey-350); }
+.dim--y .dim__line:last-child::before { bottom: 0; left: -4.5px; border-bottom: 0; border-top: 7px solid var(--grey-350); }
+
+.stage--step-1 .dim { display: flex; }
+.stage--step-1 .ruler-x,
+.stage--step-1 .ruler-y { display: none; }
+
+.unit {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  aspect-ratio: calc(var(--w) / var(--h));
+  container-type: inline-size;
+  touch-action: none;
+  user-select: none;
+  background-color: var(--unit-colour, var(--color-unit-body));
+  background-image:
+    linear-gradient(to right, var(--unit-grid-line, var(--color-grid-line)) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--unit-grid-line, var(--color-grid-line)) 1px, transparent 1px);
+  background-size: calc(var(--pitch) / var(--w) * 100%) calc(var(--pitch) / var(--h) * 100%);
+  border: 2px solid var(--color-unit-edge);
+  border-radius: calc(var(--mm) * 3);
+  box-shadow: var(--shadow-panel-inset);
+}
+.unit--adding { cursor: copy; }
+
+.unit__ghost {
+  position: absolute;
+  left: calc(var(--x) / var(--w) * 100%);
+  top: calc(var(--y) / var(--h) * 100%);
+  width: calc(var(--btn) / var(--w) * 100%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--grey-350);
+  border-radius: var(--radius-pill);
+  color: var(--grey-350);
+  font-size: calc(var(--mm) * 7);
+  pointer-events: none;
+}
+.unit__ghost--blocked { border-color: var(--color-error); color: var(--color-error); }
+
+.unit__handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  background: var(--white);
+  border: 2px solid var(--color-accent-info);
+  border-radius: 2px;
+}
+.unit__handle--e { right: -7px; top: 50%; margin-top: -6px; cursor: ew-resize; }
+.unit__handle--s { left: 50%; bottom: -7px; margin-left: -6px; cursor: ns-resize; }
+.unit__handle--se { right: -7px; bottom: -7px; cursor: nwse-resize; }
+
+/* ----- Footswitch on the unit -------------------------------------------- */
+.u-btn {
+  position: absolute;
+  left: calc(var(--x) / var(--w) * 100%);
+  top: calc(var(--y) / var(--h) * 100%);
+  width: calc(var(--btn) / var(--w) * 100%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  cursor: default;
+  touch-action: none;
+}
+.stage--step-2 .u-btn { cursor: grab; }
+.stage--step-3 .u-btn { cursor: pointer; }
+.stage--picking .u-btn { cursor: crosshair; }
+
+.u-btn__dome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-led-dome);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  color: #3a3a3a;
+  font-size: calc(var(--mm) * var(--btn) * 0.35);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.u-btn__led {
+  position: absolute;
+  left: 50%;
+  width: 31%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-pill);
+  background: var(--color-led-off);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.u-btn--led-above .u-btn__led { top: -31%; }
+.u-btn--led-below .u-btn__led { top: 131%; }
+
+.u-btn__role {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 122%;
+  transform: translateX(-50%);
+  padding: calc(var(--mm) * 0.6) calc(var(--mm) * 2.6);
+  border-radius: var(--radius-pill);
+  background: var(--color-nav);
+  color: var(--white);
+  font-size: calc(var(--mm) * 3.6);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.stage--step-3 .u-btn__role { display: block; }
+
+/* navigation buttons carry a blue ring in every step */
+.u-btn--nav .u-btn__dome {
+  outline: calc(var(--mm) * 0.9) solid var(--color-nav);
+  outline-offset: calc(var(--mm) * 1);
+}
+/* while choosing navigation, performance buttons recede */
+.stage--step-3 .u-btn:not(.u-btn--nav) { opacity: 0.4; }
+
+.u-btn--tight .u-btn__dome {
+  outline: calc(var(--mm) * 0.9) solid var(--color-warn);
+  outline-offset: calc(var(--mm) * 1);
+}
+.u-btn--conflict .u-btn__dome {
+  outline: calc(var(--mm) * 0.9) solid var(--color-error);
+  outline-offset: calc(var(--mm) * 1);
+}
+.u-btn--selected .u-btn__dome {
+  outline: calc(var(--mm) * 0.9) solid var(--white);
+  outline-offset: calc(var(--mm) * 1.2);
+}
+
+/* =============================================================================
+   MINI SCREEN ON THE UNIT
+   ============================================================================= */
+.u-screen {
+  position: absolute;
+  left: calc(var(--x) / var(--w) * 100%);
+  top: calc(var(--y) / var(--h) * 100%);
+  width: calc(var(--mw) / var(--w) * 100%);
+  aspect-ratio: calc(var(--mw) / var(--mh));
+  background: #0c0c0c;
+  border: 1px solid #555;
+  border-radius: calc(var(--mm) * 1.5);
+  touch-action: none;
+}
+.stage--step-4 .u-screen {
+  outline: 2px dashed var(--color-accent-info);
+  outline-offset: 4px;
+  cursor: move;
+}
+.u-screen--conflict {
+  border-color: var(--color-error);
+  outline-color: var(--color-error) !important;
+}
+
+.u-screen__active {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--aw) / var(--mw) * 100%);
+  aspect-ratio: calc(var(--aw) / var(--ah));
+  transform: translate(-50%, -50%);
+  container-type: inline-size;
+  background: var(--color-screen-bg);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.u-screen__label {
+  position: absolute;
+  left: 0;
+  top: calc(100% + var(--mm) * 1.5);
+  color: var(--grey-350);
+  font-size: calc(var(--mm) * 4.2);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.u-screen--conflict .u-screen__label { color: var(--color-error); }
+
+
+/* =============================================================================
+   SCREEN PREVIEW
+   -----------------------------------------------------------------------------
+   The device's screen laid out in the firmware's own pixel measurements. --u is
+   one screen pixel as a length (the container's width / the screen's width in
+   pixels), so the same markup serves the tiny screen on the unit and the zoomed
+   preview. The container is whichever ancestor sets container-type.
+   ============================================================================= */
+.sp {
+  --u: calc(100cqw / var(--lx));
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(#555, #000);
+  color: #fff;
+  font-family: var(--font-screen);
+  font-size: calc(var(--u) * 14);
+  line-height: 1;
+}
+.sp__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(var(--u) * 8);
+}
+.sp__bar--header { height: calc(var(--u) * 28); background: rgb(22, 22, 22); }
+.sp__bar--sub { height: calc(var(--u) * 40); background: var(--color-screen-titlebar-bg); font-size: calc(var(--u) * 16); }
+.sp__params {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: calc(var(--u) * 34);
+  margin-top: calc(var(--u) * 4);
+}
+.sp__pbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: rgb(39, 39, 39);
+}
+.sp__pbtn--arrow { width: calc(var(--u) * 40); }
+.sp__pbtn--name { width: calc(var(--u) * 112); }
+.sp__channel {
+  position: absolute;
+  right: calc(var(--u) * 8);
+  top: 50%;
+  transform: translateY(-50%);
+}
+.sp__grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--u) * 110);
+  bottom: 0;
+  display: grid;
+  gap: calc(var(--u) * 4);
+  padding: 0 calc(var(--u) * 4) calc(var(--u) * 4);
+}
+.sp__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  /* an off button is its colour at 20%; an on button is the colour in full */
+  background: color-mix(in srgb, var(--cell-color, #333) 20%, transparent);
+  font-size: calc(var(--u) * 16);
+  font-weight: var(--font-weight-bold);
+}
+.sp__cell--on { background: var(--cell-color, #333); }
+
+/* =============================================================================
+   ZOOMED SCREEN PREVIEW (modal)
+   ============================================================================= */
+.zoom {
+  position: relative;
+  z-index: var(--z-dialog);
+  max-width: calc(100vw - var(--space-6));
+  background: var(--color-panel-bg);
+  border: var(--border-panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-dialog);
+  overflow: hidden;
+}
+.zoom .dialog__titlebar { background: var(--grey-600); }
+.zoom__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+.zoom__screen {
+  container-type: inline-size;
+  width: min(88vw, calc(62vh * var(--aspect)), 1000px);
+  aspect-ratio: var(--aspect);
+  /* No border: it would sit inside the screen and take pixels from the drawing. */
+  box-shadow: 0 0 0 1px #000, 0 0 0 5px var(--grey-900);
+}
+.zoom__facts {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+.zoom__actions { display: flex; justify-content: center; }
