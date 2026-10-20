@@ -22,22 +22,22 @@
   "dependencies": {
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
-    "pinia": "^4.0.3",
+    "pinia": "^4.1.0",
     "sortablejs": "^1.15.7",
-    "vue": "^3.5.41",
+    "vue": "^3.5.44",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
     "@types/sortablejs": "^1.15.9",
-    "@vitejs/plugin-vue": "^6.0.8",
-    "@vitest/ui": "^5.0.0",
-    "@vue/test-utils": "^2.5.0",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vitest/ui": "^5.0.5",
+    "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",
-    "jsdom": "^30.0.1",
+    "jsdom": "^30.1.3",
     "typescript": "~6.0.2",
-    "vite": "^8.2.2",
+    "vite": "^8.3.4",
     "vitest": "^5.0.0",
-    "vue-tsc": "^3.3.11"
+    "vue-tsc": "^3.3.13"
   }
 }
