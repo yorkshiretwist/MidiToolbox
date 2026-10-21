@@ -4,6 +4,12 @@ updates:
     directory: /Editor
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
+    ignore:
+      # TypeScript 7 breaks vue-tsc (the type checker for .vue files) until it supports it.
+      # Remove this when a vue-tsc release says it works with TypeScript 7, then upgrade both together.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
     groups:
       minor-and-patch:
         update-types: [minor, patch]
@@ -11,6 +17,12 @@ updates:
     directory: /Designer
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
+    ignore:
+      # TypeScript 7 breaks vue-tsc (the type checker for .vue files) until it supports it.
+      # Remove this when a vue-tsc release says it works with TypeScript 7, then upgrade both together.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
     groups:
       minor-and-patch:
         update-types: [minor, patch]
@@ -18,6 +30,7 @@ updates:
     directory: /App
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     groups:
       minor-and-patch:
         update-types: [minor, patch]

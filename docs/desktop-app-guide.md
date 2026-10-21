@@ -59,6 +59,30 @@ xattr -dr com.apple.quarantine "/Applications/MIDI Toolbox.app"
 
 Linux does not show a warning.
 
+### Checking your download
+
+Every release lists a SHA-256 checksum for each file (also in `SHA256SUMS.txt` on the release page).
+Check that your download matches:
+
+```bash
+sha256sum MIDI-Toolbox-0.1.0-linux.AppImage      # Linux
+shasum -a 256 MIDI-Toolbox-0.1.0-macos.zip        # macOS
+```
+
+```powershell
+Get-FileHash .\MIDI-Toolbox-0.1.0-windows-portable.exe -Algorithm SHA256   # Windows
+```
+
+The files also carry a signed record (an "attestation") that GitHub's release workflow built them
+from this repository. With the [GitHub CLI](https://cli.github.com/) installed you can verify it:
+
+```bash
+gh attestation verify MIDI-Toolbox-0.1.0-linux.AppImage --repo yorkshiretwist/MidiToolbox
+```
+
+This is not the same as code signing, so Windows and macOS will still warn you, but it proves the
+file was not swapped or tampered with after it was built.
+
 Switch between the three screens with the **Go** menu, or **Ctrl/Cmd + 1** (Editor), **2**
 (Designer), **3** (Device).
 

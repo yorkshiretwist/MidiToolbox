@@ -174,11 +174,30 @@ jobs:
     if: needs.version.outputs.publish == 'true'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # create the release
+      id-token: write # sign the build attestations
+      attestations: write # store the build attestations
     steps:
       - uses: actions/download-artifact@v8
         with:
           path: artifacts
+
+      - name: Gather the files and work out their checksums
+        run: |
+          v="${{ needs.version.outputs.version }}"
+          mkdir release-files
+          cp artifacts/midi-toolbox-windows/* artifacts/midi-toolbox-linux/* artifacts/midi-toolbox-macos/* release-files/
+          cp artifacts/firmware/MIDI-Toolbox.ino.hex "release-files/MIDI-Toolbox-${v}-firmware.hex"
+          cd release-files
+          sha256sum * > ../SHA256SUMS.txt
+          mv ../SHA256SUMS.txt .
+          cat SHA256SUMS.txt
+
+      # lets anyone prove a download was built by this workflow from this repository:
+      #   gh attestation verify <file> --repo yorkshiretwist/MidiToolbox
+      - uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: release-files/*
 
       - name: Create the release
         env:
@@ -186,17 +205,24 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           v="v${{ needs.version.outputs.version }}"
-          mv artifacts/firmware/MIDI-Toolbox.ino.hex "artifacts/firmware/MIDI-Toolbox-${v#v}-firmware.hex"
           if [ -f artifacts/release-notes/release-notes.md ]; then
-            notes=(--notes-file artifacts/release-notes/release-notes.md)
+            # the notes from release.md, with the checksums added so they are visible without downloading anything
+            cp artifacts/release-notes/release-notes.md notes.md
+            {
+              echo
+              echo "### SHA-256 checksums"
+              echo
+              echo '```'
+              cat release-files/SHA256SUMS.txt
+              echo '```'
+            } >> notes.md
+            notes=(--notes-file notes.md)
           else
+            # no section in release.md for this version: GitHub's generated notes (the checksums are attached as a file)
             notes=(--generate-notes)
           fi
           gh release create "$v" \
             --verify-tag \
             --title "MIDI Toolbox $v" \
             "${notes[@]}" \
-            artifacts/midi-toolbox-windows/* \
-            artifacts/midi-toolbox-linux/* \
-            artifacts/midi-toolbox-macos/* \
-            "artifacts/firmware/MIDI-Toolbox-${v#v}-firmware.hex"
+            release-files/*
