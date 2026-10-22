@@ -3,11 +3,17 @@ setlocal enabledelayedexpansion
 
 rem =============================================================
 rem  release.cmd
-rem  Commits current changes, tags the commit, and pushes both
-rem  to trigger the .github\workflows\release.yml build + release.
+rem  Tags the latest commit on main with a version and pushes the
+rem  tag, which triggers .github\workflows\release.yml to build the
+rem  apps and publish a GitHub release.
+rem
+rem  main is protected: every change reaches it through a pull
+rem  request, so this script never commits or pushes a branch.
+rem  Merge your changes (including the new section in release.md)
+rem  first, then run this.
 rem
 rem  Only a pushed version tag (vX.Y.Z) on main makes a release.
-rem  Ordinary commits and pushes to main never do.
+rem  Ordinary commits and merges to main never do.
 rem =============================================================
 
 rem --- Always work from the repo root (where this file lives) ---------
@@ -30,12 +36,36 @@ if /i not "%BRANCH%"=="main" (
     exit /b 1
 )
 
-rem --- Make sure main is not behind GitHub ----------------------------
+rem --- Nothing may be uncommitted: the tag marks exactly what is on GitHub ---
+set "DIRTY="
+for /f "delims=" %%s in ('git status --porcelain') do set "DIRTY=1"
+if defined DIRTY (
+    echo ERROR: You have uncommitted changes. They would NOT be in the release.
+    echo        Put them in a pull request and merge it first, then run: git pull
+    pause
+    exit /b 1
+)
+
+rem --- main must match GitHub exactly -----------------------------------
 git fetch origin >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: Could not reach GitHub to check main.
+    pause
+    exit /b 1
+)
 set "BEHIND=0"
+set "AHEAD=0"
 for /f "delims=" %%n in ('git rev-list --count HEAD..origin/main') do set "BEHIND=%%n"
+for /f "delims=" %%n in ('git rev-list --count origin/main..HEAD') do set "AHEAD=%%n"
 if not "%BEHIND%"=="0" (
     echo ERROR: Your main is %BEHIND% commit^(s^) behind GitHub. Run: git pull
+    pause
+    exit /b 1
+)
+if not "%AHEAD%"=="0" (
+    echo ERROR: Your main has %AHEAD% commit^(s^) that are not on GitHub. Direct pushes to main
+    echo        are blocked, so they can never be released. Move them to a branch and open a pull
+    echo        request, then run: git reset --hard origin/main
     pause
     exit /b 1
 )
@@ -62,10 +92,16 @@ if errorlevel 1 (
     exit /b 1
 )
 
-rem --- Bail out early if this tag already exists ---------------------
+rem --- Bail out early if this tag already exists (here or on GitHub) --------
 git rev-parse "%TAG%" >nul 2>&1
 if not errorlevel 1 (
     echo ERROR: Tag %TAG% already exists. Choose a different version.
+    pause
+    exit /b 1
+)
+git ls-remote --exit-code --tags origin "refs/tags/%TAG%" >nul 2>&1
+if not errorlevel 1 (
+    echo ERROR: Tag %TAG% already exists on GitHub. Choose a different version.
     pause
     exit /b 1
 )
@@ -87,23 +123,15 @@ if defined FWVER if not "%FWVER%"=="%VER%" (
     echo          but you are releasing %VER%. That is fine if the firmware did not change.
 )
 
-rem --- Prompt for commit message -----------------------------------
-echo.
-set "COMMIT_MSG="
-set /p COMMIT_MSG="Commit message (used for the tag too): "
-if "%COMMIT_MSG%"=="" (
-    echo ERROR: Commit message cannot be empty.
-    pause
-    exit /b 1
-)
+for /f "delims=" %%c in ('git log -1 --oneline') do set "HEADLINE=%%c"
 
 echo.
 echo ------------------------------------------------------------
 echo  Branch:  %BRANCH%
-echo  Commit:  %COMMIT_MSG%
+echo  Commit:  %HEADLINE%
 echo  Tag:     %TAG%
 echo ------------------------------------------------------------
-echo  This will stage ALL changes, commit, tag, and push. Pushing the
+echo  This will tag the commit above and push the tag. Pushing the
 echo  tag builds the apps and publishes a public GitHub release.
 echo ------------------------------------------------------------
 set /p CONFIRM="Proceed? (y/n): "
@@ -113,44 +141,20 @@ if /i not "%CONFIRM%"=="y" (
     exit /b 0
 )
 
-rem --- Stage everything and commit ------------------------------------
-git add -A
-
-git diff --cached --quiet
-if errorlevel 1 (
-    git commit -m "%COMMIT_MSG%"
-    if errorlevel 1 (
-        echo ERROR: git commit failed.
-        pause
-        exit /b 1
-    )
-) else (
-    echo No staged changes to commit - tagging the current HEAD as-is.
-)
-
 rem --- Tag it -----------------------------------------------------------
-git tag -a "%TAG%" -m "%COMMIT_MSG%"
+git tag -a "%TAG%" -m "MIDI Toolbox %TAG%"
 if errorlevel 1 (
     echo ERROR: git tag failed.
     pause
     exit /b 1
 )
 
-rem --- Push the branch, then the tag (tag push is what fires the release job) ---
+rem --- Push the tag (this is what fires the release job) -----------------------
 echo.
-echo Pushing branch %BRANCH%...
-git push origin "%BRANCH%"
-if errorlevel 1 (
-    echo ERROR: git push of branch failed. The tag %TAG% exists locally but was not pushed.
-    echo        Fix the problem, then run: git push origin %TAG%
-    pause
-    exit /b 1
-)
-
 echo Pushing tag %TAG%...
 git push origin "%TAG%"
 if errorlevel 1 (
-    echo ERROR: git push of tag failed.
+    echo ERROR: git push of tag failed. Remove the local tag with: git tag -d %TAG%
     pause
     exit /b 1
 )
