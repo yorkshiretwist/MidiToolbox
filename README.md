@@ -2,6 +2,10 @@
 
 A highly configurable MIDI footswitch controller for musicians whose hands are already busy - for example, a guitarist. It sends MIDI to a laptop (or anything that takes USB-MIDI) to play notes and chords, change programs, send control changes and navigate between sets of sounds.
 
+This project allows you to design your own hardware, and (once you have built your unit) flash it with the Midi-Toolbox firmware, then configure what the buttons do through a simple web or app-based editor.
+
+![The first MIDI Toolbox device](graphics/final-unit.jpg)
+
 > ⚠️ **Build at your own risk.** MIDI Toolbox is provided "as is", with no warranty of any kind. Building a unit involves drilling, cutting, soldering and mains-powered tools, and the wiring, drawings and schematics here and in the Designer **have not been reviewed by a qualified engineer**.
 >
 > - **Measure your own parts before you drill or cut anything.** Hole sizes in the drawings are assumptions, and holes cannot be un-drilled.
@@ -25,6 +29,8 @@ The Editor and Designer also run entirely in your browser - there is no server a
 - Home page: <https://yorkshiretwist.github.io/MidiToolbox/>
 - Editor: <https://yorkshiretwist.github.io/MidiToolbox/editor/>
 - Designer: <https://yorkshiretwist.github.io/MidiToolbox/designer/>
+
+![The button edit pane in the editor](graphics/editor-1.png)
 
 ## Documentation
 
@@ -87,7 +93,7 @@ See these pages for more detail:
 
 And this is what the very first MIDI Toolbox actually looks like:
 
-![Photo of my first MIDI Toolbox](graphics/built-unit.jpg)
+![The first MIDI Toolbox device](graphics/final-unit-side.jpg)
 
 ## Contributing
 

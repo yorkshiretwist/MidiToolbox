@@ -14,6 +14,8 @@ The Designer is a web app for planning a custom MIDI Toolbox unit before you pic
 
 Use it in any of three ways: in [the desktop app](desktop-app-guide.md) (the **Designer** screen; no install beyond the download), at <https://yorkshiretwist.github.io/MidiToolbox/designer/>, or [run it locally](#running-locally). It all works offline in your browser or the app; nothing is uploaded.
 
+![The unit design pane in the designer](../graphics/designer-1.png)
+
 > ⚠️ **Build at your own risk.** The Designer's outputs are generated, simplified and **have not been tested on real hardware**; they come with no warranty (see the [licence](../LICENSE)).
 >
 > - **Measure your parts before you drill.** Hole and cut-out sizes in the outputs are catalogue assumptions, not measurements of the parts you bought. Measure your own buttons and screen, correct the drawing, and test-fit on scrap first. Drilling cannot be undone.
@@ -82,6 +84,8 @@ The Designer assigns Teensy pins automatically to the buttons, the screen (SPI, 
 
 The LEDs are driven by a daisy-chain of 74HC595 shift registers, so each LED costs no extra Teensy pins - only the three chain pins, which are fixed at 28 (latch), 29 (data) and 30 (clock); the Designer reports an error if you move them.
 
+![The Teensy pane in the designer](../graphics/designer-2.png)
+
 ### 6. Export
 
 Preview each output, then download them individually or all together as a zip. Downloads are blocked while any red-cross item remains.
@@ -98,6 +102,8 @@ Preview each output, then download them individually or all together as a zip. D
    A unit with no valid `device.json` is in *safe mode*: it deliberately drives no buttons, screen or LEDs until it has one, because a wrong pin number could damage the wiring. The Device screen shows a banner when this is the case. See [Safe mode](desktop-app-guide.md#safe-mode) for why.
 3. **Load the `<name>-design.json` in the Editor** so it shows your layout and knows which button ids exist. See the [Editor guide](editor-guide.md). In the desktop app, switch to the **Editor** screen (Ctrl/Cmd + 1) first.
 4. **Save your config in the Editor and upload it** from the Device screen (**Upload configs...**), or copy it to the SD card's `/configs` folder yourself.
+
+![The export pane in the designer](../graphics/designer-3.png)
 
 > **Screens.** The firmware can currently only drive the screen it was built for (the ILI9341 in landscape); a `device.json` that describes a different screen is refused. Choosing the screen at run time is not done yet (see [limitations](desktop-app-guide.md#current-limitations)).
 

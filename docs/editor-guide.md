@@ -10,6 +10,8 @@ Use it in [the desktop app](desktop-app-guide.md) (the **Editor** screen, which 
 - **Sidebar (right)** is where you edit. It's a drill-down: **File > Mode > Bank > Patch > Button**. Pick an item to open it; the levels above it collapse into breadcrumbs you can click to go back up.
 - **Play Mode** (top right) turns the workspace into a simulator - see [Trying it out](#trying-it-out-play-mode).
 
+![The button edit pane in the editor](../graphics/editor-1.png)
+
 ## Which unit are you configuring?
 
 Button ids and navigation roles depend on your hardware. The Editor starts with the original 13-button unit. If you built your own with the [Designer](designer-guide.md), click **Change device** and open the `<name>-design.json` the Designer saved.
@@ -90,6 +92,8 @@ These are the same actions the three built-in navigation switches use, and you c
 
 > **Navigation never interrupts sound.** Cycling through options only moves a *pending* selection (the text flashes); notes already playing keep sounding. The change takes effect, and old sounds stop, when you activate it with **Set?**. A `Set...` action takes effect immediately. See [navigation design](navigation.md).
 
+![Editing an exclusive button in the editor](../graphics/editor-3.png)
+
 ### Presets: reusable sets of actions
 
 If several buttons need to do the same thing (say, "switch the amp to the clean sound": a program change plus a couple of control changes), define it once as a **preset** and run it from each of them.
@@ -110,6 +114,8 @@ A few rules keep presets simple and predictable:
 
 > If a preset is missing from the file, the unit skips just that action and logs a warning; the rest of the button still works.
 
+![The preset edit pane in the editor](../graphics/editor-2.png)
+
 ### 5. The three navigation buttons
 
 On the 13-button unit, ids 10-12 (printed 11-13) are the navigation switches by default: **Select / Set**, **Step down**, **Step up**. The matching on-screen buttons always keep working, so you can't lock yourself out. If you give one of these ids a button definition, the Editor shows a strong warning first, because the physical switch will stop doing its built-in job.
@@ -128,7 +134,11 @@ Drag a mode, bank or patch by its grip (⠿) to a new position in its list: drop
 
 Deleting works the same, with one extra step. If any button's Set patch / bank / mode action points at the thing you are deleting, or at anything inside it, the confirmation lists those buttons and where they live, and tells you those actions will be removed. A button left with no actions is removed as well, because a button must always do something. Actions that point at other things are renumbered as needed. The same goes for the Set patch / bank / mode actions inside a [preset](#presets-reusable-sets-of-actions): they are removed, and a preset left with no actions is removed along with the "Execute preset" actions that ran it.
 
+![Choosing notes for a 'play notes' action in the editor](../graphics/editor-4.png)
+
 ## Trying it out: Play mode
+
+> ⚠️ **The play mode functionality is not yet completed.** There are known issues with play mode in the web and desktop app. This will probably not work for you (yet).
 
 **Play Mode** runs the same navigation model as the firmware. Click the on-screen footswitches to press them, and choose a **MIDI output** from the picker at the top to send real MIDI to a synth, DAW or virtual MIDI port (this uses the browser's Web MIDI support - Chrome and Edge work, and you'll be asked for permission). It's the quickest way to check a config before copying it to the unit. Config-file switching has no meaning here (only one config is loaded), so Set/Cycle Config actions do nothing in Play mode.
 
@@ -144,6 +154,8 @@ Select a Bank and set its **Screen layout** to **Live** to give the unit a big, 
 - **SD card:** copy the `.json` into the `/configs` folder on the unit's SD card.
 
 See [the hardware build](hardware-build.md#getting-configs-onto-the-sd-card) for more options.
+
+![The device management screen](../graphics/device-1.png)
 
 ## Running locally
 

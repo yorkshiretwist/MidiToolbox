@@ -73,11 +73,7 @@ Finally I had something that worked:
 
 ![The final assembly](../graphics/final-assembly.jpg)
 
-I painted the enclosure (described by a friend as "a shockingly bad paint job"):
-
-![The built unit, in use](../graphics/built-unit.jpg)
-
-And it's been part of my live rig ever since:
+I painted the enclosure (described by a friend as "a shockingly bad paint job"), and it's been part of my live rig ever since:
 
 ![My live rig](../graphics/full-rig.jpg)
 
