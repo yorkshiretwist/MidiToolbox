@@ -195,7 +195,7 @@ jobs:
 
       # lets anyone prove a download was built by this workflow from this repository:
       #   gh attestation verify <file> --repo yorkshiretwist/MidiToolbox
-      - uses: actions/attest-build-provenance@v2
+      - uses: actions/attest-build-provenance@v4
         with:
           subject-path: release-files/*
 

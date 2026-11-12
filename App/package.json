@@ -22,8 +22,8 @@
     "serialport": "^13.0.0"
   },
   "devDependencies": {
-    "electron": "^44.9.0",
-    "electron-builder": "^26.0.0"
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0"
   },
   "build": {
     "appId": "uk.co.stillbreathing.miditoolbox",
