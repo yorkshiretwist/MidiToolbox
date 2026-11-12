@@ -9,6 +9,20 @@ export interface OpenedFile {
   text: string
   /** Present only when the File System Access API is available. */
   handle?: FileSystemFileHandle
+  /** Present only in the desktop app, which opens and saves files itself (see appFile). */
+  path?: string
+}
+
+/** The desktop app's file bridge (App/electron/preload.js); absent in a normal browser. */
+export interface AppFileBridge {
+  open(): Promise<{ path: string; name: string; text: string } | null>
+  read(path: string): Promise<{ path: string; name: string; text: string }>
+  write(path: string | null, suggestedName: string, text: string): Promise<{ path: string; name: string } | null>
+  onCommand(fn: (command: { type: 'open' | 'save' | 'saveAs' | 'openPath'; path?: string }) => void): void
+}
+
+export function appFileBridge(): AppFileBridge | null {
+  return (window as unknown as { appFile?: AppFileBridge }).appFile ?? null
 }
 
 interface FsWindow extends Window {
@@ -27,6 +41,8 @@ export function isFileSystemAccessSupported(): boolean {
 }
 
 export async function openDeviceFile(): Promise<OpenedFile | null> {
+  const bridge = appFileBridge()
+  if (bridge) return bridge.open()
   const w = window as FsWindow
   if (w.showOpenFilePicker) {
     const [handle] = await w.showOpenFilePicker(jsonPickerOpts)
@@ -56,6 +72,11 @@ export async function saveDeviceFile(
   file: OpenedFile,
   text: string,
 ): Promise<void> {
+  const bridge = appFileBridge()
+  if (bridge && file.path) {
+    await bridge.write(file.path, file.name, text)
+    return
+  }
   if (file.handle && 'createWritable' in file.handle) {
     const writable = await file.handle.createWritable()
     await writable.write(text)
@@ -69,6 +90,11 @@ export async function saveDeviceFileAs(
   suggestedName: string,
   text: string,
 ): Promise<OpenedFile | null> {
+  const bridge = appFileBridge()
+  if (bridge) {
+    const saved = await bridge.write(null, suggestedName, text)
+    return saved ? { name: saved.name, text, path: saved.path } : null
+  }
   const w = window as FsWindow
   if (w.showSaveFilePicker) {
     const handle = await w.showSaveFilePicker({
@@ -92,6 +118,13 @@ function downloadText(filename: string, text: string): void {
   a.download = filename
   a.click()
   URL.revokeObjectURL(url)
+}
+
+/** Opens a file from the recent list (desktop app only). */
+export async function readRecentDeviceFile(path: string): Promise<OpenedFile> {
+  const bridge = appFileBridge()
+  if (!bridge) throw new Error('Not available outside the desktop app')
+  return bridge.read(path)
 }
 
 /** Always triggers a real browser download, regardless of File System Access support. */

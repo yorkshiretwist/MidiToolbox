@@ -55,7 +55,7 @@
 
 // reported by INFO so the app can show (and later compare) what is installed
 #ifndef FIRMWARE_VERSION
-#define FIRMWARE_VERSION "0.1.0"
+#define FIRMWARE_VERSION "0.2.0"
 #endif
 
 // no uploaded file may be bigger than this

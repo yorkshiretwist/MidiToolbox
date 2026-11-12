@@ -37,7 +37,7 @@ navigation controls, and the on-screen `◀ Parameter ▶` row mirrors them.
 
 | Input | Nothing pending | A change is pending |
 | --- | --- | --- |
-| **Select** (tap) | choose the next level to steer: Config, Mode, Bank, Patch, MIDI channel, Page (a mode's `parameters` list can limit this) | **Set?** - confirm the change |
+| **Select** (tap) | choose the next level to steer: Config, Mode, Bank, Patch, MIDI channel, Page (a `parameters` list can limit this, except that a multi-page patch always gets Page added) | **Set?** - confirm the change |
 | **Select** (hold 500 ms) | nothing | **Revert** - discard the pending change. Fires when you let go |
 | **Step down / up** | change the pending value of the chosen level, wrapping round; greyed out if that level has only one option | step it further |
 

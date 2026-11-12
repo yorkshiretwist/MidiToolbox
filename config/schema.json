@@ -71,7 +71,7 @@
             }
         },
         "parameters": {
-            "$comment": "The array of parameters, normally navigated by buttons 10-12. 'Page' is always available on the default list (it steps the page within a multi-page Patch and greys out when the Patch has one page); include it explicitly here only if a level declares its own restricted parameters list and still wants page stepping.",
+            "$comment": "The array of parameters, normally navigated by buttons 10-12. 'Page' is always available on the default list (it steps the page within a multi-page Patch and greys out when the Patch has one page); a Patch with more than one page always gets Page appended to whichever list applies, even a restricted one that omits it, so listing it explicitly only controls its position.",
             "type": "array",
             "items": {
                 "enum": [

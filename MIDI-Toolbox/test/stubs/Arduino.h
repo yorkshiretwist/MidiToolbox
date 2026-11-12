@@ -19,6 +19,7 @@ typedef bool boolean;
 #define INPUT_PULLUP 0x2
 
 #define PROGMEM
+#define FLASHMEM
 #define DMAMEM
 #define DEC 10
 #define HEX 16

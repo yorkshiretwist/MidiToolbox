@@ -779,3 +779,24 @@ describe('presets', () => {
     expect(vi.mocked(sendProgramChange).mock.calls.map(([n]) => n)).toEqual([1, 99, 2])
   })
 })
+
+describe('Page parameter on a restricted parameters list', () => {
+  const btn = (page: number) => ({ id: 0, page, name: 'b', buttonMode: 'Latched' as const, actions: [{ type: 'ControlChange' as const, actionParameters: { controllerNumber: 1, controlValue: 127 } }] })
+
+  it('is added and auto-selected on a multi-page patch even when the list omits it', () => {
+    const play = load({
+      parameters: ['Patch', 'Bank', 'Mode'],
+      modes: [{ name: 'M', banks: [{ name: 'B', patches: [{ name: 'Songs', buttons: [btn(1), btn(2)] }] }] }],
+    } as DeviceConfig)
+    expect(play.parameters).toContain('Page')
+    expect(play.selectedParameter).toBe('Page')
+  })
+
+  it('leaves a single-page patch with the list as configured', () => {
+    const play = load({
+      parameters: ['Patch', 'Bank', 'Mode'],
+      modes: [{ name: 'M', banks: [{ name: 'B', patches: [{ name: 'P', buttons: [btn(1)] }] }] }],
+    } as DeviceConfig)
+    expect(play.parameters).toEqual(['Patch', 'Bank', 'Mode'])
+  })
+})

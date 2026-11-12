@@ -1367,6 +1367,21 @@ TEST_F(NavigationTest, EnteringMultiPagePatch_AutoSelectsThePageParameter) {
   EXPECT_EQ(currentPage, 1);
 }
 
+TEST_F(NavigationTest, RestrictedParametersList_StillGetsPage_OnAMultiPagePatch) {
+  // a File-level "parameters" list that leaves Page out must not hide it on a
+  // multi-page patch (P1), and must not add it on a single-page one (P2)
+  std::string tree = PAGES_TREE;
+  tree.insert(tree.find("\"modes\""), "\"parameters\": [\"Patch\",\"Bank\",\"Mode\"], ");
+  loadTree(tree.c_str());
+
+  ASSERT_GE(pageParameterIndex(), 0);
+  EXPECT_EQ(currentParameterIndex, pageParameterIndex());
+  EXPECT_EQ(navigationButton10Label(), "Page");
+
+  navSetPatch(1);                  // -> P2, single page: the list is as configured
+  EXPECT_EQ(pageParameterIndex(), -1);
+}
+
 TEST_F(NavigationTest, EnteringSinglePagePatch_LeavesTheSelectorAlone_ButPageStillListed) {
   loadTree(PAGES_TREE);
   currentParameterIndex = 0;       // pretend the player parked it on Patch

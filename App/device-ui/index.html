@@ -8,89 +8,162 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="top">
-    <h1>MIDI Toolbox <span>Device</span></h1>
-    <nav>
-      <a href="app://local/editor/">Button Editor</a>
-      <a href="app://local/designer/">Device Designer</a>
-    </nav>
-  </header>
+  <div class="app">
+    <!-- ================= workspace (left) ================= -->
+    <main class="workspace">
+      <header class="workspace__header">
+        <h1 class="app-title">
+          <img class="app-title__logo" src="wordmark.svg" alt="MIDI Toolbox" />
+          <span class="app-title__accent">Device</span>
+        </h1>
+      </header>
 
-  <main>
-    <section id="unit" class="card">
-      <h2>Unit</h2>
-      <div class="row">
-        <select id="ports" aria-label="Serial port"></select>
-        <button id="refresh" class="btn">Refresh</button>
-        <button id="connect" class="btn btn--blue">Connect</button>
-        <button id="disconnect" class="btn" hidden>Disconnect</button>
-      </div>
-      <p id="status" class="muted">Plug in the unit with a USB cable, then press Connect.</p>
-      <div id="safe-banner" class="banner banner--warn" hidden>
+      <!-- What is going on, in plain words -->
+      <section id="hero" class="panel hero" data-state="idle" aria-live="polite">
+        <span class="hero__dot" aria-hidden="true"></span>
+        <div class="hero__text">
+          <h2 id="hero-title" class="hero__title">No unit connected</h2>
+          <p id="hero-text" class="hero__sub">Plug the unit in with a USB cable, then press Connect on the right.</p>
+        </div>
+        <dl id="chips" class="chips" hidden></dl>
+      </section>
+
+      <div id="safe-banner" class="notice notice--warn" hidden>
         <strong>This unit is in safe mode.</strong>
         It has no valid <code>device.json</code>, so it is not using its buttons, screen or LEDs. Upload a
         <code>device.json</code> below, then restart the unit.
       </div>
-      <dl id="details" class="details" hidden></dl>
-    </section>
 
-    <section id="files" class="card" hidden>
-      <h2>Files on the unit</h2>
+      <!-- Firmware -->
+      <section id="firmware" class="panel">
+        <div class="panel__head">
+          <h2 class="panel__title">Firmware</h2>
+          <span id="firmware-badge" class="badge" hidden></span>
+        </div>
+        <p id="firmware-status" class="panel__lead"></p>
+        <p class="reassure">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6l-8-3Z" /><path d="m9 12 2 2 4-4" /></svg>
+          <span>
+            Updating the firmware is safe. Your configs and <code>device.json</code> live on the unit's SD card and
+            are <strong>not</strong> changed or erased.
+          </span>
+        </p>
 
-      <h3>Unit wiring (<code>device.json</code>)</h3>
-      <p class="muted">
-        Made by the Designer (Export step, <em>device.json</em>). It tells the unit how many buttons it has, which
-        pins they use, and how its screen and LEDs are wired.
-      </p>
-      <div class="row">
-        <span id="device-file" class="grow"></span>
-        <button id="upload-device" class="btn btn--blue">Upload device.json...</button>
-        <button id="download-device" class="btn" disabled>Download</button>
+        <!-- Shown while an update is running -->
+        <div id="flash-steps" class="steps" hidden>
+          <ol class="steps__list">
+            <li data-step="prepare"><span class="steps__mark"></span><span>Getting the unit ready</span></li>
+            <li data-step="program"><span class="steps__mark"></span><span>Writing the new firmware</span></li>
+            <li data-step="restart"><span class="steps__mark"></span><span>Restarting and reconnecting</span></li>
+          </ol>
+          <div class="notice notice--warn"><strong>Do not unplug the USB cable</strong> until this finishes. It usually takes under a minute.</div>
+          <p id="flash-hint" class="notice" hidden>
+            Nothing happening? Press the small white <strong>PROGRAM</strong> button on the Teensy once.
+          </p>
+        </div>
+
+        <div id="flash-result" class="notice" hidden></div>
+
+        <div id="firmware-actions" class="row">
+          <button id="flash-bundled" class="btn btn--blue">Install firmware</button>
+          <button id="cancel-flash" class="btn btn--danger" hidden>Cancel update</button>
+        </div>
+
+        <details id="advanced" class="advanced">
+          <summary>Advanced</summary>
+          <div class="advanced__body">
+            <p class="muted">Install a <code>.hex</code> file you built yourself or were given. Only use files built for the Teensy 4.1.</p>
+            <div class="row"><button id="flash-other" class="btn btn--quiet">Install a different .hex file...</button></div>
+            <p class="muted">
+              Teensy loader (the program that writes the firmware): <span id="loader"></span>
+              <button id="choose-loader" class="link">Choose...</button>
+            </p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Files -->
+      <section id="files" class="panel" hidden>
+        <div class="panel__head">
+          <h2 class="panel__title">Files on the unit</h2>
+          <button id="reload-files" class="btn btn--quiet btn--small">Reload list</button>
+        </div>
+
+        <h3 class="panel__sub">Unit wiring <code>device.json</code></h3>
+        <p class="muted">
+          Made by the Designer (Export step). It tells the unit how many buttons it has, which pins they use, and how
+          its screen and LEDs are wired.
+        </p>
+        <div class="row">
+          <span id="device-file" class="grow"></span>
+          <button id="upload-device" class="btn btn--blue btn--small">Upload device.json...</button>
+          <button id="download-device" class="btn btn--quiet btn--small" disabled>Download</button>
+        </div>
+
+        <h3 class="panel__sub">Configs <code>/configs</code></h3>
+        <p class="muted">The patches and buttons you play, made in the Button Editor.</p>
+        <ul id="configs" class="files"></ul>
+        <div class="row"><button id="upload-configs" class="btn btn--blue btn--small">Upload configs...</button></div>
+      </section>
+
+      <!-- Restart -->
+      <section id="actions" class="panel" hidden>
+        <div class="panel__head"><h2 class="panel__title">Restart</h2></div>
+        <p class="muted">
+          A new <code>device.json</code> takes effect when the unit restarts. If buttons are on, the app asks before
+          turning them off.
+        </p>
+        <div class="row"><button id="restart" class="btn btn--quiet">Restart the unit</button></div>
+      </section>
+
+      <details class="panel help">
+        <summary>Help with connecting</summary>
+        <div id="help-body"></div>
+      </details>
+
+      <footer class="workspace__footer">
+        <a class="app-switch-link" href="app://local/editor/">Button Editor</a>
+        <a class="app-switch-link" href="app://local/designer/">Device Designer</a>
+      </footer>
+    </main>
+
+    <!-- ================= sidebar (right) ================= -->
+    <aside class="sidebar">
+      <section id="unit" class="pane pane--unit">
+        <h2 class="pane__title">Unit</h2>
+        <label class="field">
+          <span class="field__label">Serial port</span>
+          <span class="select"><select id="ports" class="select__native" aria-label="Serial port"></select></span>
+        </label>
+        <div class="row">
+          <button id="connect" class="btn btn--blue">Connect</button>
+          <button id="disconnect" class="btn btn--quiet" hidden>Disconnect</button>
+          <button id="refresh" class="btn btn--quiet">Refresh</button>
+        </div>
+        <p id="status" class="pane__status">Plug in the unit with a USB cable, then press Connect.</p>
+        <dl id="details" class="details" hidden></dl>
+      </section>
+
+      <section class="pane pane--log">
+        <div class="pane__head">
+          <h2 class="pane__title">Log</h2>
+          <button id="clear-log" class="link">Clear</button>
+        </div>
+        <pre id="log" aria-live="polite"></pre>
+      </section>
+    </aside>
+  </div>
+
+  <dialog id="dialog" class="dialog">
+    <form method="dialog" class="dialog__form">
+      <h2 id="dialog-title" class="dialog__titlebar"></h2>
+      <div id="dialog-body" class="dialog__body"></div>
+      <div class="dialog__actions">
+        <button id="dialog-cancel" class="btn btn--quiet-light" value="cancel">Cancel</button>
+        <button id="dialog-ok" class="btn btn--blue" value="ok"></button>
       </div>
-
-      <h3>Configs (<code>/configs</code>)</h3>
-      <p class="muted">The patches and buttons you play, made in the Button Editor.</p>
-      <ul id="configs" class="files"></ul>
-      <div class="row">
-        <button id="upload-configs" class="btn btn--blue">Upload configs...</button>
-        <button id="reload-files" class="btn">Reload list</button>
-      </div>
-    </section>
-
-    <section id="actions" class="card" hidden>
-      <h2>Restart</h2>
-      <p class="muted">
-        A new <code>device.json</code> takes effect when the unit restarts. If buttons are on, the app asks before
-        turning them off.
-      </p>
-      <div class="row"><button id="restart" class="btn">Restart the unit</button></div>
-    </section>
-
-    <section id="firmware" class="card">
-      <h2>Firmware</h2>
-      <p id="firmware-status" class="muted"></p>
-      <div class="row">
-        <button id="flash-bundled" class="btn btn--blue">Install the firmware that came with this app</button>
-        <button id="flash-other" class="btn">Install a different .hex...</button>
-        <button id="cancel-flash" class="btn btn--red" hidden>Cancel</button>
-      </div>
-      <p id="flash-progress" class="banner" hidden></p>
-      <p class="muted">
-        Teensy loader: <span id="loader"></span>
-        <button id="choose-loader" class="link">Choose...</button>
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>Log</h2>
-      <pre id="log" aria-live="polite"></pre>
-    </section>
-
-    <details class="card help">
-      <summary>Help with connecting</summary>
-      <div id="help-body"></div>
-    </details>
-  </main>
+    </form>
+  </dialog>
 
   <script src="app.js"></script>
 </body>

@@ -20,8 +20,10 @@ import { confirmAction } from '../lib/confirm'
 import { parseDevice, serialiseDevice } from '../lib/deviceFile'
 import {
   downloadDeviceFile,
+  appFileBridge,
   isFileSystemAccessSupported,
   openDeviceFile,
+  readRecentDeviceFile,
   saveDeviceFile,
   saveDeviceFileAs,
   type OpenedFile,
@@ -333,12 +335,20 @@ export const useDesignStore = defineStore('design', () => {
     startFrom(id)
   }
 
-  async function openFile() {
+  /** Opens a file chosen in the dialog, or the given recent file (desktop app). */
+  async function openFile(recentPath?: string) {
     if (!(await confirmDiscard('Open another file anyway?'))) return
     let opened: OpenedFile | null
     try {
-      opened = await openDeviceFile()
-    } catch {
+      opened = recentPath ? await readRecentDeviceFile(recentPath) : await openDeviceFile()
+    } catch (err) {
+      if (recentPath) {
+        await confirmAction(err instanceof Error ? err.message : String(err), {
+          title: 'Could not open file',
+          confirmLabel: 'OK',
+          cancelLabel: 'Close',
+        })
+      }
       return // picker cancelled
     }
     if (!opened) return
@@ -355,13 +365,18 @@ export const useDesignStore = defineStore('design', () => {
     step.value = 1
   }
 
-  async function saveFile() {
+  /** Saves over the open file, or asks where when there is none yet or `saveAs` is set. */
+  async function saveFile(saveAs = false) {
     const text = serialiseDevice(design.value)
     const name = `${fileStem(design.value.name)}-design.json`
     try {
-      if (file.value && isFileSystemAccessSupported()) await saveDeviceFile(file.value, text)
-      else if (isFileSystemAccessSupported()) file.value = await saveDeviceFileAs(name, text)
-      else downloadDeviceFile(name, text)
+      if (file.value && !saveAs && (appFileBridge() ? file.value.path : isFileSystemAccessSupported())) {
+        await saveDeviceFile(file.value, text)
+      } else if (appFileBridge() || isFileSystemAccessSupported()) {
+        const saved = await saveDeviceFileAs(name, text)
+        if (!saved) return // save dialog cancelled
+        file.value = saved
+      } else downloadDeviceFile(name, text)
     } catch {
       return // save dialog cancelled
     }

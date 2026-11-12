@@ -5,10 +5,22 @@ import ExportPreview from './components/ExportPreview.vue'
 import ScreenZoom from './components/ScreenZoom.vue'
 import StepStack from './components/StepStack.vue'
 import UnitStage from './components/UnitStage.vue'
+import { onMounted } from 'vue'
+import { appFileBridge } from './lib/fileIo'
 import { useDesignStore } from './stores/design'
 
 const store = useDesignStore()
 const baseUrl = import.meta.env.BASE_URL
+
+// The desktop app's File menu (Open, Open recent, Save, Save as) acts on the open design.
+onMounted(() => {
+  appFileBridge()?.onCommand((command) => {
+    if (command.type === 'open') void store.openFile()
+    else if (command.type === 'openPath' && command.path) void store.openFile(command.path)
+    else if (command.type === 'save') void store.saveFile()
+    else if (command.type === 'saveAs') void store.saveFile(true)
+  })
+})
 </script>
 
 <template>
@@ -16,7 +28,7 @@ const baseUrl = import.meta.env.BASE_URL
     <main class="workspace">
       <header class="workspace__header">
         <h1 class="app-title">
-          <span class="app-title__name">MIDI Toolbox</span>
+          <img class="app-title__logo" :src="`${baseUrl}wordmark.svg`" alt="MIDI Toolbox" />
           <span class="app-title__accent">Designer</span>
         </h1>
       </header>

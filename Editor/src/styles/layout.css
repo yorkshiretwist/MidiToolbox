@@ -56,6 +56,12 @@
   letter-spacing: 0.01em;
 }
 
+.app-title__logo {
+  height: 1.15em;
+  width: auto;
+  vertical-align: middle;
+}
+
 .app-title__name {
   font-family: var(--font-title-name);
 }

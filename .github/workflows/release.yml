@@ -5,8 +5,8 @@ name: Release
 # It runs ONLY when you push a version tag, e.g.
 #
 #     git checkout main && git pull
-#     git tag v0.1.0
-#     git push origin v0.1.0
+#     git tag v0.2.0
+#     git push origin v0.2.0
 #
 # Ordinary pushes to main (docs, code, anything) never build a release. The tag must be on a commit
 # that is on main, or the workflow stops. The release notes are the section of release.md whose
