@@ -1,6 +1,6 @@
 {
   "name": "midi-toolbox-app",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MIDI Toolbox desktop app: the Editor, the Designer, and a Device tab for managing the unit over USB",
   "private": true,
   "author": "Chris Taylor <chris@stillbreathing.co.uk>",
@@ -48,6 +48,10 @@
         "to": "loader"
       },
       {
+        "from": "resources/icon.png",
+        "to": "icon.png"
+      },
+      {
         "from": "resources/linux",
         "to": "linux"
       }
@@ -55,18 +59,24 @@
     "directories": {
       "output": "dist"
     },
+    "portable": {
+      "splashImage": "resources/splash.bmp"
+    },
     "win": {
       "target": "portable",
-      "signAndEditExecutable": false,
+      "signExecutable": false,
+      "icon": "resources/icon.ico",
       "artifactName": "MIDI-Toolbox-${version}-windows-portable.exe"
     },
     "linux": {
       "target": "AppImage",
+      "icon": "resources/icon.png",
       "category": "Audio",
       "artifactName": "MIDI-Toolbox-${version}-linux.AppImage"
     },
     "mac": {
       "target": "zip",
+      "icon": "resources/icon.png",
       "category": "public.app-category.music",
       "artifactName": "MIDI-Toolbox-${version}-macos.zip"
     },

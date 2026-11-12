@@ -171,6 +171,8 @@ To build the firmware yourself instead:
 4. Choose **Tools > Board > Teensy 4.1** and **Tools > USB Type > Serial + MIDI**.
 5. Upload.
 
+> **Memory is tight.** The Teensy 4.1 runs code from RAM1 in 32 KB blocks, and this firmware sits close to a block boundary: a few hundred bytes of extra code can overflow RAM1, and the unit then fails to boot (no USB, or a white screen) even though the build still produces a hex. After compiling, check the memory report: `RAM1 ... free for local variables` must be positive ("Error program exceeds memory space", or Arduino's "Error while determining sketch size", means it is not). Code that only runs at start-up is marked `FLASHMEM` to keep it out of RAM1 - do the same for new start-up-only or rarely used functions.
+
 ### Getting configs onto the SD card
 
 Config files are `.json` files in the `/configs` folder on the SD card; the unit remembers which one was last selected. You can:

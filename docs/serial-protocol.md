@@ -24,7 +24,7 @@ Use USB Type **Serial + MIDI** when compiling.
 | Command | Reply |
 | --- | --- |
 | `HELLO` | `OK HELLO MidiToolbox 1 sd=1` - protocol name, version, whether the SD card started |
-| `INFO` | `OK {"firmware":"0.1.0","protocol":1,"device":"Live Rig Unit","deviceSource":"file","buttons":13,"sd":true,"safeMode":false,"config":"Live Rig.json","buttonsActive":false}` |
+| `INFO` | `OK {"firmware":"0.2.0","protocol":1,"device":"Live Rig Unit","deviceSource":"file","buttons":13,"sd":true,"safeMode":false,"config":"Live Rig.json","buttonsActive":false}` |
 | `LIST <dir>` | `F <size> <name>` for each file, then `OK <count>`. `<dir>` is `/` or `/name`. A missing directory is empty (`OK 0`). The temporary upload file and sub-directories are not listed |
 | `GET <path>` | `OK <size> <crc32 hex>`, then `<size>` raw bytes |
 | `PUT <size> <crc32 hex> <path>` | `READY`, then send `<size>` raw bytes, then `OK` (or `ERR`) |

@@ -1,4 +1,4 @@
-# MIDI Toolbox
+<p align="center"><img src="graphics/wordmark.svg" alt="MIDI Toolbox" width="480"></p>
 
 A highly configurable MIDI footswitch controller for musicians whose hands are already busy - for example, a guitarist. It sends MIDI to a laptop (or anything that takes USB-MIDI) to play notes and chords, change programs, send control changes and navigate between sets of sounds.
 

@@ -65,19 +65,19 @@ Every release lists a SHA-256 checksum for each file (also in `SHA256SUMS.txt` o
 Check that your download matches:
 
 ```bash
-sha256sum MIDI-Toolbox-0.1.0-linux.AppImage      # Linux
-shasum -a 256 MIDI-Toolbox-0.1.0-macos.zip        # macOS
+sha256sum MIDI-Toolbox-0.2.0-linux.AppImage      # Linux
+shasum -a 256 MIDI-Toolbox-0.2.0-macos.zip        # macOS
 ```
 
 ```powershell
-Get-FileHash .\MIDI-Toolbox-0.1.0-windows-portable.exe -Algorithm SHA256   # Windows
+Get-FileHash .\MIDI-Toolbox-0.2.0-windows-portable.exe -Algorithm SHA256   # Windows
 ```
 
 The files also carry a signed record (an "attestation") that GitHub's release workflow built them
 from this repository. With the [GitHub CLI](https://cli.github.com/) installed you can verify it:
 
 ```bash
-gh attestation verify MIDI-Toolbox-0.1.0-linux.AppImage --repo yorkshiretwist/MidiToolbox
+gh attestation verify MIDI-Toolbox-0.2.0-linux.AppImage --repo yorkshiretwist/MidiToolbox
 ```
 
 This is not the same as code signing, so Windows and macOS will still warn you, but it proves the
@@ -131,6 +131,13 @@ instead of step 1.
 Common first-run trouble is explained inside the app: on Linux the serial permissions (the rules
 file above), and the unit being held by another program (the Arduino Serial Monitor or the Teensy
 Loader). Close the other program and press **Connect** again.
+
+## Opening and saving files
+
+In the **Editor** and the **Designer** the **File** menu works on real files on your computer:
+**Open...** (Ctrl/Cmd+O), **Open recent** (the last ten files, kept separately for configs and
+designs), **Save** (Ctrl/Cmd+S) and **Save as...** (Ctrl/Cmd+Shift+S). On the Device screen there is
+no file to open, so these items are greyed out.
 
 ## Safe mode
 
@@ -199,7 +206,7 @@ GitHub Actions builds and tests everything:
   pull request.
 - [`release.yml`](../.github/workflows/release.yml) builds the firmware, the web apps, the loader
   from the vendored source and the packaged app for all three systems, and publishes a GitHub
-  release. It runs **only when you push a version tag** (such as `v0.1.0`) on a commit on `main`; see
+  release. It runs **only when you push a version tag** (such as `v0.2.0`) on a commit on `main`; see
   [CONTRIBUTING.md](../CONTRIBUTING.md#making-a-release).
 
 ### Talking to a unit from the command line

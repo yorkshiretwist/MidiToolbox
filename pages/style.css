@@ -26,6 +26,7 @@ body {
   font: 1rem/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 h1 { font-size: 2.2rem; margin: 0 0 .5rem; }
+.wordmark { display: block; width: 100%; max-width: 480px; height: auto; }
 h2 { font-size: 1.3rem; margin: 2rem 0 .75rem; }
 a { color: var(--accent); }
 .lead { font-size: 1.15rem; color: var(--muted); margin: 0; }

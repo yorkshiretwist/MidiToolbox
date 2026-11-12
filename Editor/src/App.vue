@@ -5,7 +5,9 @@ import ChangeDeviceLink from './components/ChangeDeviceLink.vue'
 import Accordion from './components/Accordion.vue'
 import ConfirmDialog from './components/ConfirmDialog.vue'
 import PromptDialog from './components/PromptDialog.vue'
+import { onMounted } from 'vue'
 import MidiOutputPicker from './components/MidiOutputPicker.vue'
+import { appFileBridge } from './lib/fileIo'
 import { usePlayStore } from './stores/play'
 import { useConfigStore } from './stores/config'
 
@@ -13,10 +15,28 @@ const play = usePlayStore()
 const config = useConfigStore()
 const baseUrl = import.meta.env.BASE_URL
 
+// "Enable MIDI" and Play Mode are switched off for now: they don't work well yet. Set this to true
+// to bring both buttons back (the code behind them is still here).
+const playModeEnabled = false
+
 function togglePlayMode() {
   if (play.active) play.exitPlayMode()
   else play.enterPlayMode()
 }
+
+// The desktop app's File menu (Open, Open recent, Save, Save as) acts on the open config.
+onMounted(() => {
+  appFileBridge()?.onCommand(async (command) => {
+    try {
+      if (command.type === 'open') await config.open()
+      else if (command.type === 'openPath' && command.path) await config.open(command.path)
+      else if (command.type === 'save') await config.save()
+      else if (command.type === 'saveAs') await config.saveAs()
+    } catch (err) {
+      config.parseError = err instanceof Error ? err.message : String(err)
+    }
+  })
+})
 </script>
 
 <template>
@@ -25,7 +45,7 @@ function togglePlayMode() {
       <header class="workspace__header">
         <div class="app-heading">
           <h1 class="app-title">
-            <span class="app-title__name">MIDI Toolbox</span>
+            <img class="app-title__logo" :src="`${baseUrl}wordmark.svg`" alt="MIDI Toolbox" />
             <span class="app-title__accent">Editor</span>
           </h1>
           <span
@@ -40,7 +60,7 @@ function togglePlayMode() {
             Changes not yet downloaded
           </span>
         </div>
-        <div class="workspace__header-controls">
+        <div v-if="playModeEnabled" class="workspace__header-controls">
           <MidiOutputPicker />
           <button
             type="button"

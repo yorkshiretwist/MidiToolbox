@@ -69,18 +69,22 @@ function patchPageCount(patch: Patch | undefined): number {
   return patch.buttons.reduce((max, b) => Math.max(max, b.page ?? 1), 1)
 }
 
-/** Mirrors getCurrentParameters() in MIDI-Toolbox/Runtime.h, minus the Config parameter. */
+/** Mirrors getCurrentParameters() in MIDI-Toolbox/Runtime.h (incl. appending Page on a multi-page patch), minus the Config parameter. */
 function getParameters(
   patch: Patch | undefined,
   bank: Bank | undefined,
   mode: Mode | undefined,
   config: DeviceConfig,
 ): NavigationParameter[] {
-  if (patch?.parameters?.length) return patch.parameters
-  if (bank?.parameters?.length) return bank.parameters
-  if (mode?.parameters?.length) return mode.parameters
-  if (config.parameters?.length) return config.parameters
-  return DEFAULT_PARAMETERS
+  const configured =
+    (patch?.parameters?.length ? patch.parameters : undefined) ??
+    (bank?.parameters?.length ? bank.parameters : undefined) ??
+    (mode?.parameters?.length ? mode.parameters : undefined) ??
+    (config.parameters?.length ? config.parameters : undefined) ??
+    DEFAULT_PARAMETERS
+  // A restricted list that leaves Page out must not hide it on a multi-page patch.
+  if (patchPageCount(patch) > 1 && !configured.includes('Page')) return [...configured, 'Page']
+  return configured
 }
 
 /** Mirrors buttonSendsMidi() in MIDI-Toolbox/Navigation.h — any PlayNotes / ProgramChange / ControlChange action. */

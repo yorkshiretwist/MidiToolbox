@@ -94,10 +94,10 @@ on a commit that is on `main`. Pushing to `main` (including docs) never creates 
 
    ```bash
    git checkout main && git pull
-   git tag v0.1.0
-   git push origin v0.1.0
+   git tag v0.2.0
+   git push origin v0.2.0
    ```
 
 4. The [release workflow](.github/workflows/release.yml) builds the firmware and the Windows, Linux
    and macOS apps and attaches them to a new GitHub release. If a tag was a mistake, delete the
-   release and the tag (`git push origin --delete v0.1.0`) and tag again.
+   release and the tag (`git push origin --delete v0.2.0`) and tag again.

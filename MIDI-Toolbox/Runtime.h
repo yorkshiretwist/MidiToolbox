@@ -151,7 +151,7 @@ int patchPageCount(Patch *patch) {
 // buttons always have something to cycle. "config.parameters" is defined in
 // Config.h (and so out of scope in the unit-test forward declarations); the
 // static default below lives here where every caller can reach it.
-std::vector<Parameter> & getCurrentParameters() {
+static std::vector<Parameter> & getConfiguredParameters() {
   Patch *patch = getCurrentPatch();
   if (patch != nullptr && patch->parameters.size() > 0) {
     return patch->parameters;
@@ -184,6 +184,36 @@ std::vector<Parameter> & getCurrentParameters() {
     Parameter::PageParameter
   };
   return defaultParameters;
+}
+
+// the parameter list the selector actually uses: the configured list (above),
+// plus Page whenever the live Patch has more than one page. A restricted
+// "parameters" list that leaves Page out must not hide it on a multi-page patch -
+// the player would see the page count on screen but have no way to step it - so
+// Page is appended here, last, so the existing order is unchanged. Single-page
+// patches keep the list exactly as configured. The returned reference is to a
+// static scratch copy when Page had to be added; callers use it immediately,
+// so it is rebuilt on every call.
+std::vector<Parameter> & getCurrentParameters() {
+  std::vector<Parameter> &configured = getConfiguredParameters();
+  if (patchPageCount(getCurrentPatch()) <= 1) {
+    return configured;
+  }
+  for (Parameter parameter : configured) {
+    if (parameter == Parameter::PageParameter) {
+      return configured;
+    }
+  }
+  static std::vector<Parameter> withPage;
+  // clear()+push_back() rather than a vector copy-assign: the firmware's RAM1
+  // code sits right at a 32 KB ITCM block boundary, and a fresh copy-assign
+  // instantiation is enough to tip it into the next block and overflow RAM1.
+  withPage.clear();
+  for (Parameter parameter : configured) {
+    withPage.push_back(parameter);
+  }
+  withPage.push_back(Parameter::PageParameter);
+  return withPage;
 }
 
 // ============================================================================
@@ -804,8 +834,8 @@ std::vector<int> collectOnButtonIds(Patch &patch) {
 // pages the moment the player lands on a multi-page patch (see
 // docs/navigation.md). Single-page patches leave the
 // selector exactly where it was. A no-op if the applicable parameter list
-// (see getCurrentParameters()) doesn't include Page - e.g. a mode that
-// declares a restricted "parameters" list without it.
+// (see getCurrentParameters()) doesn't include Page - which can no longer
+// happen for a multi-page patch, as getCurrentParameters() adds it.
 void autoSelectPageParameterIfMultiPage() {
   if (patchPageCount(getCurrentPatch()) <= 1) {
     return;

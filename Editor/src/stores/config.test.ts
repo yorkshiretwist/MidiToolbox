@@ -82,6 +82,18 @@ describe('page navigation', () => {
     expect(store.page).toBe(2)
   })
 
+  it('re-selects the footswitch on the new page and drops the old page button set', async () => {
+    const store = useConfigStore()
+    await store.selectButtonId(0) // button on page 1
+    expect(store.selectedButton?.id).toBe(0)
+    store.cyclePage(1)
+    expect(store.page).toBe(2)
+    // never left pointing at the page 1 button
+    const sel = store.selectedButton
+    expect(sel == null || (sel.page ?? 1) === 2).toBe(true)
+    expect(store.buttonSetDraft).toBeNull()
+  })
+
   it('is a no-op on a single-page patch', () => {
     const store = useConfigStore()
     store.select(['modes', 0, 'banks', 0, 'patches', 0]) // Pads / Key: F / Low
@@ -268,6 +280,45 @@ describe('swapFootswitchButtons', () => {
     patch.buttons[1].buttonSet = [0, 5] // Delay names id 0 and id 5
     store.swapFootswitchButtons(0, 2) // id 0 <-> id 2
     expect(patch.buttons[1].buttonSet).toEqual([2, 5])
+  })
+
+  it('swaps and moves buttons owned by the Bank when editing at Bank level', () => {
+    const store = useConfigStore()
+    const bank = store.config.modes[1].banks[0]
+    const action = bank.patches[0].buttons[0].actions
+    bank.buttons = [
+      { id: 0, name: 'A', buttonMode: 'Momentary', actions: action },
+      { id: 1, name: 'B', buttonMode: 'Momentary', actions: action },
+    ]
+    store.select(['modes', 1, 'banks', 0])
+    expect(store.editingLevel).toBe('bank')
+    store.swapFootswitchButtons(0, 1)
+    expect(bank.buttons.find((b) => b.name === 'A')?.id).toBe(1)
+    expect(bank.buttons.find((b) => b.name === 'B')?.id).toBe(0)
+    store.swapFootswitchButtons(1, 7) // onto an empty footswitch
+    expect(bank.buttons.find((b) => b.name === 'A')?.id).toBe(7)
+    // The patch's own buttons are untouched.
+    expect(bank.patches[0].buttons[0].id).toBe(0)
+  })
+
+  it.each([
+    ['mode', ['modes', 1]],
+    ['file', []],
+  ] as const)('swaps and moves buttons owned by the %s', (level, path) => {
+    const store = useConfigStore()
+    const action = store.config.modes[1].banks[0].patches[0].buttons[0].actions
+    const owner = level === 'mode' ? store.config.modes[1] : store.config
+    owner.buttons = [
+      { id: 0, name: 'A', buttonMode: 'Momentary', actions: action },
+      { id: 1, name: 'B', buttonMode: 'Momentary', actions: action },
+    ]
+    store.select([...path])
+    expect(store.editingLevel).toBe(level)
+    store.swapFootswitchButtons(0, 1)
+    expect(owner.buttons.find((b) => b.name === 'A')?.id).toBe(1)
+    expect(owner.buttons.find((b) => b.name === 'B')?.id).toBe(0)
+    store.swapFootswitchButtons(1, 7)
+    expect(owner.buttons.find((b) => b.name === 'A')?.id).toBe(7)
   })
 })
 

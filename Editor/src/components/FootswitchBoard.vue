@@ -101,17 +101,12 @@ const units = computed<Unit[]>(() => {
 const dragId = ref<number | null>(null)
 const dropId = ref<number | null>(null)
 
-// Slot-swapping is a Patch-only, own-button feature: swapFootswitchButtons()
-// only knows how to reslot the active Patch's own buttons array, so an
-// inherited (not-yet-overridden) unit, a built-in nav default (nothing to
-// actually swap — see isBuiltIn), or a Mode/Bank/File-level board, isn't
-// draggable — only overriding or deleting can change those.
+// Slot-swapping works on the editing level's own buttons (File, Mode, Bank or
+// Patch), so an inherited (not-yet-overridden) unit or a built-in nav default
+// (nothing to actually swap — see isBuiltIn) isn't draggable — only overriding
+// or deleting can change those.
 const canDrag = (unit: Unit) =>
-  unit.bound &&
-  !unit.inherited &&
-  !unit.isBuiltIn &&
-  !store.buttonSetEditing &&
-  store.editingLevel === 'patch'
+  unit.bound && !unit.inherited && !unit.isBuiltIn && !store.buttonSetEditing
 
 function onDragStart(id: number, event: DragEvent) {
   dragId.value = id

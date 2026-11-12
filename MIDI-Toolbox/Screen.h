@@ -352,12 +352,12 @@ lv_obj_t *screenPatchLabel = nullptr;   // SubHeader, right - current Patch name
 // deleted by the first display() call once the real UI has something to
 // show. screenStartupScreen is the panel itself (it sits on top of, and
 // hides, the Header / SubHeader / parameter row that createScreenWidgets()
-// already built); screenStartupLabel is the wordmark label and
+// already built); screenStartupWordmark is the wordmark image and
 // screenStartupProgress the progress bar, both parented to it. All three are
 // kept as globals so display(), screenSetStartupProgress() and
 // showStartupFailure() can find and use them.
 lv_obj_t *screenStartupScreen = nullptr;
-lv_obj_t *screenStartupLabel = nullptr;
+lv_obj_t *screenStartupWordmark = nullptr;
 lv_obj_t *screenStartupProgress = nullptr;
 
 // the parameter row: a transparent full-width container holding the three
@@ -920,7 +920,7 @@ static lv_obj_t * screenCreateLiveValue(lv_obj_t *box, int width) {
 
 // builds every Live-layout widget and the overlay, once, from
 // createScreenWidgets(). Everything starts hidden.
-static void screenCreateLiveWidgets(lv_obj_t *screen) {
+FLASHMEM static void screenCreateLiveWidgets(lv_obj_t *screen) {
   const int bankInner = SCREEN_LX - 8 - SCREEN_LIVE_BORDER * 2;
 
   screenLiveBankBox = screenCreateLiveBox(screen, 0, SCREEN_LIVE_BODY_Y, SCREEN_LX, SCREEN_LIVE_BANK_H);
@@ -1249,7 +1249,14 @@ static void screenParamUpCb(lv_event_t *e) {
 }
 
 // builds the widget tree once - called from initScreen()
-void createScreenWidgets() {
+// FLASHMEM: the Teensy 4.1 runs normal code from RAM1 (ITCM) in 32 KB blocks,
+// and RAM1 is nearly full - a few hundred bytes of extra code can tip the
+// whole firmware into one more block and overflow RAM1 ("free for local
+// variables" goes negative in the build's memory report and the unit no longer
+// boots). Functions that run once at startup - the widget builders and the
+// startup screens below - are marked FLASHMEM so their code stays in flash
+// instead of taking up RAM1.
+FLASHMEM void createScreenWidgets() {
   lv_obj_t *screen = lv_screen_active();
 
   // --- background: a vertical gradient, [85,85,85] at the top of the screen
@@ -1405,28 +1412,16 @@ void createScreenWidgets() {
   screenWidgetsReady = true;
 }
 
-// the MIDI Toolbox wordmark shown on the startup screen - "MIDI Toolbox" as
-// figlet-style ASCII art (plain printable ASCII: spaces, _ | / \ ( ) < >).
-// A C++11 raw string literal (R"DELIM( ... )DELIM") so the art can be pasted
-// in verbatim, newlines and backslashes and all, without escaping. The
-// single leading and trailing blank lines are part of the art and keep the
-// block vertically centred once lv_obj_center() places it.
-//
-// This art only lines up in a MONOSPACE font, so screenStartupLabel below
-// overrides the proportional Montserrat every other label uses with
-// lv_font_unscii_8 (a pixel-perfect 8px fixed-width font, enabled via
-// LV_FONT_UNSCII_8 in lv_conf.h). unscii_8 advances 8px/glyph; at 33 columns
-// wide this art is ~264px, comfortably inside the 320px screen.
-static const char *STARTUP_WORDMARK = R"WORDMARK(
-  __  __ ___ ___ ___
- |  \/  |_ _|   \_ _|
- | |\/| || || |) | |
- |_|__|_|___|___/___|
- |_   _|__  ___| | |__  _____ __
-   | |/ _ \/ _ \ | '_ \/ _ \ \ /
-   |_|\___/\___/_|_.__/\___/_\_\
+// the MIDI Toolbox wordmark shown on the startup screen: WORDMARK_IMG, a
+// WORDMARK_IMG_W x WORDMARK_IMG_H ARGB8888 image generated from
+// graphics/wordmark.svg by graphics/make-firmware-wordmark.py (see
+// Wordmark.h). Drawn by an lv_image widget, which needs LV_USE_IMAGE set to 1
+// in lv_conf.h.
+#include "Wordmark.h"
 
-)WORDMARK";
+#if !LV_USE_IMAGE
+#error "Screen.h draws the startup wordmark with an lv_image, so set LV_USE_IMAGE to 1 in lv_conf.h."
+#endif
 
 // shows the startup screen - called before the config file has loaded, so it
 // can't use display() (which needs Mode/Bank/Patch state). Builds a
@@ -1436,7 +1431,7 @@ static const char *STARTUP_WORDMARK = R"WORDMARK(
 // as one block. Call screenSetStartupProgress() as boot goes on to grow the
 // bar; call showStartupFailure() instead of display() if boot doesn't make
 // it - see both below.
-void showStartupMessage() {
+FLASHMEM void showStartupMessage() {
   lv_obj_t *screen = lv_screen_active();
 
   // the panel: exactly screen-sized, flush to the top-left, opaque, and
@@ -1459,16 +1454,11 @@ void showStartupMessage() {
   lv_obj_set_style_bg_grad_color(screenStartupScreen, lv_color_make(0, 0, 0), 0);
   lv_obj_set_style_bg_grad_dir(screenStartupScreen, LV_GRAD_DIR_VER, 0);
 
-  // the wordmark, white. The label is left-aligned internally - figlet art
-  // only lines up as a single left-aligned block (LV_TEXT_ALIGN_CENTER would
-  // centre each line on its own width and skew the columns); it's centred as
-  // a whole horizontally below, once its real (content-sized) height is
-  // known.
-  screenStartupLabel = lv_label_create(screenStartupScreen);
-  lv_label_set_text(screenStartupLabel, STARTUP_WORDMARK);
-  lv_obj_set_style_text_color(screenStartupLabel, lv_color_make(255, 255, 255), 0);
-  lv_obj_set_style_text_font(screenStartupLabel, &lv_font_unscii_8, 0);
-  lv_obj_set_style_text_align(screenStartupLabel, LV_TEXT_ALIGN_LEFT, 0);
+  // the wordmark: a fixed-size image, so unlike text it needs no alignment or
+  // font handling - it's centred as a whole horizontally below, once the
+  // layout has given it its (image-sized) height.
+  screenStartupWordmark = lv_image_create(screenStartupScreen);
+  lv_image_set_src(screenStartupWordmark, &WORDMARK_IMG);
 
   // the progress bar: a plain white SCREEN_STARTUP_PROGRESS_H-tall bar,
   // created at 0 width (0% progress) - screenSetStartupProgress() grows it.
@@ -1482,11 +1472,11 @@ void showStartupMessage() {
   lv_obj_set_style_bg_color(screenStartupProgress, lv_color_make(255, 255, 255), 0);
   lv_obj_set_size(screenStartupProgress, 0, SCREEN_STARTUP_PROGRESS_H);
 
-  // lv_obj_update_layout() forces LVGL to compute the wordmark label's real,
+  // lv_obj_update_layout() forces LVGL to compute the wordmark's real,
   // content-sized geometry right now rather than only after the next
   // lv_timer_handler() pass, so its height is available immediately below.
   lv_obj_update_layout(screen);
-  int wordmarkH = lv_obj_get_height(screenStartupLabel);
+  int wordmarkH = lv_obj_get_height(screenStartupWordmark);
 
   // the wordmark sits on top, the progress bar directly below it with a
   // small gap, and the whole two-part block is centred vertically on the
@@ -1497,7 +1487,7 @@ void showStartupMessage() {
   // rather than re-centring around a moving midpoint).
   int groupH = wordmarkH + SCREEN_STARTUP_PROGRESS_GAP + SCREEN_STARTUP_PROGRESS_H;
   int groupTop = (SCREEN_LY - groupH) / 2;
-  lv_obj_align(screenStartupLabel, LV_ALIGN_TOP_MID, 0, groupTop);
+  lv_obj_align(screenStartupWordmark, LV_ALIGN_TOP_MID, 0, groupTop);
   lv_obj_set_pos(screenStartupProgress, SCREEN_STARTUP_PROGRESS_X,
                  groupTop + wordmarkH + SCREEN_STARTUP_PROGRESS_GAP);
 
@@ -1539,7 +1529,7 @@ void screenSetStartupProgress(int percent) {
 // and from the bottom of the wordmark - holding the failure message. There's
 // nothing more setup() can do at this point, so this is the last screen the
 // player sees until they power-cycle the unit.
-void showStartupFailure() {
+FLASHMEM void showStartupFailure() {
   if (screenStartupScreen == nullptr) {
     return; // showStartupMessage() hasn't run - nothing to build this onto
   }
@@ -1553,9 +1543,9 @@ void showStartupFailure() {
   // move the wordmark up near the top of the panel (SCREEN_EDGE_PAD in from
   // the top, matching the inset the Header/SubHeader bars use), then measure
   // where its bottom now falls so the red panel below can be inset from it
-  lv_obj_align(screenStartupLabel, LV_ALIGN_TOP_MID, 0, SCREEN_EDGE_PAD);
+  lv_obj_align(screenStartupWordmark, LV_ALIGN_TOP_MID, 0, SCREEN_EDGE_PAD);
   lv_obj_update_layout(screenStartupScreen);
-  int wordmarkBottom = SCREEN_EDGE_PAD + lv_obj_get_height(screenStartupLabel);
+  int wordmarkBottom = SCREEN_EDGE_PAD + lv_obj_get_height(screenStartupWordmark);
 
   // the red error panel: inset SCREEN_STARTUP_FAILURE_INSET px from the
   // screen's left/right/bottom edges and from the wordmark's bottom edge
@@ -1686,7 +1676,7 @@ void display() {
   if (screenStartupScreen != nullptr) {
     lv_obj_delete(screenStartupScreen);
     screenStartupScreen = nullptr;
-    screenStartupLabel = nullptr;
+    screenStartupWordmark = nullptr;
     screenStartupProgress = nullptr;
   }
 

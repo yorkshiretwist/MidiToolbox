@@ -196,7 +196,7 @@ static bool deviceCheckScreen(JsonVariantConst screen, int8_t *owners, String &e
 
 // Checks `root` against every rule and, only if all pass, copies it into
 // `out`. On failure `out` is left untouched and `error` says what is wrong.
-bool parseDeviceProfile(JsonVariantConst root, DeviceProfile &out, String &error) {
+FLASHMEM bool parseDeviceProfile(JsonVariantConst root, DeviceProfile &out, String &error) {
   if (!root.is<JsonObjectConst>()) {
     error = "device.json is not a JSON object";
     return false;

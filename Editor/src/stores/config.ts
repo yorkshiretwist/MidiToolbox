@@ -5,7 +5,9 @@ import { defineStore } from 'pinia'
 import {
   downloadConfigFile,
   isFileSystemAccessSupported,
+  appFileBridge,
   openConfigFile,
+  readRecentConfigFile,
   saveConfigFile,
   saveConfigFileAs,
   type OpenedFile,
@@ -119,7 +121,7 @@ export const useConfigStore = defineStore('config', {
       return this.validation.valid
     },
     canSaveInPlace(state): boolean {
-      return isFileSystemAccessSupported() && state.openedFile?.handle != null
+      return (isFileSystemAccessSupported() && state.openedFile?.handle != null) || state.openedFile?.path != null
     },
     /**
      * JSON as it will be written to disk — cosmetic-only buttons removed, and every Play notes
@@ -309,6 +311,25 @@ export const useConfigStore = defineStore('config', {
         return
       }
       this.page = ((this.currentPage - 1 + step + count) % count) + 1
+      this.refreshButtonForPage()
+    },
+
+    /**
+     * After the visible page changes, a selected patch button from the old page must not stay
+     * selected (its highlight and Button set would still be drawn on the new page). Keep the same
+     * footswitch selected on the new page: its own button if there is one, a blank one if nothing
+     * defines it, or else (it is only inherited) fall back to the patch itself.
+     */
+    refreshButtonForPage() {
+      const p = this.parsed
+      if (p.level !== 'button' || p.buttonOwnerLevel !== 'patch') return
+      const id = this.selectedButton?.id
+      this.buttonSetDraft = null
+      if (id == null) return
+      const resolved = resolveButtonFrom(this.config, useDeviceStore().profile, 'patch', p, id, this.currentPage)
+      if (resolved && resolved.level === 'patch') this.select(this.buttonPathAt('patch', resolved.index))
+      else if (!resolved) this.createButtonAtLevel('patch', id)
+      else this.select(patchPath(p.modeIndex!, p.bankIndex!, p.patchIndex!))
     },
 
     /** Jump the visible page to `n`, clamped into [1, pageCount]. */
@@ -630,21 +651,26 @@ export const useConfigStore = defineStore('config', {
      * performs the move.
      */
     swapFootswitchButtons(idA: number, idB: number) {
-      const p = this.parsed
-      if (p.modeIndex == null || p.bankIndex == null || p.patchIndex == null)
-        return
       if (idA === idB) return
-      const patch =
-        this.config.modes[p.modeIndex].banks[p.bankIndex].patches[p.patchIndex]
+      // Works on whichever level the board is editing (File, Mode, Bank or
+      // Patch). Only a Patch has pages; the other levels' buttons apply on every
+      // page, so they are matched by id alone.
+      const level = this.editingLevel
+      const buttons = buttonsContainerAt(this.config, level, this.parsed)
+      if (!buttons) return
       const page = this.currentPage
-      const ia = findButtonIndexById(patch.buttons, idA, page)
-      const ib = findButtonIndexById(patch.buttons, idB, page)
+      const find = (id: number) =>
+        level === 'patch'
+          ? findButtonIndexById(buttons, id, page)
+          : buttons.findIndex((b) => b.id === id)
+      const ia = find(idA)
+      const ib = find(idB)
       if (ia === -1 && ib === -1) return
       // Page is untouched — a page-0 ("every page") button stays page 0, it just
       // moves footswitch.
-      if (ia !== -1) patch.buttons[ia].id = idB
-      if (ib !== -1) patch.buttons[ib].id = idA
-      remapButtonSetIds(patch.buttons, idA, idB)
+      if (ia !== -1) buttons[ia].id = idB
+      if (ib !== -1) buttons[ib].id = idA
+      remapButtonSetIds(buttons, idA, idB)
       this.dirty = true
     },
 
@@ -845,9 +871,17 @@ export const useConfigStore = defineStore('config', {
       this.parseError = null
     },
 
-    async open() {
+    /** Opens a file chosen in the dialog, or the given recent file (desktop app). */
+    async open(recentPath?: string) {
       if (!(await this.confirmDiscardUnsavedChanges('open a different file'))) return
-      const opened = await openConfigFile()
+      let opened: OpenedFile | null
+      try {
+        opened = recentPath ? await readRecentConfigFile(recentPath) : await openConfigFile()
+      } catch (err) {
+        // a cancelled browser file picker is not an error
+        if (!(err instanceof Error && err.name === 'AbortError')) this.parseError = err instanceof Error ? err.message : String(err)
+        return
+      }
       if (!opened) return
       try {
         const parsed = JSON.parse(opened.text) as DeviceConfig
@@ -892,6 +926,11 @@ export const useConfigStore = defineStore('config', {
 
     /** Export the current config as a downloaded .json file; the edits are then no longer "not yet downloaded". */
     download() {
+      // the desktop app saves to a real file instead
+      if (appFileBridge()) {
+        void this.save()
+        return
+      }
       downloadConfigFile(this.fileName ?? 'config.json', this.json)
       this.dirty = false
     },
@@ -911,6 +950,8 @@ export const useConfigStore = defineStore('config', {
       if (result) {
         this.openedFile = result
         this.fileName = result.name
+      } else if (appFileBridge()) {
+        return // save dialog cancelled
       }
       this.dirty = false
     },

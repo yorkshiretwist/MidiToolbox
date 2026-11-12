@@ -2,7 +2,7 @@
 // "C string" array style. This is a plain, unused-by-any-logic version
 // marker for humans reading the code/serial output - nothing in this
 // project currently reads it back out.
-const char version[] = "0.1.0";
+const char version[] = "0.2.0";
 
 //----------------------------------------------------------------------------//
 //                                                                            //
@@ -520,7 +520,7 @@ void protocolReleaseAll() {
 }
 
 // the reply to INFO: one line of JSON describing this unit
-String protocolInfoJson() {
+FLASHMEM String protocolInfoJson() {
   JsonDocument doc;
   doc["firmware"] = FIRMWARE_VERSION;
   doc["protocol"] = PROTOCOL_VERSION;
