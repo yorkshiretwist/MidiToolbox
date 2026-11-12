@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "electron": "^44.9.0",
-    "electron-builder": "^26.0.0"
+    "electron-builder": "^26.18.0"
   },
   "build": {
     "appId": "uk.co.stillbreathing.miditoolbox",
