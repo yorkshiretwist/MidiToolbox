@@ -23,7 +23,7 @@ const store = useConfigStore()
 
 const CHANNELS = Array.from({ length: 16 }, (_, i) => i + 1)
 
-type FieldKind = 'number' | 'text' | 'notes' | 'spread' | 'direction' | 'channel' | 'target' | 'config' | 'preset'
+type FieldKind = 'noteMessage' | 'number' | 'text' | 'notes' | 'spread' | 'direction' | 'channel' | 'target' | 'config' | 'preset'
 interface FieldDef {
   key: keyof ActionParameters
   label: string
@@ -47,6 +47,15 @@ const FIELDS_BY_TYPE: Record<ActionType, FieldDef[]> = {
   // Runs a preset's actions at this point in the button's list (see lib/presets.ts).
   ExecutePreset: [{ key: 'presetId', label: 'Preset', kind: 'preset' }],
   PlayNotes: [
+    { key: 'noteNames', label: 'Notes', kind: 'notes' },
+    { key: 'velocity', label: 'Velocity', kind: 'number', default: DEFAULT_VELOCITY, ...MIDI_7BIT },
+    { key: 'noteSpread', label: 'Spread', kind: 'spread' },
+    CHANNEL,
+  ],
+  // Like Play notes, but sends only a Note On or a Note Off (see the Message box) when the button
+  // turns on, with no automatic Note Off on release.
+  SendNotes: [
+    { key: 'noteMessage', label: 'Message', kind: 'noteMessage' },
     { key: 'noteNames', label: 'Notes', kind: 'notes' },
     { key: 'velocity', label: 'Velocity', kind: 'number', default: DEFAULT_VELOCITY, ...MIDI_7BIT },
     { key: 'noteSpread', label: 'Spread', kind: 'spread' },
@@ -98,6 +107,7 @@ const OPTION_GROUPS: { label: string; types: [ActionType, string][] }[] = [
     label: 'MIDI messages',
     types: [
       ['PlayNotes', 'Play notes'],
+      ['SendNotes', 'Send notes'],
       ['ControlChange', 'Control change'],
       ['ProgramChange', 'Program change'],
     ],
@@ -393,6 +403,17 @@ function onType(event: Event) {
         >
           Keyboard
         </button>
+        <span v-else-if="field.kind === 'noteMessage'" class="select">
+          <select
+            class="select__native"
+            aria-label="Note message"
+            :value="params.noteMessage ?? 'NoteOn'"
+            @change="onText('noteMessage', $event)"
+          >
+            <option value="NoteOn">Note on</option>
+            <option value="NoteOff">Note off</option>
+          </select>
+        </span>
         <span v-else-if="field.kind === 'preset'" class="select">
           <select
             class="select__native"
@@ -484,6 +505,13 @@ function onType(event: Event) {
           @input="onText(field.key, $event)"
         />
       </div>
+
+      <p v-if="action.type === 'PlayNotes'" class="action-card__note">
+        Note off messages are sent automatically when the button is released.
+      </p>
+      <p v-else-if="action.type === 'SendNotes'" class="action-card__note">
+        Sends only the message chosen above. Use another Send notes action to send the matching note off.
+      </p>
     </div>
 
     <NoteKeyboard

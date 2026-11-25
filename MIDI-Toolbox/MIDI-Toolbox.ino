@@ -232,6 +232,7 @@ void showStartupMessage();
 // include the class definitions
 #include "IAction.h"                  // an interface for all actions that may occur on a button
 #include "NoteAction.h"               // represents an action to play one or more MIDI notes
+#include "SendNotesAction.h"          // represents an action to send only note on or note off messages
 #include "ProgramChangeAction.h"      // represents an action to send a MIDI Program Change message
 #include "ControlChangeAction.h"      // represents an action to send a MIDI Control Change message
 #include "SetParameterAction.h"       // represents an action to directly set which parameter is current

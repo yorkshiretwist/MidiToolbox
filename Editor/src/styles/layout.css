@@ -1312,7 +1312,7 @@ button:disabled {
 
 /* ----- Note-selector keyboard --------------------------------------------
    A modal that covers the whole UI: a dark-grey semi-translucent scrim with
-   an 88-key piano centred over it. Selected notes light up blue; Revert /
+   a scrollable piano covering MIDI notes 0-127, centred over it. Selected notes light up blue; Revert /
    Save sit under the keys. Teleported to <body> (see NoteKeyboard.vue). */
 .note-keyboard {
   position: fixed;
@@ -1355,6 +1355,7 @@ button:disabled {
   --white-key-height: 13rem;
   --black-key-width: 1.5rem;
   --black-key-height: 8rem;
+  position: relative; /* the offset parent of the keys, so the keyboard can scroll to one */
   display: flex;
   overflow-x: auto;
   padding-bottom: var(--space-1);
@@ -1366,7 +1367,7 @@ button:disabled {
 
 .pkey--white {
   position: relative;
-  flex: 1 0 1.9rem;
+  flex: 0 0 1.9rem;
   height: var(--white-key-height);
   display: flex;
   align-items: flex-end;

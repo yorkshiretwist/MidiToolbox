@@ -27,9 +27,10 @@ export function newPlayNotesAction(): Action {
  * action types are left alone.
  */
 export function ensureActionDefaults(action: Action): void {
-  if (action.type === 'PlayNotes') {
+  if (action.type === 'PlayNotes' || action.type === 'SendNotes') {
     const params = (action.actionParameters ??= {})
     if (params.velocity === undefined) params.velocity = DEFAULT_VELOCITY
+    if (action.type === 'SendNotes' && params.noteMessage === undefined) params.noteMessage = 'NoteOn'
   } else if (action.type === 'ControlChange') {
     const params = (action.actionParameters ??= {})
     if (params.controlValue === undefined) params.controlValue = CC_DEFAULT_ON

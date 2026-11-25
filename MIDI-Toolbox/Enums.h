@@ -234,6 +234,9 @@ enum ActionType {
   NoAction,
   // send MIDI notes
   PlayNotes,
+  // send MIDI note on OR note off messages only, with no automatic note off
+  // on release - see SendNotesAction.h
+  SendNotes,
   // send MIDI program change
   ProgramChange,
   // send MIDI control change
@@ -299,6 +302,7 @@ ActionType getActionTypeEnum(JsonVariant value) {
   // purely so config files written for the previous version of this
   // project keep working without needing to be edited by hand.
   if (valueString == "PlayNotes" || valueString == "Note") return ActionType::PlayNotes;
+  if (valueString == "SendNotes") return ActionType::SendNotes;
   if (valueString == "ProgramChange") return ActionType::ProgramChange;
   if (valueString == "ControlChange") return ActionType::ControlChange;
   if (valueString == "SetParameter") return ActionType::SetParameter;
@@ -324,6 +328,7 @@ ActionType getActionTypeEnum(JsonVariant value) {
 // get the given ActionType name as a string
 String getActionTypeString(ActionType actionType) {
   if (actionType == ActionType::PlayNotes) return "PlayNotes";
+  if (actionType == ActionType::SendNotes) return "SendNotes";
   if (actionType == ActionType::ProgramChange) return "ProgramChange";
   if (actionType == ActionType::ControlChange) return "ControlChange";
   if (actionType == ActionType::SetParameter) return "SetParameter";

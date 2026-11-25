@@ -90,7 +90,7 @@ function getParameters(
 /** Mirrors buttonSendsMidi() in MIDI-Toolbox/Navigation.h — any PlayNotes / ProgramChange / ControlChange action. */
 function buttonSendsMidi(button: Button, config: DeviceConfig): boolean {
   return flattenActions(button.actions, config).some(
-    (a) => a.type === 'PlayNotes' || a.type === 'ProgramChange' || a.type === 'ControlChange',
+    (a) => a.type === 'PlayNotes' || a.type === 'SendNotes' || a.type === 'ProgramChange' || a.type === 'ControlChange',
   )
 }
 
@@ -113,7 +113,7 @@ function buttonIsPurePerformance(button: Button, config: DeviceConfig): boolean 
   const actions = flattenActions(button.actions, config)
   if (actions.length === 0) return false
   return actions.every(
-    (a) => a.type === 'PlayNotes' || a.type === 'ProgramChange' || a.type === 'ControlChange',
+    (a) => a.type === 'PlayNotes' || a.type === 'SendNotes' || a.type === 'ProgramChange' || a.type === 'ControlChange',
   )
 }
 
@@ -621,6 +621,23 @@ export const usePlayStore = defineStore('play', {
     runActionPress(button: Button, action: Action) {
       const p = action.actionParameters ?? {}
       switch (action.type) {
+        case 'SendNotes': {
+          // One message type only, sent on press; nothing is sent (or remembered) for release.
+          const channel = this.resolveMidiChannel(p.midiChannel)
+          const velocity = p.velocity ?? DEFAULT_VELOCITY
+          const midiNumbers = (p.noteNames ?? [])
+            .map(noteNameToMidi)
+            .filter((n): n is number => n != null)
+          const spread = p.noteSpread ?? 'NoSpread'
+          const order = spread === 'SpreadDown' ? [...midiNumbers].reverse() : spread === 'SpreadRandom' ? shuffle(midiNumbers) : midiNumbers
+          const send = (midi: number) =>
+            p.noteMessage === 'NoteOff' ? sendNoteOff(midi, channel) : sendNoteOn(midi, velocity, channel)
+          order.forEach((midi, i) => {
+            if (spread === 'NoSpread') send(midi)
+            else setTimeout(() => send(midi), i * NOTE_SPREAD_DELAY_MS)
+          })
+          break
+        }
         case 'PlayNotes': {
           const channel = this.resolveMidiChannel(p.midiChannel)
           const velocity = p.velocity ?? DEFAULT_VELOCITY

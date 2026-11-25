@@ -1168,3 +1168,60 @@ TEST_F(ButtonBehaviorTest, AnyButtonActive_IsTrueForALatchedButtonLeftOn) {
   releaseButton(0);
   EXPECT_FALSE(anyButtonActive());
 }
+
+TEST_F(ButtonBehaviorTest, SendNotesAction_NoteOn_SendsOnlyNoteOnAndNothingOnRelease) {
+  loadConfig(R"({
+    "headerColourCode": [0,0,0],
+    "modes": [{
+      "name": "Mode1",
+      "buttons": [
+        { "id": 0, "name": "On", "buttonMode": "Momentary",
+          "actions": [ { "type": "SendNotes", "actionParameters": { "noteNames": ["C3", "E3"], "noteMessage": "NoteOn", "velocity": 90, "midiChannel": 2 } } ] }
+      ]
+    }]
+  })");
+
+  triggerButton(0);
+  ASSERT_EQ(midiLog().size(), 2u);
+  EXPECT_EQ(midiLog()[0].kind, MidiCall::NoteOn);
+  EXPECT_EQ(midiLog()[0].b, 90);
+  EXPECT_EQ(midiLog()[0].channel, 2);
+
+  releaseButton(0);
+  // no automatic note off
+  EXPECT_EQ(midiLog().size(), 2u);
+}
+
+TEST_F(ButtonBehaviorTest, SendNotesAction_NoteOff_SendsNoteOffOnPress) {
+  loadConfig(R"({
+    "headerColourCode": [0,0,0],
+    "modes": [{
+      "name": "Mode1",
+      "buttons": [
+        { "id": 0, "name": "Off", "buttonMode": "Momentary",
+          "actions": [ { "type": "SendNotes", "actionParameters": { "noteNames": ["C3"], "noteMessage": "NoteOff", "midiChannel": 1 } } ] }
+      ]
+    }]
+  })");
+
+  triggerButton(0);
+  ASSERT_EQ(midiLog().size(), 1u);
+  EXPECT_EQ(midiLog()[0].kind, MidiCall::NoteOff);
+}
+
+TEST_F(ButtonBehaviorTest, SendNotesAction_WithoutNoteMessage_DefaultsToNoteOn) {
+  loadConfig(R"({
+    "headerColourCode": [0,0,0],
+    "modes": [{
+      "name": "Mode1",
+      "buttons": [
+        { "id": 0, "name": "Default", "buttonMode": "Momentary",
+          "actions": [ { "type": "SendNotes", "actionParameters": { "noteNames": ["C3"], "midiChannel": 1 } } ] }
+      ]
+    }]
+  })");
+
+  triggerButton(0);
+  ASSERT_EQ(midiLog().size(), 1u);
+  EXPECT_EQ(midiLog()[0].kind, MidiCall::NoteOn);
+}

@@ -329,6 +329,49 @@ describe('PlayNotes velocity and channel', () => {
   })
 })
 
+describe('SendNotes', () => {
+  const buttonWith = (noteMessage?: 'NoteOn' | 'NoteOff'): DeviceConfig => ({
+    modes: [
+      {
+        name: 'M1',
+        banks: [
+          {
+            name: 'B1',
+            patches: [
+              {
+                name: 'P1',
+                buttons: [
+                  {
+                    id: 0,
+                    name: 'Send',
+                    buttonMode: 'Momentary',
+                    actions: [{ type: 'SendNotes', actionParameters: { noteNames: ['C4'], noteMessage, midiChannel: 3 } }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  })
+
+  it('sends a note on when pressed and no note off when released', () => {
+    const play = load(buttonWith('NoteOn'))
+    play.pressPhysical(0)
+    expect(sendNoteOn).toHaveBeenCalledWith(60, 100, 3)
+    play.releasePhysical(0)
+    expect(sendNoteOff).not.toHaveBeenCalled()
+  })
+
+  it('sends only a note off when set to Note off', () => {
+    const play = load(buttonWith('NoteOff'))
+    play.pressPhysical(0)
+    expect(sendNoteOff).toHaveBeenCalledWith(60, 3)
+    expect(sendNoteOn).not.toHaveBeenCalled()
+  })
+})
+
 describe('ProgramChange', () => {
   it('sends on press and nothing on release', () => {
     const tree: DeviceConfig = {

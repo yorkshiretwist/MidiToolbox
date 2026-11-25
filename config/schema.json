@@ -98,6 +98,7 @@
                     "enum": [
                         "ExecutePreset",
                         "PlayNotes",
+                        "SendNotes",
                         "ProgramChange",
                         "ControlChange",
                         "SetParameter",
@@ -138,6 +139,13 @@
                             "type": "integer",
                             "minimum": 0,
                             "maximum": 127
+                        },
+                        "noteMessage": {
+                            "$comment": "SendNotes only: whether the action sends Note On or Note Off messages for its notes. It sends that one message when the button turns on, and nothing when it turns off (PlayNotes, by contrast, sends Note Off automatically). Defaults to NoteOn",
+                            "enum": [
+                                "NoteOn",
+                                "NoteOff"
+                            ]
                         },
                         "noteSpread": {
                             "$comment": "The way to spread notes played by the PlayNotes action",

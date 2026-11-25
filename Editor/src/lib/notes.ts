@@ -1,13 +1,15 @@
 // MIDI note-name helpers.
 //
 // The firmware (MIDI-Toolbox/Note.h) uses the common convention where
-// C4 = MIDI note 60, so MIDI 0 = C-1. A full-size piano keyboard has 88 keys
-// running from A0 (MIDI 21) to C8 (MIDI 108).
+// C4 = MIDI note 60, so MIDI 0 = C-1 and MIDI 127 = G9. The note keyboard
+// covers the whole MIDI range.
 
-/** Lowest key on an 88-note keyboard: A0. */
-export const PIANO_MIN_MIDI = 21
-/** Highest key on an 88-note keyboard: C8. */
-export const PIANO_MAX_MIDI = 108
+/** Lowest MIDI note, and so the lowest key on the keyboard: C-1. */
+export const PIANO_MIN_MIDI = 0
+/** Highest MIDI note, and so the highest key on the keyboard: G9. */
+export const PIANO_MAX_MIDI = 127
+/** Middle C, where the keyboard opens when nothing is selected. */
+export const MIDDLE_C_MIDI = 60
 
 // Sharp spelling for each semitone within an octave. Names are written back
 // out with sharps; flats are still accepted on the way in.

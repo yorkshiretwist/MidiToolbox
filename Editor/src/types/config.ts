@@ -15,6 +15,8 @@ export type NavigationParameter =
 export type ButtonMode = 'Momentary' | 'Latched' | 'Exclusive'
 export type DefaultStatus = 'Off' | 'On'
 export type NoteSpread = 'NoSpread' | 'SpreadUp' | 'SpreadDown' | 'SpreadRandom'
+/** SendNotes only: which MIDI message the action sends. */
+export type NoteMessage = 'NoteOn' | 'NoteOff'
 export type CycleDirection = 'Up' | 'Down'
 export type BankType = 'Default' | 'PersistentButtons'
 
@@ -24,6 +26,7 @@ export type ScreenLayout = 'Grid' | 'Live'
 export type ActionType =
   | 'ExecutePreset'
   | 'PlayNotes'
+  | 'SendNotes'
   | 'ProgramChange'
   | 'ControlChange'
   | 'SetParameter'
@@ -47,6 +50,7 @@ export interface ActionParameters {
   noteNames?: string[]
   velocity?: number
   noteSpread?: NoteSpread
+  noteMessage?: NoteMessage
   direction?: CycleDirection
   programNumber?: number
   controllerNumber?: number

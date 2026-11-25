@@ -72,6 +72,7 @@ TEST(EnumsTest, GetActionTypeEnum_ParsesEachKnownValue) {
   EXPECT_EQ(getActionTypeEnum(parseJson("\"PlayNotes\"").as<JsonVariant>()), ActionType::PlayNotes);
   // "Note" is accepted as a backward-compatible alias for "PlayNotes" - see Enums.h
   EXPECT_EQ(getActionTypeEnum(parseJson("\"Note\"").as<JsonVariant>()), ActionType::PlayNotes);
+  EXPECT_EQ(getActionTypeEnum(parseJson("\"SendNotes\"").as<JsonVariant>()), ActionType::SendNotes);
   EXPECT_EQ(getActionTypeEnum(parseJson("\"ProgramChange\"").as<JsonVariant>()), ActionType::ProgramChange);
   EXPECT_EQ(getActionTypeEnum(parseJson("\"ControlChange\"").as<JsonVariant>()), ActionType::ControlChange);
   EXPECT_EQ(getActionTypeEnum(parseJson("\"SetParameter\"").as<JsonVariant>()), ActionType::SetParameter);

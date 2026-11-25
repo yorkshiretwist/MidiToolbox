@@ -1,7 +1,8 @@
 <script setup lang="ts">
 // A piano keyboard popup for choosing the notes of a PlayNotes action.
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import {
+  MIDDLE_C_MIDI,
   PIANO_MAX_MIDI,
   PIANO_MIN_MIDI,
   isBlackKey,
@@ -60,7 +61,24 @@ function onKeydown(event: KeyboardEvent): void {
   if (event.key === 'Escape') emit('cancel')
 }
 
-onMounted(() => window.addEventListener('keydown', onKeydown))
+// The keyboard is wider than the dialog, so on opening it scrolls to the lowest selected note
+// (a black key scrolls to the white key beside it), or to middle C when nothing is selected.
+const keysEl = ref<HTMLElement | null>(null)
+
+function scrollToStartNote(): void {
+  const container = keysEl.value
+  if (!container) return
+  const lowest = selected.value.size > 0 ? Math.min(...selected.value) : MIDDLE_C_MIDI
+  const white = isBlackKey(lowest) ? lowest - 1 : lowest
+  const key = container.querySelector<HTMLElement>(`[data-midi="${white}"]`)
+  if (!key) return
+  container.scrollLeft = key.offsetLeft - container.clientWidth / 2 + key.offsetWidth / 2
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', onKeydown)
+  void nextTick(scrollToStartNote)
+})
 onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
@@ -75,7 +93,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
       <div class="note-keyboard__scrim" @click="emit('cancel')" />
 
       <div class="note-keyboard__panel">
-        <div class="note-keyboard__keys" role="group" aria-label="Keyboard">
+        <div ref="keysEl" class="note-keyboard__keys" role="group" aria-label="Keyboard">
           <div
             v-for="key in whiteKeys"
             :key="key.midi"
@@ -83,6 +101,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
             :class="{ 'pkey--on': isSelected(key.midi) }"
             :aria-pressed="isSelected(key.midi)"
             :aria-label="midiToNoteName(key.midi)"
+            :data-midi="key.midi"
             role="button"
             tabindex="0"
             @click="toggle(key.midi)"

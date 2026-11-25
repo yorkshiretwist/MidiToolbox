@@ -89,6 +89,7 @@ void showStartupMessage() {}
 
 #include "IAction.h"
 #include "NoteAction.h"
+#include "SendNotesAction.h"
 #include "ProgramChangeAction.h"
 #include "ControlChangeAction.h"
 #include "SetParameterAction.h"

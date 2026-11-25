@@ -64,6 +64,7 @@
 #include "ColourCode.h"
 #include "IAction.h"
 #include "NoteAction.h"
+#include "SendNotesAction.h"
 #include "ProgramChangeAction.h"
 #include "ControlChangeAction.h"
 #include "SetParameterAction.h"
@@ -360,6 +361,10 @@ class Button {
       // immediately with no chance of a mistake in between.
       if (actionType == ActionType::PlayNotes) {
         actions.push_back(std::make_unique<NoteAction>(buttonMode, actionItem));
+      }
+
+      if (actionType == ActionType::SendNotes) {
+        actions.push_back(std::make_unique<SendNotesAction>(buttonMode, actionItem));
       }
 
       if (actionType == ActionType::ProgramChange) {

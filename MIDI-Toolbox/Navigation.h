@@ -909,6 +909,7 @@ bool buttonIsPurePerformance(Button &button) {
   for (std::unique_ptr<IAction> &action : button.actions) {
     ActionType type = action->getType();
     if (type != ActionType::PlayNotes
+        && type != ActionType::SendNotes
         && type != ActionType::ProgramChange
         && type != ActionType::ControlChange) {
       return false;
@@ -949,6 +950,7 @@ bool buttonSendsMidi(Button &button) {
   for (std::unique_ptr<IAction> &action : button.actions) {
     ActionType type = action->getType();
     if (type == ActionType::PlayNotes
+        || type == ActionType::SendNotes
         || type == ActionType::ProgramChange
         || type == ActionType::ControlChange) {
       return true;

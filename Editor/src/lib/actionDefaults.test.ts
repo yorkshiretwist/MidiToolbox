@@ -42,6 +42,18 @@ describe('ensureActionDefaults', () => {
     expect(action.actionParameters).toEqual({ velocity: 100 })
   })
 
+  it('gives Send notes a velocity and a Note on message if it has neither', () => {
+    const action: Action = { type: 'SendNotes' }
+    ensureActionDefaults(action)
+    expect(action.actionParameters).toEqual({ velocity: 100, noteMessage: 'NoteOn' })
+  })
+
+  it('keeps a Note off message set on a Send notes action', () => {
+    const action: Action = { type: 'SendNotes', actionParameters: { noteMessage: 'NoteOff' } }
+    ensureActionDefaults(action)
+    expect(action.actionParameters?.noteMessage).toBe('NoteOff')
+  })
+
   it('keeps the notes and anything else set on a Play notes action', () => {
     const action = notes({ noteNames: ['C3'], noteSpread: 'SpreadUp', midiChannel: 2 })
     ensureActionDefaults(action)

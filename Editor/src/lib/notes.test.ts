@@ -13,8 +13,10 @@ import {
 describe('noteNameToMidi', () => {
   it('uses the C4 = 60 convention', () => {
     expect(noteNameToMidi('C4')).toBe(60)
-    expect(noteNameToMidi('A0')).toBe(PIANO_MIN_MIDI)
-    expect(noteNameToMidi('C8')).toBe(PIANO_MAX_MIDI)
+    expect(noteNameToMidi('C-1')).toBe(PIANO_MIN_MIDI)
+    expect(noteNameToMidi('G9')).toBe(PIANO_MAX_MIDI)
+    expect(PIANO_MIN_MIDI).toBe(0)
+    expect(PIANO_MAX_MIDI).toBe(127)
   })
 
   it('accepts sharps and flats, including enharmonic equivalents', () => {
